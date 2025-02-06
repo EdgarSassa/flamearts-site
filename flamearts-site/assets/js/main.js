@@ -1,25 +1,24 @@
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    // Tenta buscar o arquivo JSON com os dados da galeria
+    // Busca o arquivo JSON com os dados da galeria
     const response = await fetch('assets/gallery/gallery.json');
     if (!response.ok) {
       throw new Error('Erro na requisição do JSON: ' + response.statusText);
     }
     const data = await response.json();
 
-    // Seleciona o elemento onde os itens da galeria serão inseridos
+    // Seleciona o elemento onde os itens serão inseridos
     const galleryGrid = document.getElementById("gallery-grid");
     if (!galleryGrid) {
       console.error('Elemento #gallery-grid não encontrado.');
       return;
     }
 
-    // Obtém os arrays de fotos e vídeos; se não existirem, usa array vazio
     const photos = data.photos || [];
     const videos = data.videos || [];
     const total = Math.min(photos.length, videos.length);
 
-    // Intercala os itens: foto, vídeo, foto, vídeo, etc.
+    // Intercala os itens: foto, vídeo, foto, vídeo...
     for (let i = 0; i < total; i++) {
       // Cria e insere o item de foto
       const photoItem = document.createElement("div");
@@ -38,13 +37,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       video.muted = true;
       video.loop = true;
       video.playsInline = true;
-      // O vídeo inicia somente mediante interação do cursor
+      video.preload = "auto";
+      video.load();  // Garante que o vídeo será carregado para exibição mesmo sem autoplay
+
+      // Em desktop, toca ao passar o mouse; em mobile, toca/pausa com o toque
       videoItem.addEventListener("mouseenter", () => {
         video.play();
       });
       videoItem.addEventListener("mouseleave", () => {
         video.pause();
         video.currentTime = 0;
+      });
+      videoItem.addEventListener("click", () => {
+        if (video.paused) {
+          video.play();
+        } else {
+          video.pause();
+        }
       });
 
       videoItem.appendChild(video);
