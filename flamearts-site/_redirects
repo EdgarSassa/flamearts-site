@@ -1,5 +1,5 @@
 http://flamearts.ao/* https://www.flamearts.ao/:splat 301!
 https://flamearts.ao/* https://www.flamearts.ao/:splat 301!
-/thank-you.html  /thank-you.html  200!
+/thank-you.html  /thank-you.html  200!  GET,POST
 
 /*    /index.html   200
