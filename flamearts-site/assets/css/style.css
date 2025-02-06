@@ -4,9 +4,8 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
-  background-color: #000; /* Fundo geral: preto absoluto */
+  background-color: #000;
   color: #eff1f2;
   font-family: Arial, sans-serif;
   overflow-x: hidden;
@@ -23,7 +22,6 @@ body {
   overflow: hidden;
   background-color: #000;
 }
-
 .bg-video {
   position: absolute;
   top: 0;
@@ -33,17 +31,15 @@ body {
   object-fit: cover;
   z-index: 1;
 }
-
 .video-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.9); /* 90% opaco */
+  background-color: rgba(0,0,0,0.9);
   z-index: 2;
 }
-
 .hero-content {
   position: relative;
   z-index: 3;
@@ -58,24 +54,19 @@ body {
   gap: 1rem;
   transition: transform 0.3s ease;
 }
-
 .hero-content:hover {
   transform: scale(1.3);
 }
-
 .logo {
   max-width: 150px;
 }
-
 .maintenance-title {
   font-size: 2rem;
   color: #f56b3e;
 }
-
 .maintenance-text {
   font-size: 1.2rem;
 }
-
 .btn-contact {
   display: inline-block;
   padding: 0.6rem 1.2rem;
@@ -87,7 +78,6 @@ body {
   color: #f56b3e;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
-
 .btn-contact:hover {
   background-color: #f56b3e;
   color: #000;
@@ -106,26 +96,22 @@ body {
   align-items: center;
   padding: 2rem;
 }
-
 .form-container {
   background-color: #0c0c0d;
   padding: 2rem;
   border-radius: 10px;
   width: 100%;
   max-width: 600px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
-
 .form-group {
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
 }
-
 .form-group label {
   margin-bottom: 0.5rem;
 }
-
 .form-group input,
 .form-group textarea {
   background-color: #eff1f2;
@@ -134,7 +120,6 @@ body {
   padding: 0.5rem;
   font-size: 1rem;
 }
-
 .btn-submit {
   display: block;
   width: 100%;
@@ -147,7 +132,6 @@ body {
   cursor: pointer;
   transition: transform 0.3s ease;
 }
-
 .btn-submit:hover {
   transform: scale(1.05);
 }
@@ -158,27 +142,26 @@ body {
 .section-gallery {
   width: 100%;
   background-color: #000;
+  padding: 2rem 0;
 }
 
-/* Estilo da galeria para desktop */
+/* Galeria - Desktop: 6 colunas de 260x320px */
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 260px);
+  grid-template-columns: repeat(6, 260px);
   gap: 10px;
   justify-content: center;
   padding: 2rem;
 }
-
 .gallery-item {
   width: 260px;
   height: 320px;
   overflow: hidden;
   border-radius: 8px;
+  position: relative;
   transition: transform 0.3s ease, filter 0.3s ease;
   cursor: pointer;
-  position: relative;
 }
-
 .gallery-item img,
 .gallery-item video {
   width: 100%;
@@ -186,7 +169,6 @@ body {
   object-fit: cover;
   display: block;
 }
-
 .gallery-item::before {
   content: "";
   position: absolute;
@@ -194,21 +176,19 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0,0,0,0.2);
   transition: background-color 0.3s ease;
   z-index: 2;
 }
-
 .gallery-item:hover::before {
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0,0,0,0);
 }
-
 .gallery-item:hover {
   transform: scale(1.05);
   filter: brightness(1.0);
 }
 
-/* Versão mobile: dois itens por linha com dimensões reduzidas */
+/* Galeria - Mobile: 2 colunas de 130x160px */
 @media (max-width: 768px) {
   .gallery-grid {
     grid-template-columns: repeat(2, 130px);
@@ -216,7 +196,6 @@ body {
     justify-content: center;
     padding: 1rem;
   }
-  
   .gallery-item {
     width: 130px;
     height: 160px;
@@ -235,7 +214,7 @@ body {
 }
 
 /* ------------------------------
-   Estilos para a página de agradecimento
+   Página de Agradecimento
 ------------------------------ */
 .thank-you-container {
   min-height: 100vh;
@@ -248,18 +227,15 @@ body {
   text-align: center;
   padding: 2rem;
 }
-
 .thank-you-container h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
   color: #f56b3e;
 }
-
 .thank-you-container p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
 }
-
 .btn-return {
   display: inline-block;
   padding: 0.8rem 1.6rem;
@@ -271,16 +247,17 @@ body {
   font-size: 1rem;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
-
 .btn-return:hover {
   background-color: #e05a2d;
   transform: scale(1.05);
 }
 
-/* Responsividade adicional para tablets */
+/* ------------------------------
+   Responsividade para tablets
+------------------------------ */
 @media (min-width: 769px) and (max-width: 1024px) {
   .gallery-grid {
-    grid-template-columns: repeat(auto-fill, 260px);
+    grid-template-columns: repeat(6, 260px);
     gap: 10px;
     justify-content: center;
   }
