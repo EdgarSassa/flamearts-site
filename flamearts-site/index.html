@@ -11,7 +11,7 @@
   <!-- Seção 1: Hero -->
   <section id="hero" class="section-hero">
     <!-- Vídeo de fundo -->
-    <video class="bg-video" autoplay muted loop>
+    <video class="bg-video" autoplay muted loop playsinline>
       <source src="assets/videos/background.mp4" type="video/mp4">
       Seu navegador não suporta vídeo HTML5.
     </video>
@@ -30,7 +30,7 @@
   <section id="contact" class="section-form">
     <div class="form-container">
       <!-- Formulário compatível com Netlify Forms -->
-      <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+      <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/thank-you.html">
         <!-- Campo oculto para identificar o formulário -->
         <input type="hidden" name="form-name" value="contact">
         <!-- Campo honeypot para evitar spam -->
