@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #19191e;
+  background-color: #000; /* Fundo geral alterado para preto absoluto */
   color: #eff1f2;
   font-family: Arial, sans-serif;
   overflow-x: hidden;
@@ -21,6 +21,7 @@ body {
   width: 100%;
   height: 560px; /* Altura definida para 560px */
   overflow: hidden;
+  background-color: #000; /* Fundo preto absoluto */
 }
 
 .bg-video {
@@ -33,14 +34,14 @@ body {
   z-index: 1;
 }
 
-/* Overlay para escurecer o vídeo, deixando-o com apenas 10% visível */
+/* Overlay preto absoluto para que o vídeo fique 10% visível (90% opaco) */
 .video-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(25, 25, 30, 0.9); /* 90% opaco */
+  background-color: rgba(0, 0, 0, 0.9);
   z-index: 2;
 }
 
@@ -59,8 +60,9 @@ body {
   transition: transform 0.3s ease;
 }
 
+/* Aumenta em até 30% quando o cursor estiver sobre a área */
 .hero-content:hover {
-  transform: scale(1.02);
+  transform: scale(1.3);
 }
 
 .logo {
@@ -100,7 +102,7 @@ body {
 .section-form {
   width: 100%;
   min-height: 560px;
-  background-color: #19191e;
+  background-color: #000; /* Fundo da secção 2 alterado para preto absoluto */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -164,7 +166,7 @@ body {
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-gap: 1rem;
+  grid-gap: 3px; /* Espaçamento de 3px entre os itens */
 }
 
 .gallery-item {
@@ -172,13 +174,33 @@ body {
   overflow: hidden;
   border-radius: 8px;
   transition: transform 0.3s ease, filter 0.3s ease;
-  cursor: default;
+  cursor: pointer;
 }
 
 .gallery-item img,
 .gallery-item video {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
+}
+
+/* Overlay que escurece os itens em 20% */
+.gallery-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  z-index: 2;
+}
+
+/* Ao passar o mouse, remove o overlay e aplica animação */
+.gallery-item:hover::before {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .gallery-item:hover {
