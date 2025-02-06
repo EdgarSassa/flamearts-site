@@ -10,14 +10,11 @@
 <body>
   <!-- Seção 1: Hero -->
   <section id="hero" class="section-hero">
-    <!-- Vídeo de fundo -->
     <video class="bg-video" autoplay muted loop playsinline>
       <source src="assets/videos/background.mp4" type="video/mp4">
       Seu navegador não suporta vídeo HTML5.
     </video>
-    <!-- Overlay preto para o efeito de escurecimento -->
     <div class="video-overlay"></div>
-    <!-- Conteúdo centralizado -->
     <div class="hero-content">
       <img src="assets/images/logo.png" alt="Logo" class="logo">
       <h1 class="maintenance-title">EM MANUTENÇÃO</h1>
@@ -29,10 +26,9 @@
   <!-- Seção 2: Formulário -->
   <section id="contact" class="section-form">
     <div class="form-container">
-      <!-- Formulário compatível com Netlify Forms (honeypot removido) -->
+      <!-- Formulário para Netlify Forms (honeypot removido) -->
       <form name="contact" method="POST" data-netlify="true">
         <input type="hidden" name="form-name" value="contact">
-        <!-- Campos do formulário -->
         <div class="form-group">
           <label for="nome">Nome</label>
           <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
@@ -66,11 +62,10 @@
     <p>©2023 por FlameArts  |  Todos os Diretos Reservados</p>
   </footer>
 
-  <!-- Script para carregar a galeria -->
+  <!-- Scripts -->
   <script src="assets/js/main.js"></script>
-  
-  <!-- Script para interceptar o envio do formulário e redirecionar para a página de agradecimento -->
   <script>
+    // Envio do formulário via JavaScript para que o Netlify processe a submissão
     document.addEventListener("DOMContentLoaded", () => {
       const form = document.querySelector('form[name="contact"]');
       form.addEventListener("submit", function(e) {
