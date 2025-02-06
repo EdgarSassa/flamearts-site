@@ -235,3 +235,44 @@ body {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+/* Estilos para a página de agradecimento */
+.thank-you-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  color: #eff1f2;
+  text-align: center;
+  padding: 2rem;
+}
+
+.thank-you-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #f56b3e;
+}
+
+.thank-you-container p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.btn-return {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  background-color: #f56b3e;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-return:hover {
+  background-color: #e05a2d;
+  transform: scale(1.05);
+}
+
