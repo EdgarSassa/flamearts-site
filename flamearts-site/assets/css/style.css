@@ -1,0 +1,219 @@
+/* RESET e configurações básicas */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #19191e;
+  color: #eff1f2;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth; /* Habilita scroll suave */
+}
+
+/* ------------------------------
+   Seção 1: Hero
+------------------------------ */
+.section-hero {
+  position: relative;
+  width: 100%;
+  height: 560px; /* Altura definida para 560px */
+  overflow: hidden;
+}
+
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Overlay para escurecer o vídeo, deixando-o com apenas 10% visível */
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(25, 25, 30, 0.9); /* 90% opaco */
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  gap: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.hero-content:hover {
+  transform: scale(1.02);
+}
+
+.logo {
+  max-width: 150px;
+}
+
+.maintenance-title {
+  font-size: 2rem;
+  color: #f56b3e;
+}
+
+.maintenance-text {
+  font-size: 1.2rem;
+}
+
+.btn-contact {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background-color: #000;
+  border: 1px solid #f56b3e;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  color: #f56b3e;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-contact:hover {
+  background-color: #f56b3e;
+  color: #000;
+  transform: scale(1.05);
+}
+
+/* ------------------------------
+   Seção 2: Formulário
+------------------------------ */
+.section-form {
+  width: 100%;
+  min-height: 560px;
+  background-color: #19191e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.form-container {
+  background-color: #0c0c0d;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+  background-color: #eff1f2;
+  border: 1px solid #f56b3e;
+  border-radius: 5px;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.btn-submit {
+  display: block;
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #f56b3e;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.btn-submit:hover {
+  transform: scale(1.05);
+}
+
+/* ------------------------------
+   Seção 3: Galeria
+------------------------------ */
+.section-gallery {
+  width: 100%;
+  min-height: 360px;
+  padding: 2rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 1rem;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: default;
+}
+
+.gallery-item img,
+.gallery-item video {
+  width: 100%;
+  display: block;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+  filter: brightness(1.0);
+}
+
+/* ------------------------------
+   Rodapé
+------------------------------ */
+.footer {
+  background-color: #0c0c0d;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #eff1f2;
+}
+
+/* ------------------------------
+   Responsividade
+------------------------------ */
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .hero-content {
+    padding: 0.5rem;
+  }
+  .maintenance-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

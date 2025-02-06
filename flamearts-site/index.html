@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flamearts</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <!-- Seção 1: Hero com vídeo de fundo -->
+  <section id="hero" class="section-hero">
+    <!-- Vídeo de fundo -->
+    <video class="bg-video" autoplay muted loop>
+      <source src="assets/videos/background.mp4" type="video/mp4">
+      Seu navegador não suporta vídeo HTML5.
+    </video>
+    <!-- Overlay para escurecer o vídeo (deixando-o com apenas 10% visível) -->
+    <div class="video-overlay"></div>
+    <!-- Conteúdo centralizado -->
+    <div class="hero-content">
+      <img src="assets/images/logo.png" alt="Logo" class="logo">
+      <h1 class="maintenance-title">EM MANUTENÇÃO</h1>
+      <p class="maintenance-text">Voltamos em breve.</p>
+      <a href="#contact" class="btn-contact">Contacto</a>
+    </div>
+  </section>
+
+  <!-- Seção 2: Formulário de Contacto -->
+  <section id="contact" class="section-form">
+    <div class="form-container">
+      <form name="contact" method="POST" data-netlify="true">
+        <input type="hidden" name="form-name" value="contact">
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+        </div>
+        <div class="form-group">
+          <label for="telemovel">Telemóvel</label>
+          <input type="tel" id="telemovel" name="telemovel" placeholder="Seu telemóvel" required>
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
+        </div>
+        <div class="form-group">
+          <label for="mensagem">Mensagem</label>
+          <textarea id="mensagem" name="mensagem" rows="5" placeholder="Escreva sua mensagem" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Seção 3: Galeria (6 fotos intercaladas com 6 vídeos) -->
+  <section id="gallery" class="section-gallery">
+    <div class="gallery-grid" id="gallery-grid">
+      <!-- Os itens da galeria serão carregados via JavaScript -->
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="footer">
+    <p>©2023 por FlameArts  |  Todos os Diretos Reservados</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

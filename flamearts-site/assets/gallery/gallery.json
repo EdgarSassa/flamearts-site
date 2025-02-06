@@ -1,0 +1,18 @@
+{
+  "photos": [
+    { "file": "image1.jpg", "alt": "Imagem 1" },
+    { "file": "image2.jpg", "alt": "Imagem 2" },
+    { "file": "image3.jpg", "alt": "Imagem 3" },
+    { "file": "image4.jpg", "alt": "Imagem 4" },
+    { "file": "image5.jpg", "alt": "Imagem 5" },
+    { "file": "image6.jpg", "alt": "Imagem 6" }
+  ],
+  "videos": [
+    { "file": "video1.mp4", "alt": "Vídeo 1" },
+    { "file": "video2.mp4", "alt": "Vídeo 2" },
+    { "file": "video3.mp4", "alt": "Vídeo 3" },
+    { "file": "video4.mp4", "alt": "Vídeo 4" },
+    { "file": "video5.mp4", "alt": "Vídeo 5" },
+    { "file": "video6.mp4", "alt": "Vídeo 6" }
+  ]
+}
