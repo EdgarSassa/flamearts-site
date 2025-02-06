@@ -15,7 +15,7 @@
       <source src="assets/videos/background.mp4" type="video/mp4">
       Seu navegador não suporta vídeo HTML5.
     </video>
-    <!-- Overlay preto absoluto para que o vídeo fique 10% visível (90% opaco) -->
+    <!-- Overlay preto para o efeito de escurecimento -->
     <div class="video-overlay"></div>
     <!-- Conteúdo centralizado -->
     <div class="hero-content">
@@ -30,11 +30,10 @@
   <section id="contact" class="section-form">
     <div class="form-container">
       <!-- Formulário compatível com Netlify Forms -->
+      <!-- Note que removemos o atributo "action" para evitar que o navegador envie um POST direto para a página de agradecimento -->
       <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
         <!-- Campo oculto para identificar o formulário -->
         <input type="hidden" name="form-name" value="contact">
-        <!-- Campo oculto para redirecionamento -->
-        <input type="hidden" name="redirect" value="/thank-you.html">
         <!-- Campo honeypot para evitar spam -->
         <p class="hidden">
           <label>Não preencha este campo se você for humano: <input name="bot-field" /></label>
@@ -73,6 +72,30 @@
     <p>©2023 por FlameArts  |  Todos os Diretos Reservados</p>
   </footer>
 
+  <!-- Script para carregar a galeria -->
   <script src="assets/js/main.js"></script>
+  
+  <!-- Script para interceptar o envio do formulário e redirecionar para a página de agradecimento -->
+  <script>
+    // Aguarda o carregamento do DOM
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.querySelector('form[name="contact"]');
+      form.addEventListener("submit", function(e) {
+        e.preventDefault(); // Evita o comportamento padrão do envio
+        const formData = new FormData(form);
+        // Envia os dados para Netlify (a URL "/" é interceptada pelo Netlify Forms)
+        fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(formData).toString()
+        })
+        .then(() => {
+          // Após o envio bem-sucedido, redireciona para a página de agradecimento via GET
+          window.location.href = "/thank-you.html";
+        })
+        .catch(error => console.error("Erro no envio do formulário:", error));
+      });
+    });
+  </script>
 </body>
 </html>
