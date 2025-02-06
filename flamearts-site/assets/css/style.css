@@ -6,11 +6,11 @@
 }
 
 body {
-  background-color: #000; /* Fundo geral alterado para preto absoluto */
+  background-color: #000; /* Fundo geral: preto absoluto */
   color: #eff1f2;
   font-family: Arial, sans-serif;
   overflow-x: hidden;
-  scroll-behavior: smooth; /* Habilita scroll suave */
+  scroll-behavior: smooth;
 }
 
 /* ------------------------------
@@ -19,9 +19,9 @@ body {
 .section-hero {
   position: relative;
   width: 100%;
-  height: 560px; /* Altura definida para 560px */
+  height: 560px;
   overflow: hidden;
-  background-color: #000; /* Fundo preto absoluto */
+  background-color: #000;
 }
 
 .bg-video {
@@ -34,14 +34,13 @@ body {
   z-index: 1;
 }
 
-/* Overlay preto absoluto para que o vídeo fique 10% visível (90% opaco) */
 .video-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.9); /* 90% opaco: deixa o vídeo com 10% visível */
   z-index: 2;
 }
 
@@ -60,7 +59,6 @@ body {
   transition: transform 0.3s ease;
 }
 
-/* Aumenta em até 30% quando o cursor estiver sobre a área */
 .hero-content:hover {
   transform: scale(1.3);
 }
@@ -102,7 +100,7 @@ body {
 .section-form {
   width: 100%;
   min-height: 560px;
-  background-color: #000; /* Fundo da secção 2 alterado para preto absoluto */
+  background-color: #000; /* Fundo da Seção 2: preto absoluto */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -166,7 +164,7 @@ body {
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-gap: 3px; /* Espaçamento de 3px entre os itens */
+  grid-gap: 3px;
 }
 
 .gallery-item {
@@ -185,7 +183,6 @@ body {
   display: block;
 }
 
-/* Overlay que escurece os itens em 20% */
 .gallery-item::before {
   content: "";
   position: absolute;
@@ -198,7 +195,6 @@ body {
   z-index: 2;
 }
 
-/* Ao passar o mouse, remove o overlay e aplica animação */
 .gallery-item:hover::before {
   background-color: rgba(0, 0, 0, 0);
 }
@@ -224,7 +220,7 @@ body {
 ------------------------------ */
 @media (max-width: 768px) {
   .gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* Ao menos 2 colunas na versão mobile */
   }
   .hero-content {
     padding: 0.5rem;
