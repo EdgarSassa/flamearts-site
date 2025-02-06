@@ -1,0 +1,4 @@
+http://flamearts.ao/* https://www.flamearts.ao/:splat 301!
+https://flamearts.ao/* https://www.flamearts.ao/:splat 301!
+/*    /index.html   200
+
