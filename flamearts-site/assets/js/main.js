@@ -37,8 +37,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       video.src = `assets/gallery/${videos[i].file}`;
       video.muted = true;
       video.loop = true;
-      video.autoplay = true;
-      video.playsInline = true; // Garante que o vídeo seja reproduzido inline em dispositivos móveis
+      video.playsInline = true;
+      // Não definimos autoplay para que o vídeo inicie apenas mediante interação
+
+      // Adiciona eventos para reproduzir/pausar o vídeo conforme o cursor
+      videoItem.addEventListener("mouseenter", () => {
+        video.play();
+      });
+      videoItem.addEventListener("mouseleave", () => {
+        video.pause();
+        video.currentTime = 0; // Opcional: reinicia o vídeo ao sair o cursor
+      });
+
       videoItem.appendChild(video);
       galleryGrid.appendChild(videoItem);
     }
