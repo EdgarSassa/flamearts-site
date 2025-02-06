@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Obtém os arrays de fotos e vídeos; se não existirem, usa array vazio
     const photos = data.photos || [];
     const videos = data.videos || [];
-    const total = Math.min(photos.length, videos.length); // Considera a quantidade mínima (espera 6 de cada)
+    const total = Math.min(photos.length, videos.length);
 
     // Intercala os itens: foto, vídeo, foto, vídeo, etc.
     for (let i = 0; i < total; i++) {
@@ -38,15 +38,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       video.muted = true;
       video.loop = true;
       video.playsInline = true;
-      // Não definimos autoplay para que o vídeo inicie apenas mediante interação
-
-      // Adiciona eventos para reproduzir/pausar o vídeo conforme o cursor
+      // O vídeo inicia somente mediante interação do cursor
       videoItem.addEventListener("mouseenter", () => {
         video.play();
       });
       videoItem.addEventListener("mouseleave", () => {
         video.pause();
-        video.currentTime = 0; // Opcional: reinicia o vídeo ao sair o cursor
+        video.currentTime = 0;
       });
 
       videoItem.appendChild(video);
