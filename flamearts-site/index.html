@@ -27,38 +27,39 @@
   </section>
 
   <!-- Seção 2: Formulário -->
- <section id="contact" class="section-form">
-  <div class="form-container">
-    <!-- Formulário compatível com Netlify Forms -->
-    <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="thank-you.html">
-      <!-- Campo oculto para identificar o formulário -->
-      <input type="hidden" name="form-name" value="contact">
-      <!-- Campo honeypot para evitar spam -->
-      <p class="hidden">
-        <label>Não preencha este campo se você for humano: <input name="bot-field" /></label>
-      </p>
-      <!-- Campos do formulário -->
-      <div class="form-group">
-        <label for="nome">Nome</label>
-        <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
-      </div>
-      <div class="form-group">
-        <label for="telemovel">Telemóvel</label>
-        <input type="tel" id="telemovel" name="telemovel" placeholder="Seu telemóvel" required>
-      </div>
-      <div class="form-group">
-        <label for="email">E-mail</label>
-        <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
-      </div>
-      <div class="form-group">
-        <label for="mensagem">Mensagem</label>
-        <textarea id="mensagem" name="mensagem" rows="5" placeholder="Escreva sua mensagem" required></textarea>
-      </div>
-      <button type="submit" class="btn-submit">Enviar</button>
-    </form>
-  </div>
-</section>
-
+  <section id="contact" class="section-form">
+    <div class="form-container">
+      <!-- Formulário compatível com Netlify Forms -->
+      <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+        <!-- Campo oculto para identificar o formulário -->
+        <input type="hidden" name="form-name" value="contact">
+        <!-- Campo oculto para redirecionamento -->
+        <input type="hidden" name="redirect" value="/thank-you.html">
+        <!-- Campo honeypot para evitar spam -->
+        <p class="hidden">
+          <label>Não preencha este campo se você for humano: <input name="bot-field" /></label>
+        </p>
+        <!-- Campos do formulário -->
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+        </div>
+        <div class="form-group">
+          <label for="telemovel">Telemóvel</label>
+          <input type="tel" id="telemovel" name="telemovel" placeholder="Seu telemóvel" required>
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
+        </div>
+        <div class="form-group">
+          <label for="mensagem">Mensagem</label>
+          <textarea id="mensagem" name="mensagem" rows="5" placeholder="Escreva sua mensagem" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Enviar</button>
+      </form>
+    </div>
+  </section>
 
   <!-- Seção 3: Galeria -->
   <section id="gallery" class="section-gallery">
