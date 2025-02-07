@@ -163,16 +163,16 @@ body {
   height: 680px;  /* altura fixa para que a faixa não se redimensione verticalmente */
 }
 
-/* Slider Track – movimento somente no eixo X; altura fixa para evitar alterações no eixo Y */
+/* Slider Track – movimento somente no eixo X; altura fixa */
 .slider-track {
   display: flex;
   align-items: center;
-  height: 680px; /* fixa a altura da faixa */
+  height: 680px;
   transition: transform 0.35s ease-in-out;
   will-change: transform;
 }
 
-/* Cada item do slider – dimensões fixas com espaçamento de 5px em cada lateral, cantos arredondados e centralizados */
+/* Cada item do slider – dimensões fixas com margem de 5px em cada lateral, cantos arredondados e centralizados */
 .slider-item {
   position: relative;
   flex: 0 0 auto;
@@ -188,7 +188,7 @@ body {
   justify-content: center;
 }
 
-/* Overlay para itens não selecionados: 40% opacidade com transição de 0.3s */
+/* Overlay para itens não ativos: 40% de opacidade com transição de 0.3s */
 .slider-item:not(.active)::after {
   content: "";
   position: absolute;
@@ -213,7 +213,7 @@ body {
   z-index: 2;
 }
 
-/* As mídias internas preencherão o item por completo */
+/* As mídias internas preenchem o item por completo */
 .slider-item img,
 .slider-item video {
   width: 100%;
@@ -222,7 +222,7 @@ body {
   display: block;
 }
 
-/* Botões de navegação do slider */
+/* Botões de navegação */
 .slider-btn {
   position: absolute;
   top: 50%;
