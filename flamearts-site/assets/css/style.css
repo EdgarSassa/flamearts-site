@@ -137,7 +137,7 @@ body {
 }
 
 /* ------------------------------
-   Seção 3: Galeria (Slider)
+   Seção 3: Galeria (Slider Infinito)
 ------------------------------ */
 
 /* Cabeçalho da Galeria */
@@ -163,35 +163,27 @@ body {
   height: 680px;  /* altura para comportar o item ativo (640px) + margens */
 }
 
-/* Slider Track */
+/* Slider Track – somente movimento no eixo X */
 .slider-track {
   display: flex;
-  align-items: center;
-  transition: transform 1s ease-in-out;
+  align-items: center; /* centraliza verticalmente os itens */
+  transition: transform 0.2s ease-in-out;
 }
 
-/* Cada item do slider */
+/* Cada item do slider – base de 260x320 com margem de 10px em cada lado e cantos arredondados */
 .slider-item {
   flex: 0 0 auto;
   width: 260px;
   height: 320px;
   margin: 0 10px;
-  transition: all 1s ease-in-out;
-  position: relative;
-  z-index: 1;
-}
-.slider-item img,
-.slider-item video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  border-radius: 8px;
+  transition: transform 0.2s ease-in-out;
+  transform: scale(1);
 }
 
-/* Item ativo – 200% maior */
+/* Item ativo – exibido com escala 2 (efetivamente 520x640) */
 .slider-item.active {
-  width: 520px;
-  height: 640px;
+  transform: scale(2);
   z-index: 2;
 }
 
