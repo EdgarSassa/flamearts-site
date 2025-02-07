@@ -51,19 +51,25 @@ document.addEventListener("DOMContentLoaded", async () => {
       sliderTrack.appendChild(itemDiv);
     });
 
-    // Para rolamento infinito: clonar os 2 últimos itens para o início e os 2 primeiros para o final.
+    // Configuração de clones para rolamento infinito
     const clonesCount = 2;
     const originalCount = originalItems.length;
     let sliderItems = [...originalItems];
 
-    // Clonar e inserir no início (mantendo a mesma ordem dos últimos clonesCount itens)
+    // Cria clones para o início: clones dos últimos clonesCount itens na ordem original
+    let beginningClones = [];
     for (let i = originalCount - clonesCount; i < originalCount; i++) {
       const clone = originalItems[i].cloneNode(true);
       clone.classList.add("clone");
+      beginningClones.push(clone);
+    }
+    // Insere os clones no início (na ordem desejada)
+    beginningClones.reverse().forEach(clone => {
       sliderTrack.insertBefore(clone, sliderTrack.firstChild);
       sliderItems.unshift(clone);
-    }
-    // Clonar e inserir no final (na ordem normal)
+    });
+
+    // Cria clones para o final: clones dos primeiros clonesCount itens (na ordem normal)
     for (let i = 0; i < clonesCount; i++) {
       const clone = originalItems[i].cloneNode(true);
       clone.classList.add("clone");
@@ -71,15 +77,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       sliderItems.push(clone);
     }
 
-    /*  
-      Cálculo dos deslocamentos:
-      Cada item não ativo ocupa 260px de largura + 10px de margem total = 270px.
-      O item ativo ocupa 520px + 10px = 530px; sua "metade" equivale a 265px.
-      Assim, para centralizar, o offset = containerWidth/2 – (activeIndex * 270 + 265)
-    */
-    let activeIndex = clonesCount + 2;  // inicia com o 3º item original
+    // Define o índice ativo inicial: o primeiro item original está logo após os clones do início
+    let activeIndex = clonesCount;
     let isTransitioning = false;
 
+    // Função para atualizar a classe "active"
     function updateActiveClass() {
       sliderItems.forEach((item, idx) => {
         if (idx === activeIndex) {
@@ -90,60 +92,47 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
+    // Calcula o deslocamento: cada item não ativo tem 270px; o item ativo tem 530px (metade = 265)
     function updateSliderPosition() {
-      const sliderContainer = document.querySelector(".slider-container");
-      const containerWidth = sliderContainer.offsetWidth;
-      let sumWidth = 0;
-      for (let i = 0; i < activeIndex; i++) {
-        sumWidth += 270;
-      }
-      const activeCenter = sumWidth + 265;
-      const offset = containerWidth / 2 - activeCenter;
+      const containerWidth = document.querySelector(".slider-container").offsetWidth;
+      let offset = containerWidth / 2 - (activeIndex * 270 + 265);
       sliderTrack.style.transform = `translateX(${offset}px) translateY(0)`;
     }
 
-    function goToSlide(index, transitionDuration = 0.35) {
+    // Função para ir para um slide (com duração configurável)
+    function goToSlide(index, duration = 0.35) {
       if (isTransitioning) return;
       isTransitioning = true;
       activeIndex = index;
-      sliderTrack.style.transition = `transform ${transitionDuration}s ease-in-out`;
+      sliderTrack.style.transition = `transform ${duration}s ease-in-out`;
       updateActiveClass();
       updateSliderPosition();
     }
 
+    // Ouvinte de transitionend (apenas para a propriedade "transform")
     sliderTrack.addEventListener("transitionend", (e) => {
       if (e.propertyName !== "transform") return;
-      // Se o índice ativo for menor que clonesCount, reajusta para o final
-      if (activeIndex < clonesCount) {
-        activeIndex += originalCount;
-        sliderTrack.style.transition = "none";
-        updateActiveClass();
-        updateSliderPosition();
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            sliderTrack.style.transition = "transform 0.35s ease-in-out";
-            isTransitioning = false;
-          });
-        });
-      }
-      // Se o índice ativo for maior ou igual a clonesCount + originalCount, reajusta para o início
-      else if (activeIndex >= clonesCount + originalCount) {
+      // Se o índice ativo estiver no final dos clones (à direita)
+      if (activeIndex >= clonesCount + originalCount) {
         activeIndex -= originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
         updateSliderPosition();
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            sliderTrack.style.transition = "transform 0.35s ease-in-out";
-            isTransitioning = false;
-          });
-        });
-      } else {
-        isTransitioning = false;
       }
+      // Se o índice ativo estiver antes dos clones do início (à esquerda)
+      else if (activeIndex < clonesCount) {
+        activeIndex += originalCount;
+        sliderTrack.style.transition = "none";
+        updateActiveClass();
+        updateSliderPosition();
+      }
+      // Força reflow para reiniciar a transição e desbloqueia cliques
+      void sliderTrack.offsetWidth;
+      sliderTrack.style.transition = "transform 0.35s ease-in-out";
+      isTransitioning = false;
     });
 
-    // Permite selecionar um item via clique (transição de 0.4s)
+    // Permite selecionar um item via clique – transição de 0.4s
     sliderItems.forEach((item, idx) => {
       item.addEventListener("click", () => {
         if (isTransitioning) return;
@@ -153,19 +142,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     });
 
-    // Estado inicial
-    updateActiveClass();
-    updateSliderPosition();
-
     // Botões de navegação
-    const btnPrev = document.getElementById("slider-btn-prev");
-    const btnNext = document.getElementById("slider-btn-next");
-    btnPrev.addEventListener("click", () => {
+    document.getElementById("slider-btn-prev").addEventListener("click", () => {
       if (isTransitioning) return;
       goToSlide(activeIndex - 1);
       resetAutoSlide();
     });
-    btnNext.addEventListener("click", () => {
+    document.getElementById("slider-btn-next").addEventListener("click", () => {
       if (isTransitioning) return;
       goToSlide(activeIndex + 1);
       resetAutoSlide();
@@ -175,7 +158,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     let autoSlideInterval = setInterval(() => {
       goToSlide(activeIndex + 1);
     }, 8000);
-
     function resetAutoSlide() {
       clearInterval(autoSlideInterval);
       autoSlideInterval = setInterval(() => {
@@ -184,6 +166,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     window.addEventListener("resize", updateSliderPosition);
+    updateActiveClass();
+    updateSliderPosition();
 
   } catch (error) {
     console.error('Erro ao carregar a galeria:', error);
