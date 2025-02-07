@@ -147,11 +147,11 @@ body {
 }
 .gallery-title {
   font-size: 2rem;           /* mesmo tamanho usado na seção Hero */
-  color: #f56b3e;            /* cor destacada igual à utilizada no título da Hero */
+  color: #f56b3e;
   margin-bottom: 0.5rem;
 }
 .gallery-description {
-  font-size: 1.2rem;         /* mesmo corpo de texto */
+  font-size: 1.2rem;
   color: #eff1f2;
 }
 
@@ -172,8 +172,9 @@ body {
   will-change: transform;
 }
 
-/* Cada item do slider – dimensões fixas com espaçamento de 5px em cada lateral e cantos arredondados */
+/* Cada item do slider – dimensões fixas com espaçamento de 5px em cada lateral, cantos arredondados e posicionamento relativo */
 .slider-item {
+  position: relative;
   flex: 0 0 auto;
   width: 260px;
   height: 320px;
@@ -182,10 +183,21 @@ body {
   background: #fff;
   overflow: hidden;
   transition: width 0.35s ease-in-out, height 0.35s ease-in-out;
-  /* Para centralizar o conteúdo interno se necessário */
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Overlay para itens não selecionados */
+.slider-item:not(.active)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.2);
+  pointer-events: none;
 }
 
 /* Item ativo – dimensões maiores */
@@ -195,7 +207,7 @@ body {
   z-index: 2;
 }
 
-/* As mídias internas preencherão totalmente o item, sem margens */
+/* As mídias internas preencherão o item por completo sem margens */
 .slider-item img,
 .slider-item video {
   width: 100%;
