@@ -146,7 +146,7 @@ body {
   margin-bottom: 2rem;
 }
 .gallery-title {
-  font-size: 2rem;           /* mesmo tamanho usado na secção Hero */
+  font-size: 2rem;           /* mesmo tamanho usado na seção Hero */
   color: #f56b3e;            /* cor destacada igual à utilizada no título da Hero */
   margin-bottom: 0.5rem;
 }
@@ -160,29 +160,29 @@ body {
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 680px;  /* altura para comportar o item ativo (640px) + margens */
+  height: 680px;  /* altura suficiente para o item ativo (640px) mais margens */
 }
 
-/* Slider Track – somente movimento no eixo X */
+/* Slider Track – movimento apenas no eixo X */
 .slider-track {
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* alinha todos os itens pelo topo para evitar movimento vertical */
   transition: transform 0.2s ease-in-out;
 }
 
-/* Cada item do slider – base de 260x320 com margem de 10px em cada lado e cantos arredondados */
+/* Cada item do slider – dimensões fixas e espaçamento de 5px */
 .slider-item {
   flex: 0 0 auto;
   width: 260px;
   height: 320px;
-  margin: 0 10px;
+  margin: 0 5px; /* 5px à esquerda e à direita */
   border-radius: 8px;
-  /* Transição suave de largura e altura */
+  background: #fff; /* cor de fundo para visualização (pode ser removida ou alterada) */
+  overflow: hidden;
   transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
-  /* Para garantir que os itens fiquem alinhados verticalmente, não usamos transform: scale aqui */
 }
 
-/* Item ativo – com dimensões 520x640 */
+/* Item ativo – dimensões maiores */
 .slider-item.active {
   width: 520px;
   height: 640px;
@@ -267,5 +267,5 @@ body {
    Responsividade para tablets
 ------------------------------ */
 @media (min-width: 769px) and (max-width: 1024px) {
-  /* Se necessário, ajuste os tamanhos do slider para tablets */
+  /* Ajustes se necessário */
 }
