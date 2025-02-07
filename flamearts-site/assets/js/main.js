@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         video.autoplay = true;
         video.playsInline = true;
         video.preload = "auto";
-        // Define atributos para garantir autoplay inline em mobile
         video.setAttribute('playsinline', '');
         video.setAttribute('webkit-playsinline', 'true');
         video.setAttribute('muted', '');
@@ -82,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     /*  
       Cálculo do deslocamento:
-      Cada item não ativo: 260px + 10px (margem) = 270px.
+      Cada item não ativo: 260px + 10px de margem = 270px.
       Item ativo: 520px + 10px = 530px, metade = 265px.
       Offset = containerWidth/2 - (activeIndex * 270 + 265)
     */
@@ -117,26 +116,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     sliderTrack.addEventListener("transitionend", (e) => {
       if (e.propertyName !== "transform") return;
-      // Se o índice ativo estiver nos clones do final:
       if (activeIndex >= clonesCount + originalCount) {
         activeIndex -= originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
         updateSliderPosition();
-      }
-      // Se o índice ativo estiver nos clones do início:
-      else if (activeIndex < clonesCount) {
+      } else if (activeIndex < clonesCount) {
         activeIndex += originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
         updateSliderPosition();
       }
-      void sliderTrack.offsetWidth; // força reflow
+      void sliderTrack.offsetWidth;
       sliderTrack.style.transition = "transform 0.35s ease-in-out";
       isTransitioning = false;
     });
 
-    // Permite selecionar um item via clique – transição de 0.4s
     sliderItems.forEach((item, idx) => {
       item.addEventListener("click", () => {
         if (isTransitioning) return;
@@ -146,7 +141,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     });
 
-    // Botões de navegação
     document.getElementById("slider-btn-prev").addEventListener("click", () => {
       if (isTransitioning) return;
       goToSlide(activeIndex - 1);
@@ -158,7 +152,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       resetAutoSlide();
     });
 
-    // Auto slide a cada 8 segundos
     let autoSlideInterval = setInterval(() => {
       goToSlide(activeIndex + 1);
     }, 8000);
