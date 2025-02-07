@@ -54,19 +54,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       sliderTrack.appendChild(itemDiv);
     });
 
-    // Para rolagem infinita, clona os dois últimos itens para o início e os dois primeiros para o final.
+    // Para rolagem infinita: clonar os 2 últimos itens para o início e os 2 primeiros para o final.
     const clonesCount = 2;
     const originalCount = originalItems.length;
     let sliderItems = [...originalItems];
 
-    // Clones no início
+    // Clonar e inserir no início
     for (let i = originalCount - clonesCount; i < originalCount; i++) {
       const clone = originalItems[i].cloneNode(true);
       clone.classList.add("clone");
       sliderTrack.insertBefore(clone, sliderTrack.firstChild);
       sliderItems.unshift(clone);
     }
-    // Clones no final
+    // Clonar e inserir no final
     for (let i = 0; i < clonesCount; i++) {
       const clone = originalItems[i].cloneNode(true);
       clone.classList.add("clone");
@@ -78,10 +78,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       Cálculo dos deslocamentos:
       - Itens não ativos: 260px de largura + 10px (5px de cada lado) = 270px.
       - Item ativo: 520px + 10px = 530px.
-      Para centralizar, a soma das larguras dos itens anteriores é:
-         activeIndex * 270   (pois todos antes do ativo são não ativos)
-      E o centro do item ativo é 530/2 = 265px.
-      Logo, deslocamento = containerWidth/2 - (activeIndex * 270 + 265)
+      Para centralizar, soma-se (activeIndex * 270) e adiciona-se metade do item ativo (530/2 = 265px).
+      Offset = containerWidth/2 - (activeIndex * 270 + 265)
     */
     let activeIndex = clonesCount + 2;  // inicia com o 3º item original
 
@@ -99,14 +97,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       const sliderContainer = document.querySelector(".slider-container");
       const containerWidth = sliderContainer.offsetWidth;
       let sumWidth = 0;
-      // Itens anteriores: cada um ocupa 270px (não ativos)
       for (let i = 0; i < activeIndex; i++) {
         sumWidth += 270;
       }
-      const activeCenter = sumWidth + 265; // 265 = 530/2
+      const activeCenter = sumWidth + 265; // metade do espaço do item ativo
       const offset = containerWidth / 2 - activeCenter;
-      // Aplica apenas translateX (nenhum movimento vertical)
-      sliderTrack.style.transform = `translateX(${offset}px)`;
+      // Força movimento somente no eixo X (translateY(0))
+      sliderTrack.style.transform = `translateX(${offset}px) translateY(0)`;
     }
 
     function goToSlide(index) {
@@ -115,7 +112,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       updateSliderPosition();
     }
 
-    // Ajuste para rolagem infinita após transição
+    // Após a transição, se estivermos nos clones, ajusta o índice para rolagem infinita
     sliderTrack.addEventListener("transitionend", () => {
       if (activeIndex < clonesCount) {
         activeIndex += originalCount;
@@ -123,14 +120,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateActiveClass();
         updateSliderPosition();
         sliderTrack.offsetHeight; // força reflow
-        sliderTrack.style.transition = "transform 0.2s ease-in-out";
+        sliderTrack.style.transition = "transform 0.35s ease-in-out";
       } else if (activeIndex >= clonesCount + originalCount) {
         activeIndex -= originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
         updateSliderPosition();
         sliderTrack.offsetHeight;
-        sliderTrack.style.transition = "transform 0.2s ease-in-out";
+        sliderTrack.style.transition = "transform 0.35s ease-in-out";
       }
     });
 
