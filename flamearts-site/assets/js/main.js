@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         video.autoplay = true;
         video.playsInline = true;
         video.preload = "auto";
+        // Atributos para garantir autoplay inline em mobile
         video.setAttribute('playsinline', '');
         video.setAttribute('webkit-playsinline', 'true');
         video.setAttribute('muted', '');
@@ -116,12 +117,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     sliderTrack.addEventListener("transitionend", (e) => {
       if (e.propertyName !== "transform") return;
+      // Se o índice ativo estiver nos clones do final:
       if (activeIndex >= clonesCount + originalCount) {
         activeIndex -= originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
         updateSliderPosition();
-      } else if (activeIndex < clonesCount) {
+      }
+      // Se o índice ativo estiver nos clones do início:
+      else if (activeIndex < clonesCount) {
         activeIndex += originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
@@ -132,6 +136,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       isTransitioning = false;
     });
 
+    // Permite selecionar um item via clique – transição de 0.4s
     sliderItems.forEach((item, idx) => {
       item.addEventListener("click", () => {
         if (isTransitioning) return;
@@ -141,6 +146,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     });
 
+    // Botões de navegação
     document.getElementById("slider-btn-prev").addEventListener("click", () => {
       if (isTransitioning) return;
       goToSlide(activeIndex - 1);
