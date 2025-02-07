@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    // Busca o arquivo JSON com os dados da galeria
+    // Busca o JSON com os dados da galeria
     const response = await fetch('assets/gallery/gallery.json');
     if (!response.ok) {
       throw new Error('Erro na requisição do JSON: ' + response.statusText);
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const videos = data.videos || [];
     const total = Math.min(photos.length, videos.length);
 
-    // Cria um array intercalado de itens: foto, vídeo, foto, vídeo...
+    // Cria um array intercalado: foto, vídeo, foto, vídeo, …
     const itemsData = [];
     for (let i = 0; i < total; i++) {
       itemsData.push({ type: 'photo', file: photos[i].file, alt: photos[i].alt || "Imagem da galeria" });
@@ -24,12 +24,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // Cria os elementos originais do slider e armazena em um array
+    // Cria os elementos originais do slider
     const originalItems = [];
     itemsData.forEach((itemData) => {
       const itemDiv = document.createElement("div");
       itemDiv.classList.add("slider-item");
-
       if (itemData.type === 'photo') {
         const img = document.createElement("img");
         img.src = `assets/gallery/${itemData.file}`;
@@ -42,7 +41,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         video.loop = true;
         video.playsInline = true;
         video.preload = "auto";
-        // Permite clique para pausar/retomar o vídeo
         video.addEventListener("click", () => {
           if (video.paused) {
             video.play();
@@ -56,22 +54,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       sliderTrack.appendChild(itemDiv);
     });
 
-    // Para rolagem infinita, clonamos os últimos 2 itens e os inserimos no início,
-    // e clonamos os 2 primeiros itens e os inserimos no final.
+    // Para rolagem infinita, clona os dois últimos itens para o início e os dois primeiros para o final.
     const clonesCount = 2;
     const originalCount = originalItems.length;
-    // Array que conterá todos os itens (originais + clones)
     let sliderItems = [...originalItems];
 
-    // Clonar e inserir no início (clones dos últimos clonesCount itens)
+    // Clones no início
     for (let i = originalCount - clonesCount; i < originalCount; i++) {
       const clone = originalItems[i].cloneNode(true);
       clone.classList.add("clone");
       sliderTrack.insertBefore(clone, sliderTrack.firstChild);
       sliderItems.unshift(clone);
     }
-
-    // Clonar e inserir no final (clones dos primeiros clonesCount itens)
+    // Clones no final
     for (let i = 0; i < clonesCount; i++) {
       const clone = originalItems[i].cloneNode(true);
       clone.classList.add("clone");
@@ -79,19 +74,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       sliderItems.push(clone);
     }
 
-    /* 
+    /*  
       Cálculo dos deslocamentos:
-      - Cada item não ativo possui largura base de 260px + 20px de margem = 280px.
-      - O item ativo possui largura de 520px + 20px de margem = 540px.
-      Para centralizar o item ativo, soma-se a largura efetiva de todos os itens anteriores
-      e acrescenta-se metade da largura efetiva do item ativo (540/2 = 270px).
+      - Itens não ativos: 260px de largura + 10px (5px de cada lado) = 270px.
+      - Item ativo: 520px + 10px = 530px.
+      Para centralizar, a soma das larguras dos itens anteriores é:
+         activeIndex * 270   (pois todos antes do ativo são não ativos)
+      E o centro do item ativo é 530/2 = 265px.
+      Logo, deslocamento = containerWidth/2 - (activeIndex * 270 + 265)
     */
-    // Definindo o índice ativo inicial:
-    // Queremos que, inicialmente, o 3º item original seja ativo.
-    // Como há 2 clones no início, activeIndex = clonesCount + 2.
-    let activeIndex = clonesCount + 2;
+    let activeIndex = clonesCount + 2;  // inicia com o 3º item original
 
-    // Atualiza a classe "active" dos itens
     function updateActiveClass() {
       sliderItems.forEach((item, idx) => {
         if (idx === activeIndex) {
@@ -102,43 +95,37 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
-    // Atualiza a posição do slider (movimento somente no eixo X)
     function updateSliderPosition() {
       const sliderContainer = document.querySelector(".slider-container");
       const containerWidth = sliderContainer.offsetWidth;
       let sumWidth = 0;
-      // Soma a largura efetiva (280px para itens não ativos) de todos os itens anteriores
+      // Itens anteriores: cada um ocupa 270px (não ativos)
       for (let i = 0; i < activeIndex; i++) {
-        sumWidth += 280;
+        sumWidth += 270;
       }
-      // Adiciona metade da largura efetiva do item ativo (540/2 = 270px)
-      const activeItemCenter = sumWidth + 270;
-      const offset = containerWidth / 2 - activeItemCenter;
-      // Aplica apenas translateX para evitar movimentação vertical
+      const activeCenter = sumWidth + 265; // 265 = 530/2
+      const offset = containerWidth / 2 - activeCenter;
+      // Aplica apenas translateX (nenhum movimento vertical)
       sliderTrack.style.transform = `translateX(${offset}px)`;
     }
 
-    // Função para ir a um slide específico
     function goToSlide(index) {
       activeIndex = index;
       updateActiveClass();
       updateSliderPosition();
     }
 
-    // Evento para tratar o final da transição e ajustar o índice para rolagem infinita
+    // Ajuste para rolagem infinita após transição
     sliderTrack.addEventListener("transitionend", () => {
-      // Se estivermos nos clones do início, saltamos para a parte original correspondente
       if (activeIndex < clonesCount) {
-        activeIndex = activeIndex + originalCount;
+        activeIndex += originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
         updateSliderPosition();
         sliderTrack.offsetHeight; // força reflow
         sliderTrack.style.transition = "transform 0.2s ease-in-out";
-      }
-      // Se estivermos nos clones do final, saltamos para a parte original correspondente
-      else if (activeIndex >= clonesCount + originalCount) {
-        activeIndex = activeIndex - originalCount;
+      } else if (activeIndex >= clonesCount + originalCount) {
+        activeIndex -= originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
         updateSliderPosition();
@@ -168,7 +155,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       goToSlide(activeIndex + 1);
     }, 8000);
 
-    // Reinicia o auto slide após interação do usuário
     function resetAutoSlide() {
       clearInterval(autoSlideInterval);
       autoSlideInterval = setInterval(() => {
@@ -176,7 +162,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       }, 8000);
     }
 
-    // Atualiza a posição do slider em caso de redimensionamento da janela
     window.addEventListener("resize", updateSliderPosition);
 
   } catch (error) {
