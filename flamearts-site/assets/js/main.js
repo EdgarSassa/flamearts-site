@@ -51,19 +51,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       sliderTrack.appendChild(itemDiv);
     });
 
-    // Para rolagem infinita: clonar os 2 últimos itens para o início e os 2 primeiros para o final.
+    // Para rolamento infinito: clonar os 2 últimos itens para o início e os 2 primeiros para o final.
     const clonesCount = 2;
     const originalCount = originalItems.length;
     let sliderItems = [...originalItems];
 
-    // Clonar e inserir no início – itere de forma decrescente para preservar a ordem
-    for (let i = originalCount - 1; i >= originalCount - clonesCount; i--) {
+    // Clonar e inserir no início (mantendo a mesma ordem dos últimos clonesCount itens)
+    for (let i = originalCount - clonesCount; i < originalCount; i++) {
       const clone = originalItems[i].cloneNode(true);
       clone.classList.add("clone");
       sliderTrack.insertBefore(clone, sliderTrack.firstChild);
       sliderItems.unshift(clone);
     }
-    // Clonar e inserir no final – na ordem normal
+    // Clonar e inserir no final (na ordem normal)
     for (let i = 0; i < clonesCount; i++) {
       const clone = originalItems[i].cloneNode(true);
       clone.classList.add("clone");
@@ -73,10 +73,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     /*  
       Cálculo dos deslocamentos:
-      - Itens não ativos: 260px + 10px (margem total) = 270px.
-      - Item ativo: 520px + 10px = 530px.
-      Para centralizar, somamos: activeIndex * 270 + 265 (metade do item ativo).
-      Offset = containerWidth/2 - (activeIndex * 270 + 265)
+      Cada item não ativo ocupa 260px de largura + 10px de margem total = 270px.
+      O item ativo ocupa 520px + 10px = 530px; sua "metade" equivale a 265px.
+      Assim, para centralizar, o offset = containerWidth/2 – (activeIndex * 270 + 265)
     */
     let activeIndex = clonesCount + 2;  // inicia com o 3º item original
     let isTransitioning = false;
@@ -98,9 +97,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       for (let i = 0; i < activeIndex; i++) {
         sumWidth += 270;
       }
-      const activeCenter = sumWidth + 265; // metade do espaço do item ativo
+      const activeCenter = sumWidth + 265;
       const offset = containerWidth / 2 - activeCenter;
-      // Garante movimento apenas no eixo X
       sliderTrack.style.transform = `translateX(${offset}px) translateY(0)`;
     }
 
@@ -113,9 +111,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       updateSliderPosition();
     }
 
-    // Ouvinte para transitionend – só reage quando a propriedade transform é afetada
     sliderTrack.addEventListener("transitionend", (e) => {
       if (e.propertyName !== "transform") return;
+      // Se o índice ativo for menor que clonesCount, reajusta para o final
       if (activeIndex < clonesCount) {
         activeIndex += originalCount;
         sliderTrack.style.transition = "none";
@@ -127,7 +125,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             isTransitioning = false;
           });
         });
-      } else if (activeIndex >= clonesCount + originalCount) {
+      }
+      // Se o índice ativo for maior ou igual a clonesCount + originalCount, reajusta para o início
+      else if (activeIndex >= clonesCount + originalCount) {
         activeIndex -= originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
 
-    // Permite selecionar um item via clique – transição de 0.4s
+    // Permite selecionar um item via clique (transição de 0.4s)
     sliderItems.forEach((item, idx) => {
       item.addEventListener("click", () => {
         if (isTransitioning) return;
