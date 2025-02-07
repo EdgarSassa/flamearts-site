@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       Offset = containerWidth/2 - (activeIndex * 270 + 265)
     */
     let activeIndex = clonesCount + 2;  // inicia com o 3º item original
+    let isTransitioning = false;
 
     function updateActiveClass() {
       sliderItems.forEach((item, idx) => {
@@ -104,13 +105,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     function goToSlide(index, transitionDuration = 0.35) {
+      if (isTransitioning) return;
+      isTransitioning = true;
       activeIndex = index;
       sliderTrack.style.transition = `transform ${transitionDuration}s ease-in-out`;
       updateActiveClass();
       updateSliderPosition();
     }
 
-    // No transitionend, verifica se a propriedade é transform para evitar disparos múltiplos
+    // Ouvinte para transitionend – só reage quando a propriedade transform é afetada
     sliderTrack.addEventListener("transitionend", (e) => {
       if (e.propertyName !== "transform") return;
       if (activeIndex < clonesCount) {
@@ -121,6 +124,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             sliderTrack.style.transition = "transform 0.35s ease-in-out";
+            isTransitioning = false;
           });
         });
       } else if (activeIndex >= clonesCount + originalCount) {
@@ -131,14 +135,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             sliderTrack.style.transition = "transform 0.35s ease-in-out";
+            isTransitioning = false;
           });
         });
+      } else {
+        isTransitioning = false;
       }
     });
 
-    // Permite selecionar um item ao clicar nele – a transição será de 0.4s
+    // Permite selecionar um item via clique – transição de 0.4s
     sliderItems.forEach((item, idx) => {
       item.addEventListener("click", () => {
+        if (isTransitioning) return;
         if (idx === activeIndex) return;
         goToSlide(idx, 0.4);
         resetAutoSlide();
@@ -153,10 +161,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const btnPrev = document.getElementById("slider-btn-prev");
     const btnNext = document.getElementById("slider-btn-next");
     btnPrev.addEventListener("click", () => {
+      if (isTransitioning) return;
       goToSlide(activeIndex - 1);
       resetAutoSlide();
     });
     btnNext.addEventListener("click", () => {
+      if (isTransitioning) return;
       goToSlide(activeIndex + 1);
       resetAutoSlide();
     });
