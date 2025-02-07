@@ -37,11 +37,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       } else if (itemData.type === 'video') {
         const video = document.createElement("video");
         video.src = `assets/gallery/${itemData.file}`;
+        // Definir propriedades para autoplay e reprodução inline, especialmente em mobile:
         video.muted = true;
         video.loop = true;
+        video.autoplay = true;
         video.playsInline = true;
         video.preload = "auto";
-        video.autoplay = true;
+        // Definir atributos que garantem o autoplay inline em dispositivos móveis:
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', 'true');
+        video.setAttribute('muted', '');
         video.addEventListener("loadeddata", () => {
           video.play().catch(() => {});
         });
@@ -56,20 +61,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const originalCount = originalItems.length;
     let sliderItems = [...originalItems];
 
-    // Cria clones para o início: clones dos últimos clonesCount itens na ordem original
+    // Clonar e inserir no início – usando os últimos clonesCount itens na ordem original
     let beginningClones = [];
     for (let i = originalCount - clonesCount; i < originalCount; i++) {
       const clone = originalItems[i].cloneNode(true);
       clone.classList.add("clone");
       beginningClones.push(clone);
     }
-    // Insere os clones no início (na ordem desejada)
     beginningClones.reverse().forEach(clone => {
       sliderTrack.insertBefore(clone, sliderTrack.firstChild);
       sliderItems.unshift(clone);
     });
 
-    // Cria clones para o final: clones dos primeiros clonesCount itens (na ordem normal)
+    // Clonar e inserir no final – clones dos primeiros clonesCount itens, na ordem normal
     for (let i = 0; i < clonesCount; i++) {
       const clone = originalItems[i].cloneNode(true);
       clone.classList.add("clone");
@@ -77,11 +81,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       sliderItems.push(clone);
     }
 
-    // Define o índice ativo inicial: o primeiro item original está logo após os clones do início
-    let activeIndex = clonesCount;
+    /*  
+      Cálculo do deslocamento:
+      Cada item não ativo tem largura de 260px + 10px de margem = 270px.
+      O item ativo tem largura de 520px + 10px = 530px; sua "metade" equivale a 265px.
+      Para centralizar: offset = containerWidth/2 - (activeIndex * 270 + 265)
+    */
+    let activeIndex = clonesCount;  // O primeiro item original vem logo após os clones do início
     let isTransitioning = false;
 
-    // Função para atualizar a classe "active"
     function updateActiveClass() {
       sliderItems.forEach((item, idx) => {
         if (idx === activeIndex) {
@@ -92,14 +100,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
-    // Calcula o deslocamento: cada item não ativo tem 270px; o item ativo tem 530px (metade = 265)
     function updateSliderPosition() {
       const containerWidth = document.querySelector(".slider-container").offsetWidth;
-      let offset = containerWidth / 2 - (activeIndex * 270 + 265);
+      let sumWidth = activeIndex * 270;
+      const offset = containerWidth / 2 - (sumWidth + 265);
       sliderTrack.style.transform = `translateX(${offset}px) translateY(0)`;
     }
 
-    // Função para ir para um slide (com duração configurável)
     function goToSlide(index, duration = 0.35) {
       if (isTransitioning) return;
       isTransitioning = true;
@@ -109,24 +116,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       updateSliderPosition();
     }
 
-    // Ouvinte de transitionend (apenas para a propriedade "transform")
     sliderTrack.addEventListener("transitionend", (e) => {
       if (e.propertyName !== "transform") return;
-      // Se o índice ativo estiver no final dos clones (à direita)
+      // Se o índice ativo estiver nos clones do final:
       if (activeIndex >= clonesCount + originalCount) {
         activeIndex -= originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
         updateSliderPosition();
       }
-      // Se o índice ativo estiver antes dos clones do início (à esquerda)
+      // Se o índice ativo estiver nos clones do início:
       else if (activeIndex < clonesCount) {
         activeIndex += originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
         updateSliderPosition();
       }
-      // Força reflow para reiniciar a transição e desbloqueia cliques
+      // Força reflow para reiniciar a transição
       void sliderTrack.offsetWidth;
       sliderTrack.style.transition = "transform 0.35s ease-in-out";
       isTransitioning = false;
