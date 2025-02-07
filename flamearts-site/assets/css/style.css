@@ -172,7 +172,7 @@ body {
   will-change: transform;
 }
 
-/* Cada item do slider – dimensões fixas com espaçamento de 5px em cada lateral, cantos arredondados e posicionamento relativo */
+/* Cada item do slider – dimensões fixas com espaçamento de 5px em cada lateral, cantos arredondados e posicionamento centralizado */
 .slider-item {
   position: relative;
   flex: 0 0 auto;
@@ -188,7 +188,7 @@ body {
   justify-content: center;
 }
 
-/* Overlay para itens não selecionados */
+/* Overlay para itens não selecionados (40% de opacidade) com transição de 0.3s */
 .slider-item:not(.active)::after {
   content: "";
   position: absolute;
@@ -196,8 +196,14 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.4);
+  opacity: 1;
+  transition: opacity 0.3s ease;
   pointer-events: none;
+}
+.slider-item.active::after {
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 /* Item ativo – dimensões maiores */
@@ -207,7 +213,7 @@ body {
   z-index: 2;
 }
 
-/* As mídias internas preencherão o item por completo sem margens */
+/* As mídias internas preencherão o item por completo */
 .slider-item img,
 .slider-item video {
   width: 100%;
