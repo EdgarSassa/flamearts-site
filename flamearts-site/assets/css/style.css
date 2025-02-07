@@ -166,7 +166,7 @@ body {
 /* Slider Track – somente movimento no eixo X */
 .slider-track {
   display: flex;
-  align-items: center; /* centraliza verticalmente os itens */
+  align-items: center;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -177,13 +177,15 @@ body {
   height: 320px;
   margin: 0 10px;
   border-radius: 8px;
-  transition: transform 0.2s ease-in-out;
-  transform: scale(1);
+  /* Transição suave de largura e altura */
+  transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
+  /* Para garantir que os itens fiquem alinhados verticalmente, não usamos transform: scale aqui */
 }
 
-/* Item ativo – exibido com escala 2 (efetivamente 520x640) */
+/* Item ativo – com dimensões 520x640 */
 .slider-item.active {
-  transform: scale(2);
+  width: 520px;
+  height: 640px;
   z-index: 2;
 }
 
