@@ -78,7 +78,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       Cálculo dos deslocamentos:
       - Itens não ativos: 260px de largura + 10px (5px de cada lado) = 270px.
       - Item ativo: 520px + 10px = 530px.
-      Para centralizar, soma-se (activeIndex * 270) e adiciona-se metade do item ativo (530/2 = 265px).
+      Para centralizar, a soma dos itens anteriores é: activeIndex * 270,
+      e o centro do item ativo é 530/2 = 265px.
       Offset = containerWidth/2 - (activeIndex * 270 + 265)
     */
     let activeIndex = clonesCount + 2;  // inicia com o 3º item original
@@ -102,7 +103,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
       const activeCenter = sumWidth + 265; // metade do espaço do item ativo
       const offset = containerWidth / 2 - activeCenter;
-      // Força movimento somente no eixo X (translateY(0))
+      // Garante movimento somente no eixo X
       sliderTrack.style.transform = `translateX(${offset}px) translateY(0)`;
     }
 
@@ -112,22 +113,28 @@ document.addEventListener("DOMContentLoaded", async () => {
       updateSliderPosition();
     }
 
-    // Após a transição, se estivermos nos clones, ajusta o índice para rolagem infinita
+    // Para evitar bugs no rolamento infinito, usamos requestAnimationFrame para resetar a transição
     sliderTrack.addEventListener("transitionend", () => {
       if (activeIndex < clonesCount) {
         activeIndex += originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
         updateSliderPosition();
-        sliderTrack.offsetHeight; // força reflow
-        sliderTrack.style.transition = "transform 0.35s ease-in-out";
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            sliderTrack.style.transition = "transform 0.35s ease-in-out";
+          });
+        });
       } else if (activeIndex >= clonesCount + originalCount) {
         activeIndex -= originalCount;
         sliderTrack.style.transition = "none";
         updateActiveClass();
         updateSliderPosition();
-        sliderTrack.offsetHeight;
-        sliderTrack.style.transition = "transform 0.35s ease-in-out";
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            sliderTrack.style.transition = "transform 0.35s ease-in-out";
+          });
+        });
       }
     });
 
