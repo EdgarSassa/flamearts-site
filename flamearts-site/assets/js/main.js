@@ -82,8 +82,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     /* 
       Cálculo dos deslocamentos:
       - Cada item não ativo possui largura base de 260px + 20px de margem = 280px.
-      - O item ativo, ao ser escalado (scale(2)), terá efetivamente 260*2 + 20 = 540px.
-      Esses valores serão usados para centralizar o item ativo.
+      - O item ativo possui largura de 520px + 20px de margem = 540px.
+      Para centralizar o item ativo, soma-se a largura efetiva de todos os itens anteriores
+      e acrescenta-se metade da largura efetiva do item ativo (540/2 = 270px).
     */
     // Definindo o índice ativo inicial:
     // Queremos que, inicialmente, o 3º item original seja ativo.
@@ -113,7 +114,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Adiciona metade da largura efetiva do item ativo (540/2 = 270px)
       const activeItemCenter = sumWidth + 270;
       const offset = containerWidth / 2 - activeItemCenter;
-      // Apenas translateX para evitar movimentação no eixo Y
+      // Aplica apenas translateX para evitar movimentação vertical
       sliderTrack.style.transform = `translateX(${offset}px)`;
     }
 
