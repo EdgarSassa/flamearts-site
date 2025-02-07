@@ -37,13 +37,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       } else if (itemData.type === 'video') {
         const video = document.createElement("video");
         video.src = `assets/gallery/${itemData.file}`;
-        // Definir propriedades para autoplay e reprodução inline, especialmente em mobile:
         video.muted = true;
         video.loop = true;
         video.autoplay = true;
         video.playsInline = true;
         video.preload = "auto";
-        // Definir atributos que garantem o autoplay inline em dispositivos móveis:
+        // Define atributos para que o autoplay inline funcione em mobile
         video.setAttribute('playsinline', '');
         video.setAttribute('webkit-playsinline', 'true');
         video.setAttribute('muted', '');
@@ -61,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const originalCount = originalItems.length;
     let sliderItems = [...originalItems];
 
-    // Clonar e inserir no início – usando os últimos clonesCount itens na ordem original
+    // Clonar e inserir no início – clones dos últimos clonesCount itens (na ordem original)
     let beginningClones = [];
     for (let i = originalCount - clonesCount; i < originalCount; i++) {
       const clone = originalItems[i].cloneNode(true);
@@ -73,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       sliderItems.unshift(clone);
     });
 
-    // Clonar e inserir no final – clones dos primeiros clonesCount itens, na ordem normal
+    // Clonar e inserir no final – clones dos primeiros clonesCount itens (na ordem normal)
     for (let i = 0; i < clonesCount; i++) {
       const clone = originalItems[i].cloneNode(true);
       clone.classList.add("clone");
@@ -83,9 +82,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     /*  
       Cálculo do deslocamento:
-      Cada item não ativo tem largura de 260px + 10px de margem = 270px.
-      O item ativo tem largura de 520px + 10px = 530px; sua "metade" equivale a 265px.
-      Para centralizar: offset = containerWidth/2 - (activeIndex * 270 + 265)
+      Cada item não ativo: 260px + 10px de margem = 270px.
+      Item ativo: 520px + 10px = 530px, metade = 265px.
+      Offset = containerWidth/2 - (activeIndex * 270 + 265)
     */
     let activeIndex = clonesCount;  // O primeiro item original vem logo após os clones do início
     let isTransitioning = false;
@@ -132,7 +131,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateActiveClass();
         updateSliderPosition();
       }
-      // Força reflow para reiniciar a transição
+      // Força reflow e reativa a transição
       void sliderTrack.offsetWidth;
       sliderTrack.style.transition = "transform 0.35s ease-in-out";
       isTransitioning = false;
