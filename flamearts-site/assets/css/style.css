@@ -172,7 +172,7 @@ body {
   will-change: transform;
 }
 
-/* Cada item do slider – dimensões fixas com espaçamento de 5px em cada lateral, cantos arredondados e posicionamento centralizado */
+/* Cada item do slider – dimensões fixas com espaçamento de 5px em cada lateral, cantos arredondados e centralizados */
 .slider-item {
   position: relative;
   flex: 0 0 auto;
@@ -188,7 +188,7 @@ body {
   justify-content: center;
 }
 
-/* Overlay para itens não selecionados (40% de opacidade) com transição de 0.3s */
+/* Overlay para itens não selecionados: 40% opacidade com transição de 0.3s */
 .slider-item:not(.active)::after {
   content: "";
   position: absolute;
