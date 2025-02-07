@@ -163,23 +163,23 @@ body {
   height: 680px;  /* altura suficiente para o item ativo (640px) mais margens */
 }
 
-/* Slider Track – movimento apenas no eixo X */
+/* Slider Track – movimento apenas no eixo X e alinhamento vertical centralizado */
 .slider-track {
   display: flex;
-  align-items: flex-start; /* alinha todos os itens pelo topo para evitar movimento vertical */
-  transition: transform 0.2s ease-in-out;
+  align-items: center;
+  transition: transform 0.35s ease-in-out;
 }
 
-/* Cada item do slider – dimensões fixas e espaçamento de 5px */
+/* Cada item do slider – dimensões fixas com espaçamento de 5px em cada lateral e cantos arredondados */
 .slider-item {
   flex: 0 0 auto;
   width: 260px;
   height: 320px;
-  margin: 0 5px; /* 5px à esquerda e à direita */
+  margin: 0 5px;
   border-radius: 8px;
-  background: #fff; /* cor de fundo para visualização (pode ser removida ou alterada) */
+  background: #fff; /* cor de fundo para visualização */
   overflow: hidden;
-  transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
+  transition: width 0.35s ease-in-out, height 0.35s ease-in-out;
 }
 
 /* Item ativo – dimensões maiores */
@@ -187,6 +187,16 @@ body {
   width: 520px;
   height: 640px;
   z-index: 2;
+}
+
+/* Ajuste para as mídias internas: as imagens e vídeos ocuparão 100% do item,
+   com object-fit: contain para garantir que o conteúdo inteiro seja visível. */
+.slider-item img,
+.slider-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 /* Botões de navegação do slider */
