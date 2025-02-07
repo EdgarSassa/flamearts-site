@@ -23,37 +23,45 @@
     </div>
   </section>
 
-<!-- Seção 2: Formulário -->
-<section id="contact" class="section-form">
-  <div class="form-container">
-    <form name="contact" method="POST" netlify action="/thank-you.html">
-      <input type="hidden" name="form-name" value="contact">
-      <div class="form-group">
-        <label for="nome">Nome</label>
-        <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
-      </div>
-      <div class="form-group">
-        <label for="telemovel">Telemóvel</label>
-        <input type="tel" id="telemovel" name="telemovel" placeholder="Seu telemóvel" required>
-      </div>
-      <div class="form-group">
-        <label for="email">E-mail</label>
-        <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
-      </div>
-      <div class="form-group">
-        <label for="mensagem">Mensagem</label>
-        <textarea id="mensagem" name="mensagem" rows="5" placeholder="Escreva sua mensagem" required></textarea>
-      </div>
-      <button type="submit" class="btn-submit">Enviar</button>
-    </form>
-  </div>
-</section>
+  <!-- Seção 2: Formulário -->
+  <section id="contact" class="section-form">
+    <div class="form-container">
+      <!-- Formulário adaptado para Netlify -->
+      <form name="contact" method="POST" netlify action="/thank-you.html">
+        <input type="hidden" name="form-name" value="contact">
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+        </div>
+        <div class="form-group">
+          <label for="telemovel">Telemóvel</label>
+          <input type="tel" id="telemovel" name="telemovel" placeholder="Seu telemóvel" required>
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
+        </div>
+        <div class="form-group">
+          <label for="mensagem">Mensagem</label>
+          <textarea id="mensagem" name="mensagem" rows="5" placeholder="Escreva sua mensagem" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Enviar</button>
+      </form>
+    </div>
+  </section>
 
-
-  <!-- Seção 3: Galeria -->
+  <!-- Seção 3: Galeria (Slider) -->
   <section id="gallery" class="section-gallery">
-    <div class="gallery-grid" id="gallery-grid">
-      <!-- Os itens da galeria serão carregados via JavaScript -->
+    <div class="gallery-header">
+      <h2 class="gallery-title">PORTFÓLIO</h2>
+      <p class="gallery-description">Consulte o nosso portfólio de trabalhos enquanto melhoramos a nossa plataforma.</p>
+    </div>
+    <div class="slider-container">
+      <div class="slider-track" id="slider-track">
+        <!-- Os itens do slider serão inseridos via JavaScript -->
+      </div>
+      <button class="slider-btn slider-btn-prev" id="slider-btn-prev">&lt;</button>
+      <button class="slider-btn slider-btn-next" id="slider-btn-next">&gt;</button>
     </div>
   </section>
 
@@ -64,24 +72,5 @@
 
   <!-- Scripts -->
   <script src="assets/js/main.js"></script>
-  <script>
-    // Envio do formulário via JavaScript para que o Netlify processe a submissão
-    document.addEventListener("DOMContentLoaded", () => {
-      const form = document.querySelector('form[name="contact"]');
-      form.addEventListener("submit", function(e) {
-        e.preventDefault();
-        const formData = new FormData(form);
-        fetch("/", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams(formData).toString()
-        })
-        .then(() => {
-          window.location.href = "/thank-you.html";
-        })
-        .catch(error => console.error("Erro no envio do formulário:", error));
-      });
-    });
-  </script>
 </body>
 </html>
