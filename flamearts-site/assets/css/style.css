@@ -31,6 +31,8 @@ body {
   height: 100%;
   object-fit: cover;
   z-index: 1;
+  /* A opacidade do vídeo de fundo foi ajustada para 0.96, aumentando 20% em relação a 0.8 */
+  opacity: 0.96;
 }
 .video-overlay {
   position: absolute;
@@ -167,7 +169,7 @@ body {
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 680px;  /* altura fixa */
+  height: 680px;  /* altura fixa para evitar redimensionamento vertical */
 }
 .slider-track {
   display: flex;
