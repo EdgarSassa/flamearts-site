@@ -29,8 +29,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     itemsData.forEach((itemData) => {
       const itemDiv = document.createElement("div");
       itemDiv.classList.add("slider-item");
-      // Para facilitar a identificação, podemos armazenar o índice original
-      // (opcional: itemDiv.dataset.original = ... )
       if (itemData.type === 'photo') {
         const img = document.createElement("img");
         img.src = `assets/gallery/${itemData.file}`;
@@ -44,9 +42,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         video.playsInline = true;
         video.preload = "auto";
         video.autoplay = true;
-        // Caso o autoplay não dispare, podemos chamar play()
         video.addEventListener("loadeddata", () => {
-          video.play().catch(() => {}); 
+          video.play().catch(() => {});
         });
         itemDiv.appendChild(video);
       }
@@ -59,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const originalCount = originalItems.length;
     let sliderItems = [...originalItems];
 
-    // Clonar e inserir no início – iterando de forma decrescente para preservar a ordem
+    // Clonar e inserir no início – itere de forma decrescente para preservar a ordem
     for (let i = originalCount - 1; i >= originalCount - clonesCount; i--) {
       const clone = originalItems[i].cloneNode(true);
       clone.classList.add("clone");
@@ -76,9 +73,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     /*  
       Cálculo dos deslocamentos:
-      - Itens não ativos: 260px de largura + 10px (5px de cada lado) = 270px.
+      - Itens não ativos: 260px + 10px (margem total) = 270px.
       - Item ativo: 520px + 10px = 530px.
-      Para centralizar, soma-se (activeIndex * 270) e adiciona-se metade do item ativo (530/2 = 265px).
+      Para centralizar, somamos: activeIndex * 270 + 265 (metade do item ativo).
       Offset = containerWidth/2 - (activeIndex * 270 + 265)
     */
     let activeIndex = clonesCount + 2;  // inicia com o 3º item original
@@ -102,20 +99,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
       const activeCenter = sumWidth + 265; // metade do espaço do item ativo
       const offset = containerWidth / 2 - activeCenter;
-      // Garante movimento somente no eixo X
+      // Garante movimento apenas no eixo X
       sliderTrack.style.transform = `translateX(${offset}px) translateY(0)`;
     }
 
     function goToSlide(index, transitionDuration = 0.35) {
       activeIndex = index;
-      // Ajusta a transição do sliderTrack
       sliderTrack.style.transition = `transform ${transitionDuration}s ease-in-out`;
       updateActiveClass();
       updateSliderPosition();
     }
 
-    // Após a transição, se estivermos nos clones, reajusta o índice para manter a rolagem infinita sem bug
-    sliderTrack.addEventListener("transitionend", () => {
+    // No transitionend, verifica se a propriedade é transform para evitar disparos múltiplos
+    sliderTrack.addEventListener("transitionend", (e) => {
+      if (e.propertyName !== "transform") return;
       if (activeIndex < clonesCount) {
         activeIndex += originalCount;
         sliderTrack.style.transition = "none";
@@ -139,12 +136,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
 
-    // Permite selecionar um item clicando nele (inclusive clones)
+    // Permite selecionar um item ao clicar nele – a transição será de 0.4s
     sliderItems.forEach((item, idx) => {
-      item.addEventListener("click", (e) => {
-        // Se o item clicado já estiver ativo, não faz nada
+      item.addEventListener("click", () => {
         if (idx === activeIndex) return;
-        // Ao clicar, usa transição de 0.4s
         goToSlide(idx, 0.4);
         resetAutoSlide();
       });
