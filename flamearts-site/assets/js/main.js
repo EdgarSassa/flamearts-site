@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         video.autoplay = true;
         video.playsInline = true;
         video.preload = "auto";
-        // Define atributos para que o autoplay inline funcione em mobile
+        // Define atributos para garantir autoplay inline em mobile
         video.setAttribute('playsinline', '');
         video.setAttribute('webkit-playsinline', 'true');
         video.setAttribute('muted', '');
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     /*  
       Cálculo do deslocamento:
-      Cada item não ativo: 260px + 10px de margem = 270px.
+      Cada item não ativo: 260px + 10px (margem) = 270px.
       Item ativo: 520px + 10px = 530px, metade = 265px.
       Offset = containerWidth/2 - (activeIndex * 270 + 265)
     */
@@ -131,8 +131,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateActiveClass();
         updateSliderPosition();
       }
-      // Força reflow e reativa a transição
-      void sliderTrack.offsetWidth;
+      void sliderTrack.offsetWidth; // força reflow
       sliderTrack.style.transition = "transform 0.35s ease-in-out";
       isTransitioning = false;
     });
