@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -------------------------------------------------------------------
-  // Efeito glow interativo com dispersão realista e transições suaves
+  // Efeito glow interativo com dispersão realista, transições suaves e maior espessura
   // -------------------------------------------------------------------
   document.querySelectorAll('.gradient-border').forEach(container => {
     container.addEventListener('mousemove', e => {
