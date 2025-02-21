@@ -16,7 +16,11 @@
   <!-- Cabeçalho com menu fixo -->
   <header id="main-header">
     <nav class="menu">
-      <ul>
+      <!-- Botão de toggle para mobile -->
+      <div class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+      <ul id="menu-list">
         <li><a href="index.html" class="active">INÍCIO</a></li>
         <li><a href="services.html">SERVIÇOS</a></li>
         <li><a href="portfolio.html">PORTFÓLIO</a></li>
@@ -142,6 +146,6 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
