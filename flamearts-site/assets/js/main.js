@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Loader de carregamento
+  // Loader de carregamento: quando a página carregar, faz fade-out do loader
   window.addEventListener("load", () => {
     const loader = document.getElementById("page-loader");
     if (loader) {
@@ -10,12 +10,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Transição entre páginas (fade-out ao clicar em links internos)
+  // Transição entre páginas: exibe o loader imediatamente ao clicar em links internos
   document.querySelectorAll("a").forEach(link => {
     link.addEventListener("click", (e) => {
       const href = link.getAttribute("href");
       if (href && href !== "#" && !href.startsWith("http") && !href.startsWith("#")) {
         e.preventDefault();
+        const loader = document.getElementById("page-loader");
+        if (loader) {
+          loader.style.display = "block";
+          loader.style.opacity = 1;
+        }
+        // Aplica fade-out no body
         document.body.style.opacity = 0;
         setTimeout(() => {
           window.location.href = href;
@@ -23,6 +29,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  // Toggle do menu mobile
+  const menuToggle = document.getElementById("menu-toggle");
+  const menuList = document.getElementById("menu-list");
+  if (menuToggle && menuList) {
+    menuToggle.addEventListener("click", () => {
+      menuList.classList.toggle("active");
+    });
+  }
 
   // Modal para o Portfólio (portfolio.html)
   if (document.getElementById("portfolio-grid")) {
@@ -133,54 +148,50 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -------------------------------------------------------------------
-  // Efeito glow interativo com dispersão realista, transições suaves e maior espessura
+  // Efeito glow interativo: aplica somente em telas maiores que 768px para preservar desempenho em mobile
   // -------------------------------------------------------------------
-  document.querySelectorAll('.gradient-border').forEach(container => {
-    container.addEventListener('mousemove', e => {
-      const rect = container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      // Calcula distâncias até cada borda
-      const distanceToLeft   = x;
-      const distanceToRight  = rect.width - x;
-      const distanceToTop    = y;
-      const distanceToBottom = rect.height - y;
-      const distanceToEdge   = Math.min(distanceToLeft, distanceToRight, distanceToTop, distanceToBottom);
-      
-      // Define threshold: 40% do menor lado do container
-      const threshold = 0.4 * Math.min(rect.width, rect.height);
-      let intensity = (distanceToEdge < threshold) ? (1 - (distanceToEdge / threshold)) : 0;
-      
-      // Aumenta a intensidade em 30%, sem ultrapassar 1
-      const adjustedIntensity = Math.min(1, intensity * 1.3);
-      
-      // Determina qual borda está mais próxima e define a posição do glow
-      let glowX = "50%";
-      let glowY = "50%";
-      if (distanceToEdge === distanceToLeft) {
-        glowX = "0%";
-        glowY = (y / rect.height * 100) + "%";
-      } else if (distanceToEdge === distanceToRight) {
-        glowX = "100%";
-        glowY = (y / rect.height * 100) + "%";
-      } else if (distanceToEdge === distanceToTop) {
-        glowX = (x / rect.width * 100) + "%";
-        glowY = "0%";
-      } else if (distanceToEdge === distanceToBottom) {
-        glowX = (x / rect.width * 100) + "%";
-        glowY = "100%";
-      }
-      
-      // Atualiza as variáveis CSS usadas no ::before para posicionamento e opacidade do glow
-      container.style.setProperty("--glowOpacity", adjustedIntensity.toString());
-      container.style.setProperty("--glowX", glowX);
-      container.style.setProperty("--glowY", glowY);
+  if (window.innerWidth > 768) {
+    document.querySelectorAll('.gradient-border').forEach(container => {
+      container.addEventListener('mousemove', e => {
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const distanceToLeft   = x;
+        const distanceToRight  = rect.width - x;
+        const distanceToTop    = y;
+        const distanceToBottom = rect.height - y;
+        const distanceToEdge   = Math.min(distanceToLeft, distanceToRight, distanceToTop, distanceToBottom);
+        
+        const threshold = 0.4 * Math.min(rect.width, rect.height);
+        let intensity = (distanceToEdge < threshold) ? (1 - (distanceToEdge / threshold)) : 0;
+        
+        const adjustedIntensity = Math.min(1, intensity * 1.3);
+        
+        let glowX = "50%";
+        let glowY = "50%";
+        if (distanceToEdge === distanceToLeft) {
+          glowX = "0%";
+          glowY = (y / rect.height * 100) + "%";
+        } else if (distanceToEdge === distanceToRight) {
+          glowX = "100%";
+          glowY = (y / rect.height * 100) + "%";
+        } else if (distanceToEdge === distanceToTop) {
+          glowX = (x / rect.width * 100) + "%";
+          glowY = "0%";
+        } else if (distanceToEdge === distanceToBottom) {
+          glowX = (x / rect.width * 100) + "%";
+          glowY = "100%";
+        }
+        
+        container.style.setProperty("--glowOpacity", adjustedIntensity.toString());
+        container.style.setProperty("--glowX", glowX);
+        container.style.setProperty("--glowY", glowY);
+      });
+  
+      container.addEventListener('mouseleave', () => {
+        container.style.setProperty("--glowOpacity", "0");
+      });
     });
-
-    // Ao sair do container, zera o efeito com transição suave
-    container.addEventListener('mouseleave', () => {
-      container.style.setProperty("--glowOpacity", "0");
-    });
-  });
+  }
 });
