@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLAMEARTS - Orçamento</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <!-- Loader -->
+  <div id="page-loader"></div>
+
+  <!-- Cabeçalho -->
+  <header id="main-header">
+    <nav class="menu">
+      <ul>
+        <li><a href="index.html">INÍCIO</a></li>
+        <li><a href="services.html">SERVIÇOS</a></li>
+        <li><a href="portfolio.html">PORTFÓLIO</a></li>
+        <li><a href="about.html">SOBRE NÓS</a></li>
+        <li><a href="budget.html" class="active">ORÇAMENTO</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Página Orçamento -->
+  <section id="budget" class="section-budget">
+    <div class="container gradient-border">
+      <div class="content-box">
+        <h1 class="budget-title">Peça um Orçamento</h1>
+        <p class="budget-subtitle">
+          Descubra a chave para transformar seus sonhos em realidade. Solicite agora um orçamento personalizado e dê o primeiro passo para concretizar seus projetos.
+        </p>
+        <form name="budget" method="POST" netlify action="/thank-you.html" class="budget-form">
+          <input type="hidden" name="form-name" value="budget">
+  
+          <!-- Campo Nome -->
+          <div class="form-group animated-field">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+          </div>
+  
+          <!-- Campo Sobrenome -->
+          <div class="form-group animated-field">
+            <label for="sobrenome">Sobrenome</label>
+            <input type="text" id="sobrenome" name="sobrenome" placeholder="Seu sobrenome" required>
+          </div>
+  
+          <!-- Campo Email -->
+          <div class="form-group animated-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Seu email" required>
+          </div>
+  
+          <!-- Campo Telefone -->
+          <div class="form-group animated-field">
+            <label for="telefone">Telefone</label>
+            <input type="tel" id="telefone" name="telefone" placeholder="Seu telefone" required>
+          </div>
+  
+          <!-- Campo Escolha um Serviço -->
+          <div class="form-group animated-field">
+            <label for="servico">Escolha um Serviço</label>
+            <select id="servico" name="servico" required>
+              <option value="">Selecione</option>
+              <option value="Identidade Visual">Identidade Visual</option>
+              <option value="Desenvolvimento Website">Desenvolvimento Website</option>
+              <option value="Motion Design">Motion Design</option>
+              <option value="Gestão Redes Sociais">Gestão Redes Sociais</option>
+              <option value="Campanha Publicitária">Campanha Publicitária</option>
+              <option value="Design Gráfico">Design Gráfico</option>
+            </select>
+          </div>
+  
+          <!-- Campo Comentários -->
+          <div class="form-group animated-field">
+            <label for="comentarios">Comentários</label>
+            <textarea id="comentarios" name="comentarios" rows="5" placeholder="Escreva seus comentários"></textarea>
+          </div>
+  
+          <!-- Botão de Enviar -->
+          <button type="submit" class="btn-submit">Enviar</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="footer">
+    <p>©2023 por FlameArts  |  Todos os Direitos Reservados</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

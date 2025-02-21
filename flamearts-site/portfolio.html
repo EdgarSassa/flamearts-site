@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLAMEARTS - Portfólio</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <!-- Loader -->
+  <div id="page-loader"></div>
+
+  <!-- Cabeçalho -->
+  <header id="main-header">
+    <nav class="menu">
+      <ul>
+        <li><a href="index.html">INÍCIO</a></li>
+        <li><a href="services.html">SERVIÇOS</a></li>
+        <li><a href="portfolio.html" class="active">PORTFÓLIO</a></li>
+        <li><a href="about.html">SOBRE NÓS</a></li>
+        <li><a href="budget.html">ORÇAMENTO</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Seção Portfólio: Galeria em Mosaico -->
+  <section id="portfolio" class="section-portfolio">
+    <div class="container gradient-border">
+      <div class="content-box">
+        <h1>Portfólio</h1>
+        <p>Confira alguns dos nossos trabalhos</p>
+        <div class="portfolio-grid" id="portfolio-grid">
+          <!-- Itens do portfólio serão carregados dinamicamente via JavaScript -->
+        </div>
+        <!-- Botão para solicitar orçamento -->
+        <div class="portfolio-button">
+          <button class="btn-primary" onclick="window.location.href='budget.html'">Solicite um Orçamento</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal para visualização de conteúdo -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="modal-close" class="modal-close">&times;</span>
+      <div id="modal-media" class="modal-media"></div>
+      <h2 id="modal-title"></h2>
+      <p id="modal-description"></p>
+      <button id="modal-prev" class="modal-nav">&lt;</button>
+      <button id="modal-next" class="modal-nav">&gt;</button>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="footer">
+    <p>©2023 por FlameArts  |  Todos os Direitos Reservados</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

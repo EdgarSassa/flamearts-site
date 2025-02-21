@@ -3,71 +3,136 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FLAMEARTS</title>
+  <title>FLAMEARTS - Início</title>
   <link rel="icon" href="favicon.png" type="image/png">
+  <!-- Font Awesome para ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <!-- Seção 1: Hero -->
+  <!-- Loader de carregamento -->
+  <div id="page-loader"></div>
+
+  <!-- Cabeçalho com menu fixo -->
+  <header id="main-header">
+    <nav class="menu">
+      <ul>
+        <li><a href="index.html" class="active">INÍCIO</a></li>
+        <li><a href="services.html">SERVIÇOS</a></li>
+        <li><a href="portfolio.html">PORTFÓLIO</a></li>
+        <li><a href="about.html">SOBRE NÓS</a></li>
+        <li><a href="budget.html">ORÇAMENTO</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Seção 1: Hero – Vídeo de fundo -->
   <section id="hero" class="section-hero">
     <video class="bg-video" autoplay muted loop playsinline>
       <source src="assets/videos/background.mp4" type="video/mp4">
       Seu navegador não suporta vídeo HTML5.
     </video>
-    <div class="video-overlay"></div>
-    <div class="hero-content">
-      <img src="assets/images/logo.png" alt="Logo" class="logo">
-      <h1 class="maintenance-title">EM MANUTENÇÃO</h1>
-      <p class="maintenance-text">Voltamos em breve.</p>
-      <a href="#contact" class="btn-contact">Contacto</a>
-    </div>
   </section>
 
-  <!-- Separador entre Seção 1 e 2 -->
-  <div class="section-separator"></div>
-
-  <!-- Seção 2: Portfolio (Galeria) -->
-  <section id="gallery" class="section-gallery">
-    <div class="gallery-header">
-      <h2 class="gallery-title">PORTFÓLIO</h2>
-      <p class="gallery-description">Consulte o nosso portfólio de trabalhos enquanto melhoramos a nossa plataforma.</p>
-    </div>
-    <div class="slider-container">
-      <div class="slider-track" id="slider-track">
-        <!-- Os itens do slider serão inseridos via JavaScript -->
+  <!-- Seção 2: Diferencial -->
+  <section id="diferencial" class="section-diferencial">
+    <div class="container gradient-border">
+      <div class="content-box">
+        <h2>Diferencie-se da concorrência</h2>
+        <p>Com campanhas publicitárias da melhor qualidade, elevamos sua marca ao próximo nível.</p>
+        <a href="services.html" class="btn-more">Saiba Mais</a>
       </div>
-      <button class="slider-btn slider-btn-prev" id="slider-btn-prev">&lt;</button>
-      <button class="slider-btn slider-btn-next" id="slider-btn-next">&gt;</button>
     </div>
   </section>
 
-  <!-- Separador entre Seção 2 e 3 -->
-  <div class="section-separator"></div>
+  <!-- Seção 3: Clientes – Carrossel infinito (4 itens visíveis) -->
+  <section id="clientes" class="section-clientes">
+    <div class="container gradient-border">
+      <div class="content-box">
+        <h2>Trabalhando com os melhores</h2>
+        <div class="clientes-container">
+          <div class="clientes-scroll">
+            <!-- Primeira sequência de 6 itens -->
+            <div class="cliente-item">
+              <img src="assets/images/cliente1.jpg" alt="Cliente 1">
+            </div>
+            <div class="cliente-item">
+              <img src="assets/images/cliente2.jpg" alt="Cliente 2">
+            </div>
+            <div class="cliente-item">
+              <img src="assets/images/cliente3.jpg" alt="Cliente 3">
+            </div>
+            <div class="cliente-item">
+              <img src="assets/images/cliente4.jpg" alt="Cliente 4">
+            </div>
+            <div class="cliente-item">
+              <img src="assets/images/cliente5.jpg" alt="Cliente 5">
+            </div>
+            <div class="cliente-item">
+              <img src="assets/images/cliente6.jpg" alt="Cliente 6">
+            </div>
+            <!-- Duplicação para rolamento contínuo -->
+            <div class="cliente-item">
+              <img src="assets/images/cliente1.jpg" alt="Cliente 1">
+            </div>
+            <div class="cliente-item">
+              <img src="assets/images/cliente2.jpg" alt="Cliente 2">
+            </div>
+            <div class="cliente-item">
+              <img src="assets/images/cliente3.jpg" alt="Cliente 3">
+            </div>
+            <div class="cliente-item">
+              <img src="assets/images/cliente4.jpg" alt="Cliente 4">
+            </div>
+            <div class="cliente-item">
+              <img src="assets/images/cliente5.jpg" alt="Cliente 5">
+            </div>
+            <div class="cliente-item">
+              <img src="assets/images/cliente6.jpg" alt="Cliente 6">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Seção 3: Formulário -->
-  <section id="contact" class="section-form">
-    <div class="form-container">
-      <!-- Formulário adaptado para Netlify -->
-      <form name="contact" method="POST" netlify action="/thank-you.html">
-        <input type="hidden" name="form-name" value="contact">
-        <div class="form-group">
-          <label for="nome">Nome</label>
-          <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+  <!-- Seção 4: Contato (com ícones para cada elemento) -->
+  <section id="contact" class="section-contact">
+    <div class="container gradient-border">
+      <div class="content-box">
+        <h2>Contacto</h2>
+        <div class="contact-details">
+          <div class="contact-item">
+            <h3><i class="fas fa-map-marker-alt"></i> Endereço</h3>
+            <p>
+              Zango 0, Vida Pacífica<br>
+              Zona II, Bloco 6, Edifício 1
+            </p>
+          </div>
+          <div class="contact-item">
+            <h3><i class="fas fa-phone-alt"></i> Telefone</h3>
+            <p>
+              +244 957 622 676<br>
+              +244 932 993 447
+            </p>
+          </div>
+          <div class="contact-item">
+            <h3><i class="fas fa-envelope"></i> Email</h3>
+            <p><a href="mailto:contacto@flamearts.ao">contacto@flamearts.ao</a></p>
+          </div>
+          <div class="contact-item">
+            <h3><i class="fas fa-share-alt"></i> Connect</h3>
+            <p>
+              <a href="https://www.facebook.com/flameartss" target="_blank" class="social-icon">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://www.instagram.com/flamearts.ao" target="_blank" class="social-icon">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </p>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="telemovel">Telemóvel</label>
-          <input type="tel" id="telemovel" name="telemovel" placeholder="Seu telemóvel" required>
-        </div>
-        <div class="form-group">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
-        </div>
-        <div class="form-group">
-          <label for="mensagem">Mensagem</label>
-          <textarea id="mensagem" name="mensagem" rows="5" placeholder="Escreva sua mensagem" required></textarea>
-        </div>
-        <button type="submit" class="btn-submit">Enviar</button>
-      </form>
+      </div>
     </div>
   </section>
 
