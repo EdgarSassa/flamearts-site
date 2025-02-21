@@ -16,7 +16,11 @@
   <!-- Cabeçalho -->
   <header id="main-header">
     <nav class="menu">
-      <ul>
+      <!-- Botão de toggle para mobile -->
+      <div class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+      <ul id="menu-list">
         <li><a href="index.html">INÍCIO</a></li>
         <li><a href="services.html">SERVIÇOS</a></li>
         <li><a href="portfolio.html">PORTFÓLIO</a></li>
@@ -29,7 +33,7 @@
   <!-- Banner animado (capa) sem textos e sem overlay -->
   <section id="about-hero" class="section-hero">
     <video class="bg-video" autoplay muted loop playsinline>
-      <source src="assets/videos/background.mp4" type="video/mp4">
+      <source src="assets/videos/background2.mp4" type="video/mp4">
       Seu navegador não suporta vídeo HTML5.
     </video>
   </section>
@@ -68,6 +72,6 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
