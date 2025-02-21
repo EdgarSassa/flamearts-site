@@ -1,172 +1,186 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    // Busca o JSON com os dados da galeria
-    const response = await fetch('assets/gallery/gallery.json');
-    if (!response.ok) {
-      throw new Error('Erro na requisição do JSON: ' + response.statusText);
+document.addEventListener("DOMContentLoaded", () => {
+  // Loader de carregamento
+  window.addEventListener("load", () => {
+    const loader = document.getElementById("page-loader");
+    if (loader) {
+      loader.style.opacity = 0;
+      setTimeout(() => {
+        loader.style.display = "none";
+      }, 500);
     }
-    const data = await response.json();
-    const photos = data.photos || [];
-    const videos = data.videos || [];
-    const total = Math.min(photos.length, videos.length);
+  });
 
-    // Cria um array intercalado: foto, vídeo, foto, vídeo, …
-    const itemsData = [];
-    for (let i = 0; i < total; i++) {
-      itemsData.push({ type: 'photo', file: photos[i].file, alt: photos[i].alt || "Imagem da galeria" });
-      itemsData.push({ type: 'video', file: videos[i].file, alt: videos[i].alt || "Vídeo da galeria" });
-    }
+  // Transição entre páginas (fade-out ao clicar em links internos)
+  document.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", (e) => {
+      const href = link.getAttribute("href");
+      if (href && href !== "#" && !href.startsWith("http") && !href.startsWith("#")) {
+        e.preventDefault();
+        document.body.style.opacity = 0;
+        setTimeout(() => {
+          window.location.href = href;
+        }, 300);
+      }
+    });
+  });
 
-    // Seleciona o contêiner do slider
-    const sliderTrack = document.getElementById("slider-track");
-    if (!sliderTrack) {
-      console.error('Elemento #slider-track não encontrado.');
-      return;
-    }
+  // Modal para o Portfólio (portfolio.html)
+  if (document.getElementById("portfolio-grid")) {
+    fetch('assets/gallery/gallery.json')
+      .then(response => response.json())
+      .then(data => {
+        const photos = data.photos || [];
+        const videos = data.videos || [];
+        const portfolioGrid = document.getElementById("portfolio-grid");
+        let portfolioItems = [];
 
-    // Cria os elementos originais do slider
-    const originalItems = [];
-    itemsData.forEach((itemData) => {
-      const itemDiv = document.createElement("div");
-      itemDiv.classList.add("slider-item");
-      if (itemData.type === 'photo') {
-        const img = document.createElement("img");
-        img.src = `assets/gallery/${itemData.file}`;
-        img.alt = itemData.alt;
-        itemDiv.appendChild(img);
-      } else if (itemData.type === 'video') {
-        const video = document.createElement("video");
-        video.src = `assets/gallery/${itemData.file}`;
-        video.muted = true;
-        video.loop = true;
-        video.autoplay = true;
-        video.playsInline = true;
-        video.preload = "auto";
-        video.setAttribute('playsinline', '');
-        video.setAttribute('webkit-playsinline', 'true');
-        video.setAttribute('muted', '');
-        video.addEventListener("loadeddata", () => {
-          video.play().catch(() => {});
+        photos.forEach((photo) => {
+          const itemDiv = document.createElement("div");
+          itemDiv.classList.add("portfolio-item");
+          itemDiv.dataset.type = "photo";
+          itemDiv.dataset.file = photo.file;
+          itemDiv.dataset.alt = photo.alt || "Imagem do portfólio";
+          itemDiv.dataset.index = portfolioItems.length;
+          const img = document.createElement("img");
+          img.src = `assets/gallery/${photo.file}`;
+          img.alt = photo.alt;
+          itemDiv.appendChild(img);
+          portfolioGrid.appendChild(itemDiv);
+          portfolioItems.push(itemDiv);
         });
-        itemDiv.appendChild(video);
-      }
-      originalItems.push(itemDiv);
-      sliderTrack.appendChild(itemDiv);
-    });
 
-    // Configuração de clones para rolamento infinito
-    const clonesCount = 2;
-    const originalCount = originalItems.length;
-    let sliderItems = [...originalItems];
+        videos.forEach((video) => {
+          const itemDiv = document.createElement("div");
+          itemDiv.classList.add("portfolio-item");
+          itemDiv.dataset.type = "video";
+          itemDiv.dataset.file = video.file;
+          itemDiv.dataset.alt = video.alt || "Vídeo do portfólio";
+          itemDiv.dataset.index = portfolioItems.length;
+          const vid = document.createElement("video");
+          vid.src = `assets/gallery/${video.file}`;
+          vid.muted = true;
+          vid.loop = true;
+          vid.autoplay = true;
+          vid.playsInline = true;
+          itemDiv.appendChild(vid);
+          portfolioGrid.appendChild(itemDiv);
+          portfolioItems.push(itemDiv);
+        });
 
-    // Clonar e inserir no início – clones dos últimos clonesCount itens (na ordem original)
-    let beginningClones = [];
-    for (let i = originalCount - clonesCount; i < originalCount; i++) {
-      const clone = originalItems[i].cloneNode(true);
-      clone.classList.add("clone");
-      beginningClones.push(clone);
-    }
-    beginningClones.reverse().forEach(clone => {
-      sliderTrack.insertBefore(clone, sliderTrack.firstChild);
-      sliderItems.unshift(clone);
-    });
+        const modal = document.getElementById("modal");
+        const modalMedia = document.getElementById("modal-media");
+        const modalTitle = document.getElementById("modal-title");
+        const modalDescription = document.getElementById("modal-description");
+        const modalClose = document.getElementById("modal-close");
+        const modalPrev = document.getElementById("modal-prev");
+        const modalNext = document.getElementById("modal-next");
+        let currentIndex = 0;
 
-    // Clonar e inserir no final – clones dos primeiros clonesCount itens (na ordem normal)
-    for (let i = 0; i < clonesCount; i++) {
-      const clone = originalItems[i].cloneNode(true);
-      clone.classList.add("clone");
-      sliderTrack.appendChild(clone);
-      sliderItems.push(clone);
-    }
-
-    /*  
-      Cálculo do deslocamento:
-      Cada item não ativo: 260px + 10px de margem = 270px.
-      Item ativo: 520px + 10px = 530px, metade = 265px.
-      Offset = containerWidth/2 - (activeIndex * 270 + 265)
-    */
-    let activeIndex = clonesCount;  // O primeiro item original vem logo após os clones do início
-    let isTransitioning = false;
-
-    function updateActiveClass() {
-      sliderItems.forEach((item, idx) => {
-        if (idx === activeIndex) {
-          item.classList.add("active");
-        } else {
-          item.classList.remove("active");
+        function openModal(index) {
+          currentIndex = index;
+          updateModalContent();
+          modal.style.display = "block";
         }
-      });
-    }
+        function closeModal() {
+          modal.style.display = "none";
+          modalMedia.innerHTML = "";
+          modalTitle.textContent = "";
+          modalDescription.textContent = "";
+        }
+        function updateModalContent() {
+          const item = portfolioItems[currentIndex];
+          modalMedia.innerHTML = "";
+          if (item.dataset.type === "photo") {
+            const img = document.createElement("img");
+            img.src = `assets/gallery/${item.dataset.file}`;
+            img.alt = item.dataset.alt;
+            modalMedia.appendChild(img);
+          } else if (item.dataset.type === "video") {
+            const video = document.createElement("video");
+            video.src = `assets/gallery/${item.dataset.file}`;
+            video.controls = true;
+            video.autoplay = true;
+            video.playsInline = true;
+            modalMedia.appendChild(video);
+          }
+          modalTitle.textContent = item.dataset.alt;
+          modalDescription.textContent = "Descrição do item " + (parseInt(item.dataset.index) + 1);
+        }
 
-    function updateSliderPosition() {
-      const containerWidth = document.querySelector(".slider-container").offsetWidth;
-      let sumWidth = activeIndex * 270;
-      const offset = containerWidth / 2 - (sumWidth + 265);
-      sliderTrack.style.transform = `translateX(${offset}px) translateY(0)`;
-    }
+        portfolioItems.forEach((item, idx) => {
+          item.addEventListener("click", () => {
+            openModal(idx);
+          });
+        });
 
-    function goToSlide(index, duration = 0.35) {
-      if (isTransitioning) return;
-      isTransitioning = true;
-      activeIndex = index;
-      sliderTrack.style.transition = `transform ${duration}s ease-in-out`;
-      updateActiveClass();
-      updateSliderPosition();
-    }
+        modalClose.addEventListener("click", closeModal);
+        modalPrev.addEventListener("click", () => {
+          currentIndex = (currentIndex - 1 + portfolioItems.length) % portfolioItems.length;
+          updateModalContent();
+        });
+        modalNext.addEventListener("click", () => {
+          currentIndex = (currentIndex + 1) % portfolioItems.length;
+          updateModalContent();
+        });
 
-    sliderTrack.addEventListener("transitionend", (e) => {
-      if (e.propertyName !== "transform") return;
-      if (activeIndex >= clonesCount + originalCount) {
-        activeIndex -= originalCount;
-        sliderTrack.style.transition = "none";
-        updateActiveClass();
-        updateSliderPosition();
-      } else if (activeIndex < clonesCount) {
-        activeIndex += originalCount;
-        sliderTrack.style.transition = "none";
-        updateActiveClass();
-        updateSliderPosition();
-      }
-      void sliderTrack.offsetWidth;
-      sliderTrack.style.transition = "transform 0.35s ease-in-out";
-      isTransitioning = false;
-    });
-
-    sliderItems.forEach((item, idx) => {
-      item.addEventListener("click", () => {
-        if (isTransitioning) return;
-        if (idx === activeIndex) return;
-        goToSlide(idx, 0.4);
-        resetAutoSlide();
-      });
-    });
-
-    document.getElementById("slider-btn-prev").addEventListener("click", () => {
-      if (isTransitioning) return;
-      goToSlide(activeIndex - 1);
-      resetAutoSlide();
-    });
-    document.getElementById("slider-btn-next").addEventListener("click", () => {
-      if (isTransitioning) return;
-      goToSlide(activeIndex + 1);
-      resetAutoSlide();
-    });
-
-    let autoSlideInterval = setInterval(() => {
-      goToSlide(activeIndex + 1);
-    }, 8000);
-    function resetAutoSlide() {
-      clearInterval(autoSlideInterval);
-      autoSlideInterval = setInterval(() => {
-        goToSlide(activeIndex + 1);
-      }, 8000);
-    }
-
-    window.addEventListener("resize", updateSliderPosition);
-    updateActiveClass();
-    updateSliderPosition();
-
-  } catch (error) {
-    console.error('Erro ao carregar a galeria:', error);
+        window.addEventListener("click", (e) => {
+          if (e.target === modal) {
+            closeModal();
+          }
+        });
+      })
+      .catch(error => console.error('Erro ao carregar o portfólio:', error));
   }
+
+  // -------------------------------------------------------------------
+  // Efeito glow interativo com dispersão realista e transições suaves
+  // -------------------------------------------------------------------
+  document.querySelectorAll('.gradient-border').forEach(container => {
+    container.addEventListener('mousemove', e => {
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      // Calcula distâncias até cada borda
+      const distanceToLeft   = x;
+      const distanceToRight  = rect.width - x;
+      const distanceToTop    = y;
+      const distanceToBottom = rect.height - y;
+      const distanceToEdge   = Math.min(distanceToLeft, distanceToRight, distanceToTop, distanceToBottom);
+      
+      // Define threshold: 40% do menor lado do container
+      const threshold = 0.4 * Math.min(rect.width, rect.height);
+      let intensity = (distanceToEdge < threshold) ? (1 - (distanceToEdge / threshold)) : 0;
+      
+      // Aumenta a intensidade em 30%, sem ultrapassar 1
+      const adjustedIntensity = Math.min(1, intensity * 1.3);
+      
+      // Determina qual borda está mais próxima e define a posição do glow
+      let glowX = "50%";
+      let glowY = "50%";
+      if (distanceToEdge === distanceToLeft) {
+        glowX = "0%";
+        glowY = (y / rect.height * 100) + "%";
+      } else if (distanceToEdge === distanceToRight) {
+        glowX = "100%";
+        glowY = (y / rect.height * 100) + "%";
+      } else if (distanceToEdge === distanceToTop) {
+        glowX = (x / rect.width * 100) + "%";
+        glowY = "0%";
+      } else if (distanceToEdge === distanceToBottom) {
+        glowX = (x / rect.width * 100) + "%";
+        glowY = "100%";
+      }
+      
+      // Atualiza as variáveis CSS usadas no ::before para posicionamento e opacidade do glow
+      container.style.setProperty("--glowOpacity", adjustedIntensity.toString());
+      container.style.setProperty("--glowX", glowX);
+      container.style.setProperty("--glowY", glowY);
+    });
+
+    // Ao sair do container, zera o efeito com transição suave
+    container.addEventListener('mouseleave', () => {
+      container.style.setProperty("--glowOpacity", "0");
+    });
+  });
 });
