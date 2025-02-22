@@ -126,67 +126,67 @@ document.addEventListener("DOMContentLoaded", () => {
   const portfolioData = [
     {
       type: 'image',
-      file: 'flamearts-site/assets/gallery/image1.jpg',
+      file: 'assets/gallery/image1.jpg',
       title: 'Cartaz de Natal – Céu Professional',
       description: 'Criamos um cartaz natalino que equilibra elementos clássicos e contemporâneos, destacando a identidade da Céu Professional. Com um design limpo e uma tipografia refinada.'
     },
     {
       type: 'image',
-      file: 'flamearts-site/assets/gallery/image2.jpg',
+      file: 'assets/gallery/image2.jpg',
       title: 'Cartaz Professional Creme Clareador',
       description: 'Desenvolvemos um cartaz para o Creme Clareador, ressaltando sua eficácia e sofisticação. A peça alia uma estética clean a uma mensagem objetiva, transmitindo confiança e modernidade para um público exigente.'
     },
     {
       type: 'image',
-      file: 'flamearts-site/assets/gallery/image3.jpg',
+      file: 'assets/gallery/image3.jpg',
       title: 'Cartaz Flamearts',
       description: 'No cartaz de autopromoção da Flamearts, evidenciamos nossa expertise e trajetória de sucesso em campanhas publicitárias. Com uma identidade visual marcante e design contemporâneo, a peça reforça nosso posicionamento como referência em inovação e criatividade.'
     },
     {
       type: 'image',
-      file: 'flamearts-site/assets/gallery/image4.jpg',
+      file: 'assets/gallery/image4.jpg',
       title: 'Cartaz Comemorativo 68 anos Porto do Namibe',
       description: 'Para celebrar os 68 anos do Porto do Namibe, criamos um cartaz que une tradição e modernidade. A peça destaca a importância histórica e cultural do porto, transmitindo orgulho e reconhecimento por meio de uma estética elegante e simbólica.'
     },
     {
       type: 'image',
-      file: 'flamearts-site/assets/gallery/image5.jpg',
+      file: 'assets/gallery/image5.jpg',
       title: 'Cartaz Ambientador Desinfectante Coral – Limão',
       description: 'Desenvolvemos um cartaz para o Ambientador Desinfectante Coral com aroma de limão, que ressalta a pureza e a eficácia do produto. A comunicação visual impactante enfatiza o frescor e a renovação, alinhando-se à proposta inovadora da marca.'
     },
     {
       type: 'image',
-      file: 'flamearts-site/assets/gallery/image6.jpg',
+      file: 'assets/gallery/image6.jpg',
       title: 'Cartaz Pasta de Dentes Dental-C – Céu',
       description: 'Elaboramos um cartaz para a linha Dental-C que enfatiza a saúde bucal e a inovação. A composição utiliza cores vibrantes e uma abordagem minimalista para destacar os atributos do produto, reforçando o compromisso com a qualidade e o bem-estar.'
     },
     {
       type: 'video',
-      file: 'flamearts-site/assets/gallery/video1.mp4',
+      file: 'assets/gallery/video1.mp4',
       title: 'Postal de Natal – Céu Professional',
       description: 'Desenvolvemos um postal de Natal em vídeo que une a magia das festas com uma narrativa envolvente. A produção reflete a sofisticação e o espírito festivo da marca, transmitindo mensagens de união, renovação e tradição com recursos visuais modernos e impactantes.'
     },
     {
       type: 'video',
-      file: 'flamearts-site/assets/gallery/video2.mp4',
+      file: 'assets/gallery/video2.mp4',
       title: 'Céu Professional Creme Clareador',
       description: 'Produzimos um vídeo promocional que destaca os diferenciais do Creme Clareador, por meio de uma narrativa dinâmica e recursos de motion graphics. A peça comunica de maneira envolvente os benefícios do produto, elevando sua presença no mercado.'
     },
     {
       type: 'video',
-      file: 'flamearts-site/assets/gallery/video3.mp4',
+      file: 'assets/gallery/video3.mp4',
       title: 'Reel 2023',
       description: 'O Reel 2023 é uma compilação dinâmica dos nossos melhores projetos ao longo do ano. Com uma curadoria cuidadosa das peças, o vídeo reflete nossa versatilidade e excelência, celebrando conquistas e inspirando novos desafios para a Flamearts.'
     },
     {
       type: 'video',
-      file: 'flamearts-site/assets/gallery/video4.mp4',
+      file: 'assets/gallery/video4.mp4',
       title: 'Gel Estilizante Preto – Céu Professional',
       description: 'Criamos um vídeo publicitário para o Gel Estilizante Preto, enfatizando sua capacidade de modelar e definir estilos com precisão. A peça utiliza recursos audiovisuais modernos para reforçar a identidade inovadora do produto e atrair um público contemporâneo.'
     },
     {
       type: 'video',
-      file: 'flamearts-site/assets/gallery/video5.mp4',
+      file: 'assets/gallery/video5.mp4',
       title: 'Céu Professional Spray Fixador',
       description: 'Produzimos um vídeo que destaca o Spray Fixador com uma narrativa fluida e produção de alta qualidade. A peça evidencia a performance e a versatilidade do produto, comunicando seus benefícios de forma clara e envolvente para o público.'
     },
