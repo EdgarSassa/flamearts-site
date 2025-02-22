@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       type: 'video',
-      file: 'flamearts-site/assets/gallery/video6.mp4',
+      file: 'assets/gallery/video6.mp4',
       title: 'Mahjong Monster Arena',
       description: 'Para o game Mahjong Monster Arena, desenvolvemos uma peça publicitária em vídeo que combina ação, mistério e interatividade. Com efeitos dinâmicos e cenários imersivos, a narrativa visual foi pensada para engajar jogadores e destacar a identidade única do universo digital do game.'
     }
