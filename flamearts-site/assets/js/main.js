@@ -120,7 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* -----------------------------------------------------------------
-     Renderização dos itens do portfólio com os caminhos, títulos e descrições corretos.
+     Renderização dos itens do portfólio com os caminhos, títulos e descrições.
+     Os nomes dos arquivos permanecem os originais, como "image1.jpg" etc.
   ------------------------------------------------------------------ */
   const portfolioData = [
     {
@@ -208,12 +209,15 @@ document.addEventListener("DOMContentLoaded", () => {
       // Se for imagem, cria <img>; se for vídeo, cria <video>
       if (item.type === 'image') {
         const img = document.createElement('img');
-        img.src = item.file;       // Caminho do arquivo
-        img.alt = item.title;      // Texto alternativo
+        // Aqui definimos o caminho real do arquivo
+        img.src = item.file;
+        // O alt é apenas o título
+        img.alt = item.title;
         portfolioItem.appendChild(img);
       } else if (item.type === 'video') {
         const video = document.createElement('video');
-        video.src = item.file;     // Caminho do arquivo
+        // Aqui definimos o caminho real do arquivo
+        video.src = item.file;
         video.controls = true;
         portfolioItem.appendChild(video);
       }
