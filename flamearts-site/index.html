@@ -3,149 +3,370 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FLAMEARTS - Início</title>
+  <title>FLAMEARTS - SPA</title>
   <link rel="icon" href="favicon.png" type="image/png">
-  <!-- Font Awesome para ícones -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CSS Principal -->
   <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* Transição de slide para a SPA */
+    .page-section {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: none;
+    }
+    .page-section.active {
+      display: block;
+    }
+    .slide-out {
+      animation: slideOut 0.4s forwards;
+    }
+    .slide-in {
+      animation: slideIn 0.4s forwards;
+    }
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(-100%); opacity: 0; }
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    /* Garante que as seções com capa (vídeo) não tenham margem ou padding superior */
+    #inicio .section-hero,
+    #about .section-hero {
+      margin-top: 0;
+      padding-top: 0;
+    }
+  </style>
 </head>
 <body>
-  <!-- Loader de carregamento -->
+  <!-- Loader -->
   <div id="page-loader"></div>
 
-  <!-- Cabeçalho com menu fixo -->
+  <!-- Cabeçalho fixo global -->
   <header id="main-header">
     <nav class="menu">
-      <!-- Botão de toggle para mobile -->
+      <!-- Logo à esquerda -->
+      <div class="logo">
+        <a href="#inicio">
+          <img src="favicon.png" alt="Logo FlameArts">
+        </a>
+      </div>
+      <!-- Itens do menu centralizados -->
+      <ul id="menu-list">
+        <li><a href="#inicio" class="active" id="nav-inicio">INÍCIO</a></li>
+        <li><a href="#services" id="nav-services">SERVIÇOS</a></li>
+        <li><a href="#portfolio" id="nav-portfolio">PORTFÓLIO</a></li>
+        <li><a href="#about" id="nav-about">SOBRE NÓS</a></li>
+        <li><a href="#budget" id="nav-budget">ORÇAMENTO</a></li>
+      </ul>
+      <!-- Botão para toggle do menu mobile -->
       <div class="menu-toggle" id="menu-toggle">
         <i class="fas fa-bars"></i>
       </div>
-      <ul id="menu-list">
-        <li><a href="index.html" class="active">INÍCIO</a></li>
-        <li><a href="services.html">SERVIÇOS</a></li>
-        <li><a href="portfolio.html">PORTFÓLIO</a></li>
-        <li><a href="about.html">SOBRE NÓS</a></li>
-        <li><a href="budget.html">ORÇAMENTO</a></li>
-      </ul>
     </nav>
   </header>
 
-  <!-- Seção 1: Hero – Vídeo de fundo -->
-  <section id="hero" class="section-hero">
-    <video class="bg-video" autoplay muted loop playsinline>
-      <source src="assets/videos/background.mp4" type="video/mp4">
-      Seu navegador não suporta vídeo HTML5.
-    </video>
-  </section>
-
-  <!-- Seção 2: Diferencial -->
-  <section id="diferencial" class="section-diferencial">
-    <div class="container gradient-border">
-      <div class="content-box">
-        <h2>Diferencie-se da concorrência</h2>
-        <p>Com campanhas publicitárias da melhor qualidade, elevamos sua marca ao próximo nível.</p>
-        <a href="services.html" class="btn-more">Saiba Mais</a>
+  <!-- Conteúdo principal da SPA -->
+  <div id="main-content">
+    <!-- Seção Início (com capa) -->
+    <section id="inicio" class="page-section active">
+      <div class="section-hero">
+        <video class="bg-video" autoplay muted loop playsinline>
+          <source src="assets/videos/background.mp4" type="video/mp4">
+          Seu navegador não suporta vídeo HTML5.
+        </video>
       </div>
-    </div>
-  </section>
-
-  <!-- Seção 3: Clientes – Carrossel infinito (4 itens visíveis) -->
-  <section id="clientes" class="section-clientes">
-    <div class="container gradient-border">
-      <div class="content-box">
-        <h2>Trabalhando com os melhores</h2>
-        <div class="clientes-container">
-          <div class="clientes-scroll">
-            <!-- Primeira sequência de 6 itens -->
-            <div class="cliente-item">
-              <img src="assets/images/cliente1.jpg" alt="Cliente 1">
-            </div>
-            <div class="cliente-item">
-              <img src="assets/images/cliente2.jpg" alt="Cliente 2">
-            </div>
-            <div class="cliente-item">
-              <img src="assets/images/cliente3.jpg" alt="Cliente 3">
-            </div>
-            <div class="cliente-item">
-              <img src="assets/images/cliente4.jpg" alt="Cliente 4">
-            </div>
-            <div class="cliente-item">
-              <img src="assets/images/cliente5.jpg" alt="Cliente 5">
-            </div>
-            <div class="cliente-item">
-              <img src="assets/images/cliente6.jpg" alt="Cliente 6">
-            </div>
-            <!-- Duplicação para rolamento contínuo -->
-            <div class="cliente-item">
-              <img src="assets/images/cliente1.jpg" alt="Cliente 1">
-            </div>
-            <div class="cliente-item">
-              <img src="assets/images/cliente2.jpg" alt="Cliente 2">
-            </div>
-            <div class="cliente-item">
-              <img src="assets/images/cliente3.jpg" alt="Cliente 3">
-            </div>
-            <div class="cliente-item">
-              <img src="assets/images/cliente4.jpg" alt="Cliente 4">
-            </div>
-            <div class="cliente-item">
-              <img src="assets/images/cliente5.jpg" alt="Cliente 5">
-            </div>
-            <div class="cliente-item">
-              <img src="assets/images/cliente6.jpg" alt="Cliente 6">
+      <!-- Seção Diferencial -->
+      <section id="diferencial" class="section-diferencial">
+        <div class="container gradient-border">
+          <div class="content-box">
+            <h2>Diferencie-se da concorrência</h2>
+            <p>Com campanhas publicitárias da melhor qualidade, elevamos sua marca ao próximo nível.</p>
+            <a href="#services" class="btn-more">Saiba Mais</a>
+          </div>
+        </div>
+      </section>
+      <!-- Seção Clientes -->
+      <section id="clientes" class="section-clientes">
+        <div class="container gradient-border">
+          <div class="content-box">
+            <h2>Trabalhando com os melhores</h2>
+            <div class="clientes-container">
+              <div class="clientes-scroll">
+                <!-- Itens do carrossel -->
+                <div class="cliente-item">
+                  <img src="assets/images/cliente1.jpg" alt="Cliente 1">
+                </div>
+                <div class="cliente-item">
+                  <img src="assets/images/cliente2.jpg" alt="Cliente 2">
+                </div>
+                <div class="cliente-item">
+                  <img src="assets/images/cliente3.jpg" alt="Cliente 3">
+                </div>
+                <div class="cliente-item">
+                  <img src="assets/images/cliente4.jpg" alt="Cliente 4">
+                </div>
+                <div class="cliente-item">
+                  <img src="assets/images/cliente5.jpg" alt="Cliente 5">
+                </div>
+                <div class="cliente-item">
+                  <img src="assets/images/cliente6.jpg" alt="Cliente 6">
+                </div>
+                <!-- Duplicação para rolamento contínuo -->
+                <div class="cliente-item">
+                  <img src="assets/images/cliente1.jpg" alt="Cliente 1">
+                </div>
+                <div class="cliente-item">
+                  <img src="assets/images/cliente2.jpg" alt="Cliente 2">
+                </div>
+                <div class="cliente-item">
+                  <img src="assets/images/cliente3.jpg" alt="Cliente 3">
+                </div>
+                <div class="cliente-item">
+                  <img src="assets/images/cliente4.jpg" alt="Cliente 4">
+                </div>
+                <div class="cliente-item">
+                  <img src="assets/images/cliente5.jpg" alt="Cliente 5">
+                </div>
+                <div class="cliente-item">
+                  <img src="assets/images/cliente6.jpg" alt="Cliente 6">
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Seção 4: Contato (com ícones para cada elemento) -->
-  <section id="contact" class="section-contact">
-    <div class="container gradient-border">
-      <div class="content-box">
-        <h2>Contacto</h2>
-        <div class="contact-details">
-          <div class="contact-item">
-            <h3><i class="fas fa-map-marker-alt"></i> Endereço</h3>
-            <p>
-              Zango 0, Vida Pacífica<br>
-              Zona II, Bloco 6, Edifício 1
-            </p>
-          </div>
-          <div class="contact-item">
-            <h3><i class="fas fa-phone-alt"></i> Telefone</h3>
-            <p>
-              +244 957 622 676<br>
-              +244 932 993 447
-            </p>
-          </div>
-          <div class="contact-item">
-            <h3><i class="fas fa-envelope"></i> Email</h3>
-            <p><a href="mailto:contacto@flamearts.ao">contacto@flamearts.ao</a></p>
-          </div>
-          <div class="contact-item">
-            <h3><i class="fas fa-share-alt"></i> Connect</h3>
-            <p>
-              <a href="https://www.facebook.com/flameartss" target="_blank" class="social-icon">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="https://www.instagram.com/flamearts.ao" target="_blank" class="social-icon">
-                <i class="fab fa-instagram"></i>
-              </a>
-            </p>
+      </section>
+      <!-- Seção Contato -->
+      <section id="contact" class="section-contact">
+        <div class="container gradient-border">
+          <div class="content-box">
+            <h2>Contacto</h2>
+            <div class="contact-details">
+              <div class="contact-item">
+                <h3><i class="fas fa-map-marker-alt"></i> Endereço</h3>
+                <p>
+                  Zango 0, Vida Pacífica<br>
+                  Zona II, Bloco 6, Edifício 1
+                </p>
+              </div>
+              <div class="contact-item">
+                <h3><i class="fas fa-phone-alt"></i> Telefone</h3>
+                <p>
+                  +244 957 622 676<br>
+                  +244 932 993 447
+                </p>
+              </div>
+              <div class="contact-item">
+                <h3><i class="fas fa-envelope"></i> Email</h3>
+                <p><a href="mailto:contacto@flamearts.ao">contacto@flamearts.ao</a></p>
+              </div>
+              <div class="contact-item">
+                <h3><i class="fas fa-share-alt"></i> Connect</h3>
+                <p>
+                  <a href="https://www.facebook.com/flameartss" target="_blank" class="social-icon">
+                    <i class="fab fa-facebook-f"></i>
+                  </a>
+                  <a href="https://www.instagram.com/flamearts.ao" target="_blank" class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                  </a>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
+      <!-- Rodapé -->
+      <footer class="footer">
+        <p>©2023 por FlameArts  |  Todos os Direitos Reservados</p>
+      </footer>
+    </section>
+
+    <!-- Seção Serviços (sem capa) -->
+    <section id="services" class="page-section">
+      <section class="section-services-intro section-offset">
+        <div class="container gradient-border">
+          <div class="content-box">
+            <h1>Serviços Profissionais</h1>
+            <p>Superando as suas expectativas</p>
+          </div>
+        </div>
+      </section>
+      <section class="section-services">
+        <div class="container gradient-border">
+          <div class="content-box">
+            <!-- Cards que direcionam para o Portfólio -->
+            <div class="service-card" onclick="navigateTo('portfolio')">
+              <h2>Branding</h2>
+              <p>Criação de logotipos, paleta de cores e elementos visuais que representam a identidade única da marca.</p>
+            </div>
+            <div class="service-card" onclick="navigateTo('portfolio')">
+              <h2>Campanhas Publicitárias</h2>
+              <p>Planejamento e execução de campanhas integradas em diversos canais.</p>
+            </div>
+            <div class="service-card" onclick="navigateTo('portfolio')">
+              <h2>Design</h2>
+              <p>Produção de materiais de marketing impressos como folhetos, cartões, banners, etc.</p>
+            </div>
+            <div class="service-card" onclick="navigateTo('portfolio')">
+              <h2>Análise e Monitoramento</h2>
+              <p>Acompanhamento do desempenho das estratégias por meio de métricas e feedback.</p>
+            </div>
+            <div class="service-card" onclick="navigateTo('portfolio')">
+              <h2>Anúncios em Vídeo</h2>
+              <p>Criação de vídeos publicitários com animações vibrantes e narrativa impactante.</p>
+            </div>
+            <div class="service-card" onclick="navigateTo('portfolio')">
+              <h2>Vinhetas e Aberturas de Marca</h2>
+              <p>Desenvolvimento de vinhetas e aberturas personalizadas para destacar a marca.</p>
+            </div>
+            <div class="service-card" onclick="navigateTo('portfolio')">
+              <h2>Visualização de Produto</h2>
+              <p>Animações que dão vida aos produtos, facilitando sua compreensão.</p>
+            </div>
+            <!-- Card "Solicite um Orçamento" direciona para a página de Orçamento -->
+            <div class="service-card button-card" onclick="navigateTo('budget')">
+              <h2>Solicite um Orçamento</h2>
+            </div>
+          </div>
+        </div>
+      </section>
+      <footer class="footer">
+        <p>©2023 por FlameArts  |  Todos os Direitos Reservados</p>
+      </footer>
+    </section>
+
+    <!-- Seção Portfólio (sem capa) -->
+    <section id="portfolio" class="page-section">
+      <section class="section-portfolio section-offset">
+        <div class="container gradient-border">
+          <div class="content-box">
+            <h1>Portfólio</h1>
+            <p>Confira alguns dos nossos trabalhos</p>
+            <div class="portfolio-grid" id="portfolio-grid">
+              <!-- Itens do portfólio carregados dinamicamente -->
+            </div>
+            <!-- Botão que encaminha para a página de Orçamento -->
+            <div class="portfolio-button">
+              <button class="btn-primary" onclick="navigateTo('budget')">Solicite um Orçamento</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Modal do portfólio -->
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <span id="modal-close" class="modal-close">&times;</span>
+          <div id="modal-media" class="modal-media"></div>
+          <h2 id="modal-title"></h2>
+          <p id="modal-description"></p>
+          <button id="modal-prev" class="modal-nav">&lt;</button>
+          <button id="modal-next" class="modal-nav">&gt;</button>
+        </div>
       </div>
-    </div>
-  </section>
+      <footer class="footer">
+        <p>©2023 por FlameArts  |  Todos os Direitos Reservados</p>
+      </footer>
+    </section>
 
-  <!-- Rodapé -->
-  <footer class="footer">
-    <p>©2023 por FlameArts  |  Todos os Direitos Reservados</p>
-  </footer>
+    <!-- Seção Sobre (com capa) -->
+    <section id="about" class="page-section">
+      <section id="about-hero" class="section-hero">
+        <video class="bg-video" autoplay muted loop playsinline>
+          <source src="assets/videos/background2.mp4" type="video/mp4">
+          Seu navegador não suporta vídeo HTML5.
+        </video>
+      </section>
+      <section id="about-content" class="section-about section-offset">
+        <div class="container gradient-border">
+          <div class="content-box">
+            <h2>Bem-vindos à FlameArts</h2>
+            <p>
+              A FlameArts destaca-se como uma referência no desenvolvimento de peças publicitárias e estratégias de marketing para empresas.
+            </p>
+            <p>
+              Com foco na inovação visual, oferecemos uma ampla gama de serviços adaptados às necessidades do seu negócio.
+            </p>
+            <p>
+              Desde o início da nossa jornada, nutrimos uma paixão por criar experiências visuais excepcionais e acumulamos vasta experiência em projetos desafiadores e parcerias com diversos clientes.
+            </p>
+            <p>
+              Nossa missão é criar designs impactantes e funcionais que comuniquem a mensagem desejada, valorizando inovação, criatividade e excelência.
+            </p>
+            <p>
+              Oferecemos soluções que vão desde a concepção de identidades visuais até a produção de animações envolventes, sempre acompanhando as tendências do mercado.
+            </p>
+            <p>
+              Nos comprometemos a fornecer serviços de alta qualidade, cuidando de cada detalhe para transformar suas visões em realidade.
+            </p>
+            <a href="#budget" class="btn-primary">Solicite um Orçamento</a>
+          </div>
+        </div>
+      </section>
+      <footer class="footer">
+        <p>©2023 por FlameArts  |  Todos os Direitos Reservados</p>
+      </footer>
+    </section>
 
-  <!-- Scripts -->
+    <!-- Seção Orçamento (sem capa) -->
+    <section id="budget" class="page-section">
+      <section class="section-budget section-offset">
+        <div class="container gradient-border">
+          <div class="content-box">
+            <h1 class="budget-title">Peça um Orçamento</h1>
+            <p class="budget-subtitle">
+              Descubra a chave para transformar seus sonhos em realidade. Solicite agora um orçamento personalizado e dê o primeiro passo para concretizar seus projetos.
+            </p>
+            <form name="budget" method="POST" netlify action="/thank-you.html" class="budget-form">
+              <input type="hidden" name="form-name" value="budget">
+              <div class="form-group animated-field">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+              </div>
+              <div class="form-group animated-field">
+                <label for="sobrenome">Sobrenome</label>
+                <input type="text" id="sobrenome" name="sobrenome" placeholder="Seu sobrenome" required>
+              </div>
+              <div class="form-group animated-field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Seu email" required>
+              </div>
+              <div class="form-group animated-field">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" name="telefone" placeholder="Seu telefone" required>
+              </div>
+              <div class="form-group animated-field">
+                <label for="servico">Escolha um Serviço</label>
+                <select id="servico" name="servico" required>
+                  <option value="">Selecione</option>
+                  <option value="Identidade Visual">Identidade Visual</option>
+                  <option value="Desenvolvimento Website">Desenvolvimento Website</option>
+                  <option value="Motion Design">Motion Design</option>
+                  <option value="Gestão Redes Sociais">Gestão Redes Sociais</option>
+                  <option value="Campanha Publicitária">Campanha Publicitária</option>
+                  <option value="Design Gráfico">Design Gráfico</option>
+                </select>
+              </div>
+              <div class="form-group animated-field">
+                <label for="comentarios">Comentários</label>
+                <textarea id="comentarios" name="comentarios" rows="5" placeholder="Escreva seus comentários"></textarea>
+              </div>
+              <button type="submit" class="btn-submit">Enviar</button>
+            </form>
+          </div>
+        </div>
+      </section>
+      <footer class="footer">
+        <p>©2023 por FlameArts  |  Todos os Direitos Reservados</p>
+      </footer>
+    </section>
+  </div> <!-- Fim do main-content -->
+
+  <!-- JavaScript Principal -->
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>
