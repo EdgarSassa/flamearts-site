@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const target = document.getElementById(sectionId);
     if (!target || current === target) return;
     
-    // Determina a direção da transição com base na ordem das páginas
     const currentIndex = pagesOrder.indexOf(current.id);
     const targetIndex = pagesOrder.indexOf(target.id);
     let outClass, inClass;
@@ -53,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
       target.classList.remove(inClass);
     }, 400);
 
-    // Atualiza o item ativo do menu
     document.querySelectorAll("#menu-list a").forEach(link => {
       link.classList.remove("active");
       if (link.getAttribute("href") === "#" + sectionId) {
@@ -61,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Atualiza o hash na URL sem recarregar a página
     history.pushState(null, "", "#" + sectionId);
     window.scrollTo(0, 0);
   }
@@ -69,7 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Torna a função navigateTo acessível globalmente para os atributos onclick
   window.navigateTo = navigateTo;
 
-  // Vincula os cliques dos links do menu para navegação interna
   document.querySelectorAll("#menu-list a").forEach(link => {
     link.addEventListener("click", function(e) {
       e.preventDefault();
@@ -81,7 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Suporte à navegação com os botões "voltar/avançar" do navegador
   window.addEventListener("popstate", () => {
     const hash = window.location.hash.substring(1);
     if (hash) {
@@ -91,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Ao carregar a página, navega para a seção indicada pelo hash ou para "inicio"
   const initialHash = window.location.hash.substring(1);
   if (initialHash) {
     navigateTo(initialHash);
@@ -99,9 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     navigateTo("inicio");
   }
 
-  /* -----------------------------------------------------------------
-     Efeito interativo de reflexo para todos os containers do site.
-  ------------------------------------------------------------------ */
+  /* Efeito interativo de reflexo para todos os containers */
   const containers = document.querySelectorAll('.container');
   containers.forEach(container => {
     container.addEventListener('mousemove', (e) => {
@@ -119,79 +111,77 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* -----------------------------------------------------------------
-     Renderização dos itens do portfólio com título e descrição atualizados.
-  ------------------------------------------------------------------ */
+  /* Renderização dos itens do portfólio com os caminhos, títulos e descrições corretos */
   const portfolioData = [
     {
       type: 'image',
-      file: 'assets/images/imagem1.jpg',
+      file: 'flamearts-site/assets/gallery/image1.jpg',
       title: 'Cartaz de Natal – Céu Professional',
       description: 'Criamos um cartaz natalino que equilibra elementos clássicos e contemporâneos, destacando a identidade da Céu Professional. Com um design limpo e uma tipografia refinada.'
     },
     {
       type: 'image',
-      file: 'assets/images/imagem2.jpg',
+      file: 'flamearts-site/assets/gallery/image2.jpg',
       title: 'Cartaz Professional Creme Clareador',
       description: 'Desenvolvemos um cartaz para o Creme Clareador, ressaltando sua eficácia e sofisticação. A peça alia uma estética clean a uma mensagem objetiva, transmitindo confiança e modernidade para um público exigente.'
     },
     {
       type: 'image',
-      file: 'assets/images/imagem3.jpg',
+      file: 'flamearts-site/assets/gallery/image3.jpg',
       title: 'Cartaz Flamearts',
       description: 'No cartaz de autopromoção da Flamearts, evidenciamos nossa expertise e trajetória de sucesso em campanhas publicitárias. Com uma identidade visual marcante e design contemporâneo, a peça reforça nosso posicionamento como referência em inovação e criatividade.'
     },
     {
       type: 'image',
-      file: 'assets/images/imagem4.jpg',
+      file: 'flamearts-site/assets/gallery/image4.jpg',
       title: 'Cartaz Comemorativo 68 anos Porto do Namibe',
       description: 'Para celebrar os 68 anos do Porto do Namibe, criamos um cartaz que une tradição e modernidade. A peça destaca a importância histórica e cultural do porto, transmitindo orgulho e reconhecimento por meio de uma estética elegante e simbólica.'
     },
     {
       type: 'image',
-      file: 'assets/images/imagem5.jpg',
+      file: 'flamearts-site/assets/gallery/image5.jpg',
       title: 'Cartaz Ambientador Desinfectante Coral – Limão',
       description: 'Desenvolvemos um cartaz para o Ambientador Desinfectante Coral com aroma de limão, que ressalta a pureza e a eficácia do produto. A comunicação visual impactante enfatiza o frescor e a renovação, alinhando-se à proposta inovadora da marca.'
     },
     {
       type: 'image',
-      file: 'assets/images/imagem6.jpg',
+      file: 'flamearts-site/assets/gallery/image6.jpg',
       title: 'Cartaz Pasta de Dentes Dental-C – Céu',
       description: 'Elaboramos um cartaz para a linha Dental-C que enfatiza a saúde bucal e a inovação. A composição utiliza cores vibrantes e uma abordagem minimalista para destacar os atributos do produto, reforçando o compromisso com a qualidade e o bem-estar.'
     },
     {
       type: 'video',
-      file: 'assets/videos/video1.mp4',
+      file: 'flamearts-site/assets/gallery/video1.mp4',
       title: 'Postal de Natal – Céu Professional',
       description: 'Desenvolvemos um postal de Natal em vídeo que une a magia das festas com uma narrativa envolvente. A produção reflete a sofisticação e o espírito festivo da marca, transmitindo mensagens de união, renovação e tradição com recursos visuais modernos e impactantes.'
     },
     {
       type: 'video',
-      file: 'assets/videos/video2.mp4',
+      file: 'flamearts-site/assets/gallery/video2.mp4',
       title: 'Céu Professional Creme Clareador',
       description: 'Produzimos um vídeo promocional que destaca os diferenciais do Creme Clareador, por meio de uma narrativa dinâmica e recursos de motion graphics. A peça comunica de maneira envolvente os benefícios do produto, elevando sua presença no mercado.'
     },
     {
       type: 'video',
-      file: 'assets/videos/video3.mp4',
+      file: 'flamearts-site/assets/gallery/video3.mp4',
       title: 'Reel 2023',
       description: 'O Reel 2023 é uma compilação dinâmica dos nossos melhores projetos ao longo do ano. Com uma curadoria cuidadosa das peças, o vídeo reflete nossa versatilidade e excelência, celebrando conquistas e inspirando novos desafios para a Flamearts.'
     },
     {
       type: 'video',
-      file: 'assets/videos/video4.mp4',
+      file: 'flamearts-site/assets/gallery/video4.mp4',
       title: 'Gel Estilizante Preto – Céu Professional',
       description: 'Criamos um vídeo publicitário para o Gel Estilizante Preto, enfatizando sua capacidade de modelar e definir estilos com precisão. A peça utiliza recursos audiovisuais modernos para reforçar a identidade inovadora do produto e atrair um público contemporâneo.'
     },
     {
       type: 'video',
-      file: 'assets/videos/video5.mp4',
+      file: 'flamearts-site/assets/gallery/video5.mp4',
       title: 'Céu Professional Spray Fixador',
       description: 'Produzimos um vídeo que destaca o Spray Fixador com uma narrativa fluida e produção de alta qualidade. A peça evidencia a performance e a versatilidade do produto, comunicando seus benefícios de forma clara e envolvente para o público.'
     },
     {
       type: 'video',
-      file: 'assets/videos/video6.mp4',
+      file: 'flamearts-site/assets/gallery/video6.mp4',
       title: 'Mahjong Monster Arena',
       description: 'Para o game Mahjong Monster Arena, desenvolvemos uma peça publicitária em vídeo que combina ação, mistério e interatividade. Com efeitos dinâmicos e cenários imersivos, a narrativa visual foi pensada para engajar jogadores e destacar a identidade única do universo digital do game.'
     }
@@ -228,6 +218,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Chama a função de renderização imediatamente
+  // Chama a função de renderização assim que o DOM estiver pronto
   renderPortfolioItems();
 });
