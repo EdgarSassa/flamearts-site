@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Loader de carregamento: quando a página carregar, faz fade-out do loader
+  // Loader: remove o loader assim que a página for carregada
   window.addEventListener("load", () => {
     const loader = document.getElementById("page-loader");
     if (loader) {
@@ -8,26 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
         loader.style.display = "none";
       }, 500);
     }
-  });
-
-  // Transição entre páginas: exibe o loader imediatamente ao clicar em links internos
-  document.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", (e) => {
-      const href = link.getAttribute("href");
-      if (href && href !== "#" && !href.startsWith("http") && !href.startsWith("#")) {
-        e.preventDefault();
-        const loader = document.getElementById("page-loader");
-        if (loader) {
-          loader.style.display = "block";
-          loader.style.opacity = 1;
-        }
-        // Aplica fade-out no body
-        document.body.style.opacity = 0;
-        setTimeout(() => {
-          window.location.href = href;
-        }, 300);
-      }
-    });
+    const mainContent = document.getElementById("main-content");
+    if (mainContent) {
+      mainContent.classList.remove("pre-animate");
+    }
   });
 
   // Toggle do menu mobile
@@ -39,159 +23,210 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Modal para o Portfólio (portfolio.html)
-  if (document.getElementById("portfolio-grid")) {
-    fetch('assets/gallery/gallery.json')
-      .then(response => response.json())
-      .then(data => {
-        const photos = data.photos || [];
-        const videos = data.videos || [];
-        const portfolioGrid = document.getElementById("portfolio-grid");
-        let portfolioItems = [];
+  // Ordem das páginas conforme o menu
+  const pagesOrder = ["inicio", "services", "portfolio", "about", "budget"];
 
-        photos.forEach((photo) => {
-          const itemDiv = document.createElement("div");
-          itemDiv.classList.add("portfolio-item");
-          itemDiv.dataset.type = "photo";
-          itemDiv.dataset.file = photo.file;
-          itemDiv.dataset.alt = photo.alt || "Imagem do portfólio";
-          itemDiv.dataset.index = portfolioItems.length;
-          const img = document.createElement("img");
-          img.src = `assets/gallery/${photo.file}`;
-          img.alt = photo.alt;
-          itemDiv.appendChild(img);
-          portfolioGrid.appendChild(itemDiv);
-          portfolioItems.push(itemDiv);
-        });
+  // Função para realizar a transição entre seções com efeito de slide (0.4s)
+  function navigateTo(sectionId) {
+    const current = document.querySelector(".page-section.active");
+    const target = document.getElementById(sectionId);
+    if (!target || current === target) return;
+    
+    // Determina a direção da transição com base na ordem das páginas
+    const currentIndex = pagesOrder.indexOf(current.id);
+    const targetIndex = pagesOrder.indexOf(target.id);
+    let outClass, inClass;
+    
+    if (targetIndex > currentIndex) {
+      outClass = "slide-out";
+      inClass = "slide-in";
+    } else {
+      outClass = "slide-out-reverse";
+      inClass = "slide-in-reverse";
+    }
+    
+    current.classList.add(outClass);
+    target.classList.add("active", inClass);
+    
+    setTimeout(() => {
+      current.classList.remove("active", outClass);
+      target.classList.remove(inClass);
+    }, 400);
 
-        videos.forEach((video) => {
-          const itemDiv = document.createElement("div");
-          itemDiv.classList.add("portfolio-item");
-          itemDiv.dataset.type = "video";
-          itemDiv.dataset.file = video.file;
-          itemDiv.dataset.alt = video.alt || "Vídeo do portfólio";
-          itemDiv.dataset.index = portfolioItems.length;
-          const vid = document.createElement("video");
-          vid.src = `assets/gallery/${video.file}`;
-          vid.muted = true;
-          vid.loop = true;
-          vid.autoplay = true;
-          vid.playsInline = true;
-          itemDiv.appendChild(vid);
-          portfolioGrid.appendChild(itemDiv);
-          portfolioItems.push(itemDiv);
-        });
+    // Atualiza o item ativo do menu
+    document.querySelectorAll("#menu-list a").forEach(link => {
+      link.classList.remove("active");
+      if (link.getAttribute("href") === "#" + sectionId) {
+        link.classList.add("active");
+      }
+    });
 
-        const modal = document.getElementById("modal");
-        const modalMedia = document.getElementById("modal-media");
-        const modalTitle = document.getElementById("modal-title");
-        const modalDescription = document.getElementById("modal-description");
-        const modalClose = document.getElementById("modal-close");
-        const modalPrev = document.getElementById("modal-prev");
-        const modalNext = document.getElementById("modal-next");
-        let currentIndex = 0;
-
-        function openModal(index) {
-          currentIndex = index;
-          updateModalContent();
-          modal.style.display = "block";
-        }
-        function closeModal() {
-          modal.style.display = "none";
-          modalMedia.innerHTML = "";
-          modalTitle.textContent = "";
-          modalDescription.textContent = "";
-        }
-        function updateModalContent() {
-          const item = portfolioItems[currentIndex];
-          modalMedia.innerHTML = "";
-          if (item.dataset.type === "photo") {
-            const img = document.createElement("img");
-            img.src = `assets/gallery/${item.dataset.file}`;
-            img.alt = item.dataset.alt;
-            modalMedia.appendChild(img);
-          } else if (item.dataset.type === "video") {
-            const video = document.createElement("video");
-            video.src = `assets/gallery/${item.dataset.file}`;
-            video.controls = true;
-            video.autoplay = true;
-            video.playsInline = true;
-            modalMedia.appendChild(video);
-          }
-          modalTitle.textContent = item.dataset.alt;
-          modalDescription.textContent = "Descrição do item " + (parseInt(item.dataset.index) + 1);
-        }
-
-        portfolioItems.forEach((item, idx) => {
-          item.addEventListener("click", () => {
-            openModal(idx);
-          });
-        });
-
-        modalClose.addEventListener("click", closeModal);
-        modalPrev.addEventListener("click", () => {
-          currentIndex = (currentIndex - 1 + portfolioItems.length) % portfolioItems.length;
-          updateModalContent();
-        });
-        modalNext.addEventListener("click", () => {
-          currentIndex = (currentIndex + 1) % portfolioItems.length;
-          updateModalContent();
-        });
-
-        window.addEventListener("click", (e) => {
-          if (e.target === modal) {
-            closeModal();
-          }
-        });
-      })
-      .catch(error => console.error('Erro ao carregar o portfólio:', error));
+    // Atualiza o hash na URL sem recarregar a página
+    history.pushState(null, "", "#" + sectionId);
+    window.scrollTo(0, 0);
   }
 
-  // -------------------------------------------------------------------
-  // Efeito glow interativo: aplica somente em telas maiores que 768px para preservar desempenho em mobile
-  // -------------------------------------------------------------------
-  if (window.innerWidth > 768) {
-    document.querySelectorAll('.gradient-border').forEach(container => {
-      container.addEventListener('mousemove', e => {
-        const rect = container.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const distanceToLeft   = x;
-        const distanceToRight  = rect.width - x;
-        const distanceToTop    = y;
-        const distanceToBottom = rect.height - y;
-        const distanceToEdge   = Math.min(distanceToLeft, distanceToRight, distanceToTop, distanceToBottom);
-        
-        const threshold = 0.4 * Math.min(rect.width, rect.height);
-        let intensity = (distanceToEdge < threshold) ? (1 - (distanceToEdge / threshold)) : 0;
-        
-        const adjustedIntensity = Math.min(1, intensity * 1.3);
-        
-        let glowX = "50%";
-        let glowY = "50%";
-        if (distanceToEdge === distanceToLeft) {
-          glowX = "0%";
-          glowY = (y / rect.height * 100) + "%";
-        } else if (distanceToEdge === distanceToRight) {
-          glowX = "100%";
-          glowY = (y / rect.height * 100) + "%";
-        } else if (distanceToEdge === distanceToTop) {
-          glowX = (x / rect.width * 100) + "%";
-          glowY = "0%";
-        } else if (distanceToEdge === distanceToBottom) {
-          glowX = (x / rect.width * 100) + "%";
-          glowY = "100%";
-        }
-        
-        container.style.setProperty("--glowOpacity", adjustedIntensity.toString());
-        container.style.setProperty("--glowX", glowX);
-        container.style.setProperty("--glowY", glowY);
-      });
-  
-      container.addEventListener('mouseleave', () => {
-        container.style.setProperty("--glowOpacity", "0");
-      });
+  // Torna a função navigateTo acessível globalmente para os atributos onclick
+  window.navigateTo = navigateTo;
+
+  // Vincula os cliques dos links do menu para navegação interna
+  document.querySelectorAll("#menu-list a").forEach(link => {
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      const sectionId = this.getAttribute("href").substring(1);
+      navigateTo(sectionId);
+      if (menuList.classList.contains("active")) {
+        menuList.classList.remove("active");
+      }
+    });
+  });
+
+  // Suporte à navegação com os botões "voltar/avançar" do navegador
+  window.addEventListener("popstate", () => {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+      navigateTo(hash);
+    } else {
+      navigateTo("inicio");
+    }
+  });
+
+  // Ao carregar a página, navega para a seção indicada pelo hash ou para "inicio"
+  const initialHash = window.location.hash.substring(1);
+  if (initialHash) {
+    navigateTo(initialHash);
+  } else {
+    navigateTo("inicio");
+  }
+
+  /* -----------------------------------------------------------------
+     Efeito interativo de reflexo para todos os containers do site.
+  ------------------------------------------------------------------ */
+  const containers = document.querySelectorAll('.container');
+  containers.forEach(container => {
+    container.addEventListener('mousemove', (e) => {
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const posX = (x / rect.width) * 100;
+      const posY = (y / rect.height) * 100;
+      container.style.setProperty('--mouse-x', `${posX}%`);
+      container.style.setProperty('--mouse-y', `${posY}%`);
+      container.classList.add('reflect-active');
+    });
+    container.addEventListener('mouseleave', () => {
+      container.classList.remove('reflect-active');
+    });
+  });
+
+  /* -----------------------------------------------------------------
+     Renderização dos itens do portfólio com título e descrição atualizados.
+  ------------------------------------------------------------------ */
+  const portfolioData = [
+    {
+      type: 'image',
+      file: 'assets/images/imagem1.jpg',
+      title: 'Cartaz de Natal – Céu Professional',
+      description: 'Criamos um cartaz natalino que equilibra elementos clássicos e contemporâneos, destacando a identidade da Céu Professional. Com um design limpo e uma tipografia refinada.'
+    },
+    {
+      type: 'image',
+      file: 'assets/images/imagem2.jpg',
+      title: 'Cartaz Professional Creme Clareador',
+      description: 'Desenvolvemos um cartaz para o Creme Clareador, ressaltando sua eficácia e sofisticação. A peça alia uma estética clean a uma mensagem objetiva, transmitindo confiança e modernidade para um público exigente.'
+    },
+    {
+      type: 'image',
+      file: 'assets/images/imagem3.jpg',
+      title: 'Cartaz Flamearts',
+      description: 'No cartaz de autopromoção da Flamearts, evidenciamos nossa expertise e trajetória de sucesso em campanhas publicitárias. Com uma identidade visual marcante e design contemporâneo, a peça reforça nosso posicionamento como referência em inovação e criatividade.'
+    },
+    {
+      type: 'image',
+      file: 'assets/images/imagem4.jpg',
+      title: 'Cartaz Comemorativo 68 anos Porto do Namibe',
+      description: 'Para celebrar os 68 anos do Porto do Namibe, criamos um cartaz que une tradição e modernidade. A peça destaca a importância histórica e cultural do porto, transmitindo orgulho e reconhecimento por meio de uma estética elegante e simbólica.'
+    },
+    {
+      type: 'image',
+      file: 'assets/images/imagem5.jpg',
+      title: 'Cartaz Ambientador Desinfectante Coral – Limão',
+      description: 'Desenvolvemos um cartaz para o Ambientador Desinfectante Coral com aroma de limão, que ressalta a pureza e a eficácia do produto. A comunicação visual impactante enfatiza o frescor e a renovação, alinhando-se à proposta inovadora da marca.'
+    },
+    {
+      type: 'image',
+      file: 'assets/images/imagem6.jpg',
+      title: 'Cartaz Pasta de Dentes Dental-C – Céu',
+      description: 'Elaboramos um cartaz para a linha Dental-C que enfatiza a saúde bucal e a inovação. A composição utiliza cores vibrantes e uma abordagem minimalista para destacar os atributos do produto, reforçando o compromisso com a qualidade e o bem-estar.'
+    },
+    {
+      type: 'video',
+      file: 'assets/videos/video1.mp4',
+      title: 'Postal de Natal – Céu Professional',
+      description: 'Desenvolvemos um postal de Natal em vídeo que une a magia das festas com uma narrativa envolvente. A produção reflete a sofisticação e o espírito festivo da marca, transmitindo mensagens de união, renovação e tradição com recursos visuais modernos e impactantes.'
+    },
+    {
+      type: 'video',
+      file: 'assets/videos/video2.mp4',
+      title: 'Céu Professional Creme Clareador',
+      description: 'Produzimos um vídeo promocional que destaca os diferenciais do Creme Clareador, por meio de uma narrativa dinâmica e recursos de motion graphics. A peça comunica de maneira envolvente os benefícios do produto, elevando sua presença no mercado.'
+    },
+    {
+      type: 'video',
+      file: 'assets/videos/video3.mp4',
+      title: 'Reel 2023',
+      description: 'O Reel 2023 é uma compilação dinâmica dos nossos melhores projetos ao longo do ano. Com uma curadoria cuidadosa das peças, o vídeo reflete nossa versatilidade e excelência, celebrando conquistas e inspirando novos desafios para a Flamearts.'
+    },
+    {
+      type: 'video',
+      file: 'assets/videos/video4.mp4',
+      title: 'Gel Estilizante Preto – Céu Professional',
+      description: 'Criamos um vídeo publicitário para o Gel Estilizante Preto, enfatizando sua capacidade de modelar e definir estilos com precisão. A peça utiliza recursos audiovisuais modernos para reforçar a identidade inovadora do produto e atrair um público contemporâneo.'
+    },
+    {
+      type: 'video',
+      file: 'assets/videos/video5.mp4',
+      title: 'Céu Professional Spray Fixador',
+      description: 'Produzimos um vídeo que destaca o Spray Fixador com uma narrativa fluida e produção de alta qualidade. A peça evidencia a performance e a versatilidade do produto, comunicando seus benefícios de forma clara e envolvente para o público.'
+    },
+    {
+      type: 'video',
+      file: 'assets/videos/video6.mp4',
+      title: 'Mahjong Monster Arena',
+      description: 'Para o game Mahjong Monster Arena, desenvolvemos uma peça publicitária em vídeo que combina ação, mistério e interatividade. Com efeitos dinâmicos e cenários imersivos, a narrativa visual foi pensada para engajar jogadores e destacar a identidade única do universo digital do game.'
+    }
+  ];
+
+  function renderPortfolioItems() {
+    const grid = document.getElementById('portfolio-grid');
+    if (!grid) return;
+    portfolioData.forEach(item => {
+      const portfolioItem = document.createElement('div');
+      portfolioItem.classList.add('portfolio-item');
+      
+      if (item.type === 'image') {
+        const img = document.createElement('img');
+        img.src = item.file;
+        img.alt = item.title;
+        portfolioItem.appendChild(img);
+      } else if (item.type === 'video') {
+        const video = document.createElement('video');
+        video.src = item.file;
+        video.controls = true;
+        portfolioItem.appendChild(video);
+      }
+      
+      const itemTitle = document.createElement('h3');
+      itemTitle.textContent = item.title;
+      portfolioItem.appendChild(itemTitle);
+      
+      const itemDesc = document.createElement('p');
+      itemDesc.textContent = item.description;
+      portfolioItem.appendChild(itemDesc);
+      
+      grid.appendChild(portfolioItem);
     });
   }
+
+  document.addEventListener("DOMContentLoaded", renderPortfolioItems);
 });
