@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const target = document.getElementById(sectionId);
     if (!target || current === target) return;
     
+    // Determina a direção da transição com base na ordem das páginas
     const currentIndex = pagesOrder.indexOf(current.id);
     const targetIndex = pagesOrder.indexOf(target.id);
     let outClass, inClass;
@@ -52,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       target.classList.remove(inClass);
     }, 400);
 
+    // Atualiza o item ativo do menu
     document.querySelectorAll("#menu-list a").forEach(link => {
       link.classList.remove("active");
       if (link.getAttribute("href") === "#" + sectionId) {
@@ -59,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    // Atualiza o hash na URL sem recarregar a página
     history.pushState(null, "", "#" + sectionId);
     window.scrollTo(0, 0);
   }
@@ -66,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Torna a função navigateTo acessível globalmente para os atributos onclick
   window.navigateTo = navigateTo;
 
+  // Vincula os cliques dos links do menu para navegação interna
   document.querySelectorAll("#menu-list a").forEach(link => {
     link.addEventListener("click", function(e) {
       e.preventDefault();
@@ -77,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Suporte à navegação com os botões "voltar/avançar" do navegador
   window.addEventListener("popstate", () => {
     const hash = window.location.hash.substring(1);
     if (hash) {
@@ -86,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Ao carregar a página, navega para a seção indicada pelo hash ou para "inicio"
   const initialHash = window.location.hash.substring(1);
   if (initialHash) {
     navigateTo(initialHash);
@@ -93,7 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
     navigateTo("inicio");
   }
 
-  /* Efeito interativo de reflexo para todos os containers */
+  /* -----------------------------------------------------------------
+     Efeito interativo de reflexo para todos os containers do site.
+  ------------------------------------------------------------------ */
   const containers = document.querySelectorAll('.container');
   containers.forEach(container => {
     container.addEventListener('mousemove', (e) => {
@@ -111,7 +119,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* Renderização dos itens do portfólio com os caminhos, títulos e descrições corretos */
+  /* -----------------------------------------------------------------
+     Renderização dos itens do portfólio com os caminhos, títulos e descrições corretos.
+  ------------------------------------------------------------------ */
   const portfolioData = [
     {
       type: 'image',
@@ -190,34 +200,39 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderPortfolioItems() {
     const grid = document.getElementById('portfolio-grid');
     if (!grid) return;
+
     portfolioData.forEach(item => {
       const portfolioItem = document.createElement('div');
       portfolioItem.classList.add('portfolio-item');
-      
+
+      // Se for imagem, cria <img>; se for vídeo, cria <video>
       if (item.type === 'image') {
         const img = document.createElement('img');
-        img.src = item.file;
-        img.alt = item.title;
+        img.src = item.file;       // Caminho do arquivo
+        img.alt = item.title;      // Texto alternativo
         portfolioItem.appendChild(img);
       } else if (item.type === 'video') {
         const video = document.createElement('video');
-        video.src = item.file;
+        video.src = item.file;     // Caminho do arquivo
         video.controls = true;
         portfolioItem.appendChild(video);
       }
-      
+
+      // Título (h3)
       const itemTitle = document.createElement('h3');
       itemTitle.textContent = item.title;
       portfolioItem.appendChild(itemTitle);
-      
+
+      // Descrição (p)
       const itemDesc = document.createElement('p');
       itemDesc.textContent = item.description;
       portfolioItem.appendChild(itemDesc);
-      
+
+      // Adiciona o item no grid
       grid.appendChild(portfolioItem);
     });
   }
 
-  // Chama a função de renderização assim que o DOM estiver pronto
+  // Chama a função de renderização ao carregar
   renderPortfolioItems();
 });
