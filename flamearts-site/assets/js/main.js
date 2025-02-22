@@ -228,5 +228,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  document.addEventListener("DOMContentLoaded", renderPortfolioItems);
+  // Chama a função de renderização imediatamente
+  renderPortfolioItems();
 });
