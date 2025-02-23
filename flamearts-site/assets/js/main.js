@@ -145,7 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
   
   /* -----------------------------------------------------------------
      Renderização dos itens do portfólio com a nova estrutura e visual.
-     Atualização: os itens são agora organizados alternando entre vídeos e imagens.
   ------------------------------------------------------------------ */
   const portfolioData = [
     {
