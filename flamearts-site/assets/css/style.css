@@ -16,6 +16,76 @@ body {
 }
 
 /* -------------------------------------------------------------------
+   Loader com animação personalizada
+------------------------------------------------------------------- */
+#page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #0c0c0d;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+}
+.loader-ring {
+  width: 160px;
+  height: 160px;
+  border: 4px solid transparent;
+  border-top: 4px solid #f56b3e;
+  border-radius: 50%;
+  animation: spinRing 1s linear infinite;
+}
+@keyframes spinRing {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.loader-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 109px;
+  height: 144.8971px;
+}
+.logo-svg {
+  width: 109px;
+  height: 144.8971px;
+  animation: logoScale 1s ease-in-out infinite;
+}
+.logo-svg path {
+  stroke: #f56b3e;
+  stroke-width: 4px;
+  fill: #f56b3e;
+  fill-opacity: 0;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: logoDraw 1s ease-in-out infinite;
+}
+@keyframes logoScale {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.65); }
+  100% { transform: scale(1); }
+}
+@keyframes logoDraw {
+  0% {
+    stroke-dashoffset: 1000;
+    fill-opacity: 0;
+  }
+  50% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 1000;
+    fill-opacity: 0;
+  }
+}
+
+/* -------------------------------------------------------------------
    #main-content – Contêiner relativo para posicionar as seções
 ------------------------------------------------------------------- */
 #main-content {
@@ -33,10 +103,6 @@ body {
   margin: 0 auto;
   overflow: hidden;
 }
-
-/* Efeito interativo de reflexo:
-   Pseudo-elemento que simula uma leve luz (clarecendo até 10%) que segue o mouse.
-   O z-index foi aumentado para 999 para que o efeito seja visível sobre o container base. */
 .container::after {
   content: "";
   position: absolute;
@@ -53,21 +119,6 @@ body {
 }
 .container.reflect-active::after {
   opacity: 1;
-}
-
-/* -------------------------------------------------------------------
-   Loader de carregamento
-------------------------------------------------------------------- */
-#page-loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #0c0c0d;
-  z-index: 300;
-  opacity: 1;
-  transition: opacity 0.5s ease-out;
 }
 
 /* -------------------------------------------------------------------
@@ -90,10 +141,6 @@ header#main-header {
   align-items: center;
   height: 100%;
   padding: 0 1rem;
-}
-.menu .logo {
-  display: flex;
-  align-items: center;
 }
 .menu .logo img {
   height: 40px;
@@ -253,9 +300,6 @@ section {
 /* -------------------------------------------------------------------
    Seção Diferencial (Início)
 ------------------------------------------------------------------- */
-.section-diferencial {
-  background-color: #0c0c0d;
-}
 .section-diferencial h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
@@ -268,9 +312,6 @@ section {
 /* -------------------------------------------------------------------
    Seção Clientes (Início)
 ------------------------------------------------------------------- */
-.section-clientes {
-  background-color: #0c0c0d;
-}
 .section-clientes h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
@@ -307,10 +348,6 @@ section {
 /* -------------------------------------------------------------------
    Seção Contato (Início)
 ------------------------------------------------------------------- */
-.section-contact {
-  background-color: #0c0c0d;
-  color: #eff1f2;
-}
 .section-contact h2 {
   margin-bottom: 2rem;
   color: #f56b3e;
@@ -339,11 +376,6 @@ section {
 /* -------------------------------------------------------------------
    Seção Serviços
 ------------------------------------------------------------------- */
-.section-services-intro,
-.section-services {
-  background-color: #0c0c0d;
-  color: #eff1f2;
-}
 .section-services-intro h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
@@ -381,10 +413,6 @@ section {
 /* -------------------------------------------------------------------
    Seção Portfólio
 ------------------------------------------------------------------- */
-.section-portfolio {
-  background-color: #0c0c0d;
-  color: #eff1f2;
-}
 .section-portfolio h1 {
   font-size: 2.5rem;
   color: #f56b3e !important;
@@ -396,74 +424,72 @@ section {
 }
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
 }
+
+/* Itens do Portfólio */
+/* Cada item tem dimensão fixa e dois estados para o overlay:
+   - Estado normal (sem cursor): overlay preto cobrindo totalmente (height: 100%) com opacidade 40%.
+   - Estado hover: overlay transita para branco, reduzido para 15% de altura, com o título aparecendo com animação.
+*/
 .portfolio-item {
   position: relative;
-  cursor: pointer;
-}
-.portfolio-item img,
-.portfolio-item:hover img,
-.portfolio-item video,
-.portfolio-item:hover video {
-  width: 100%;
+  width: 282.17px;
+  height: 459.17px;
+  overflow: hidden;
   border-radius: 8px;
   transition: transform 0.3s ease;
 }
-.portfolio-item:hover img,
-.portfolio-item:hover video {
-  transform: scale(1.05);
+.portfolio-item:hover {
+  transform: scale(1.12);
+  z-index: 10;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.8);
 }
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 200;
-  left: 0;
-  top: 0;
+.portfolio-content {
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.9);
 }
-.modal-content {
-  position: relative;
-  margin: 5% auto;
-  padding: 2rem;
-  width: 90%;
-  max-width: 800px;
-  background-color: #0c0c0d;
-  border-radius: 10px;
-  text-align: center;
-}
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  color: #f56b3e;
-  font-size: 2rem;
-  cursor: pointer;
-}
-.modal-media img,
-.modal-media video {
+.portfolio-content img,
+.portfolio-content video {
   width: 100%;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
 }
-.modal-nav {
-  background: none;
-  border: none;
-  color: #f56b3e;
-  font-size: 2rem;
-  cursor: pointer;
-  margin: 0 1rem;
+.portfolio-item:hover .portfolio-content img {
+  transform: scale(1.1);
 }
-#modal-title {
-  color: #f56b3e;
-  margin-bottom: 0.5rem;
+
+/* Overlay – Estado sem cursor: cobre todo o item */
+.portfolio-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  transition: background 0.3s ease, height 0.3s ease;
 }
-#modal-description {
-  margin-bottom: 1rem;
+/* O título é exibido somente em hover */
+.portfolio-overlay h3 {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  margin: 0;
+}
+.portfolio-item:hover .portfolio-overlay {
+  background: rgba(255,255,255,0.8);
+  height: 15%;
+}
+.portfolio-item:hover .portfolio-overlay h3 {
+  opacity: 1;
+  transform: translateY(0);
+  color: #19191e;
 }
 
 /* -------------------------------------------------------------------
@@ -473,11 +499,6 @@ section {
   font-size: 2rem;
   color: #f56b3e;
   margin-bottom: 1rem;
-}
-.section-about h3 {
-  font-size: 1.5rem;
-  color: #f56b3e;
-  margin-top: 1.5rem;
 }
 .section-about p {
   font-size: 1rem;
@@ -597,30 +618,6 @@ section {
 .animated-field:nth-child(6) { animation-delay: 1.2s; }
 
 /* -------------------------------------------------------------------
-   Transições de slide para a navegação entre seções
-------------------------------------------------------------------- */
-.slide-out {
-  animation: slideOut 0.4s forwards;
-}
-.slide-in {
-  animation: slideIn 0.4s forwards;
-}
-.slide-out-reverse {
-  animation: slideOutReverse 0.4s forwards;
-}
-@keyframes slideOutReverse {
-  from { transform: translateX(0); opacity: 1; }
-  to { transform: translateX(100%); opacity: 0; }
-}
-.slide-in-reverse {
-  animation: slideInReverse 0.4s forwards;
-}
-@keyframes slideInReverse {
-  from { transform: translateX(-100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-/* -------------------------------------------------------------------
    Overrides para espaçamento em páginas sem capa
 ------------------------------------------------------------------- */
 #about .section-about.section-offset {
@@ -639,4 +636,113 @@ section {
   background-color: #19191e;
   text-align: center;
   padding: 1rem 0;
+}
+  
+/* -------------------------------------------------------------------
+   Estilos do Modal (aba flutuante)
+------------------------------------------------------------------- */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 200;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.8);
+}
+.modal-content {
+  position: relative;
+  background: #19191e;
+  margin: 5% auto;
+  padding: 30px;
+  border-radius: 16px;
+  width: auto;
+  max-width: 90%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+/* Layout do modal: garante gap de 30px entre o conteúdo (mídia) e o container de texto */
+.modal-body {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.modal-media {
+  flex: 1;
+  max-height: calc(100vh - 120px);
+}
+.modal-media img,
+.modal-media video {
+  width: 100%;
+  max-height: 100%;
+  display: block;
+  object-fit: contain;
+}
+.modal-text {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-text-container {
+  width: 282.1738px;
+  height: 459.1739px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* Títulos e descrições no modal: texto justificado com última linha alinhada à esquerda */
+.modal-text-container h2,
+.modal-text-container p {
+  text-align: justify;
+  text-align-last: left;
+}
+#modal-title {
+  color: #e36b42;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+#modal-description {
+  color: #eaeced;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+#modal-prev {
+  left: 10px;
+}
+#modal-next {
+  right: 10px;
+}
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
+  .modal-body {
+    flex-direction: column;
+    align-items: center;
+  }
+  .modal-text {
+    padding: 1rem 0;
+    text-align: center;
+  }
 }
