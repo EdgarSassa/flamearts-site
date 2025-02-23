@@ -87,8 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     history.pushState(null, "", "#" + sectionId);
-    // Atualiza o título da aba de acordo com a seção atual
-    if(pageTitles[sectionId]){
+    if (pageTitles[sectionId]) {
       document.title = pageTitles[sectionId];
     }
     window.scrollTo(0, 0);
@@ -145,6 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
   
   /* -----------------------------------------------------------------
      Renderização dos itens do portfólio com a nova estrutura e visual.
+     – Em tablets, renderiza apenas os 6 primeiros itens (2 linhas de 3 itens);
+     – Nos demais, renderiza todos.
   ------------------------------------------------------------------ */
   const portfolioData = [
     {
@@ -224,8 +225,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderPortfolioItems() {
     const grid = document.getElementById('portfolio-grid');
     if (!grid) return;
-    portfolioData.forEach((item, index) => {
-      // Cria o item com a nova estrutura
+    // Em tablets (769px a 1024px), renderiza apenas os 6 primeiros itens
+    let itemsToRender = portfolioData;
+    if (window.innerWidth >= 769 && window.innerWidth <= 1024) {
+      itemsToRender = portfolioData.slice(0, 6);
+    }
+    itemsToRender.forEach((item, index) => {
       const portfolioItem = document.createElement('div');
       portfolioItem.classList.add('portfolio-item');
       
@@ -241,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const video = document.createElement('video');
         video.src = item.file;
         video.loop = true;
-        video.muted = true;
+        video.muted = true; // reproduz sem som na galeria
         video.playsInline = true;
         video.controls = false;
         contentWrapper.appendChild(video);
@@ -256,11 +261,9 @@ document.addEventListener("DOMContentLoaded", () => {
       
       portfolioItem.appendChild(contentWrapper);
       
-      // Cria o overlay: por padrão, cobre totalmente com fundo preto 40%
       const overlay = document.createElement('div');
       overlay.classList.add('portfolio-overlay');
       
-      // Cria o container para o título (apenas exibido em hover)
       const textWrapper = document.createElement('div');
       textWrapper.classList.add('portfolio-text');
       
@@ -271,7 +274,6 @@ document.addEventListener("DOMContentLoaded", () => {
       overlay.appendChild(textWrapper);
       portfolioItem.appendChild(overlay);
       
-      // Adiciona evento de clique para abrir a aba flutuante (modal)
       portfolioItem.addEventListener('click', () => {
         openModal(index);
       });
@@ -306,6 +308,9 @@ document.addEventListener("DOMContentLoaded", () => {
       video.controls = true;
       video.autoplay = true;
       video.loop = true;
+      video.muted = false; // vídeo no modal deve reproduzir com som
+      video.currentTime = 0;
+      video.play();
       modalMedia.appendChild(video);
     }
     document.getElementById('modal-title').textContent = item.title;
@@ -315,7 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('modal-close').addEventListener('click', () => {
     const modalMedia = document.getElementById('modal-media');
     const video = modalMedia.querySelector('video');
-    if(video) {
+    if (video) {
       video.pause();
       video.currentTime = 0;
     }
@@ -337,7 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (event.target === modal) {
       const modalMedia = document.getElementById('modal-media');
       const video = modalMedia.querySelector('video');
-      if(video) {
+      if (video) {
         video.pause();
         video.currentTime = 0;
       }
