@@ -746,14 +746,18 @@ section {
   .menu-toggle {
     display: block;
   }
+  /* Ajusta o menu mobile para ficar alinhado à direita e ocupar 50% da tela,
+     com os mesmos efeitos de desfoque e opacidade do cabeçalho */
   #menu-list {
     display: none;
     position: absolute;
     top: 60px;
-    left: 0;
-    width: 100%;
+    left: auto;
+    right: 0;
+    width: 50%;
     flex-direction: column;
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(0,0,0,0.45);
+    backdrop-filter: blur(6.5px);
     padding: 0;
     margin: 0;
   }
