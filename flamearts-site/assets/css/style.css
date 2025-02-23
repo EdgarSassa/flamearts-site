@@ -819,3 +819,117 @@ section {
     height: auto;
   }
 }
+/* -------------------------------------------------------------------
+   Estilos para dispositivos tablets
+------------------------------------------------------------------- */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Nos tablets a capa (vídeo) deve ocupar 35% da altura */
+  #inicio .section-hero,
+  #about .section-hero {
+    height: 35vh;
+  }
+  /* Galeria: grid com 3 colunas para exibir 6 itens (2 linhas) */
+  .portfolio-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* -------------------------------------------------------------------
+   Estilos para dispositivos móveis
+------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+  .portfolio-item {
+    width: 100%;
+    height: auto;
+  }
+  .portfolio-item img,
+  .portfolio-item video {
+    height: auto;
+  }
+}
+
+/* -------------------------------------------------------------------
+   Estilos para o menu mobile (para mobile e tablets)
+------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+  /* Alinha o menu mobile à direita, ocupa 50% da tela e aplica desfoque/opacidade */
+  #menu-list {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: auto;
+    right: 0;
+    width: 50%;
+    flex-direction: column;
+    background-color: rgba(0,0,0,0.45);
+    -webkit-backdrop-filter: blur(6.5px);
+    backdrop-filter: blur(6.5px);
+    padding: 0;
+    margin: 0;
+    z-index: 101;
+  }
+  #menu-list.active {
+    display: flex;
+  }
+  #menu-list li {
+    width: 100%;
+  }
+  #menu-list li a {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    border: none;
+    border-bottom: 1px solid #f56b3e;
+    border-radius: 0;
+  }
+}
+
+/* -------------------------------------------------------------------
+   Estilos para a página thank-you.html
+------------------------------------------------------------------- */
+.thank-you-container {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 2rem;
+  background-color: #19191e;
+  border-radius: 15px;
+  border: 1px solid #444;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  text-align: center;
+}
+.thank-you-container h1 {
+  font-size: 2.5rem;
+  color: #f56b3e;
+  margin-bottom: 1rem;
+}
+.thank-you-container p {
+  font-size: 1rem;
+  color: #eff1f2;
+  margin-bottom: 2rem;
+}
+@media (max-width: 768px) {
+  .thank-you-container {
+    margin: 50px 1rem;
+    padding: 1rem;
+  }
+  .thank-you-container h1 {
+    font-size: 2rem;
+  }
+  .thank-you-container p {
+    font-size: 0.9rem;
+  }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .thank-you-container {
+    margin: 70px auto;
+    padding: 1.5rem;
+  }
+}
+
