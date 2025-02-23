@@ -1,11 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Mapeamento dos títulos para cada seção da SPA
+  const pageTitles = {
+    "inicio": "Flamearts - Comunicação e Marketing",
+    "services": "Flamearts - Serviços",
+    "portfolio": "Flamearts - Portfólio",
+    "about": "Flamearts - Sobre",
+    "budget": "Flamearts - Orçamento"
+  };
+
   // Loader: remove o loader assim que a página for carregada
   window.addEventListener("load", () => {
     const loader = document.getElementById("page-loader");
     if (loader) {
-      loader.style.opacity = 0;
+      loader.style.opacity = "0"; // inicia o fade out
       setTimeout(() => {
-        loader.style.display = "none";
+        loader.style.display = "none"; // remove após 0.5s
       }, 500);
     }
     const mainContent = document.getElementById("main-content");
@@ -26,16 +35,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // Ordem das páginas conforme o menu
   const pagesOrder = ["inicio", "services", "portfolio", "about", "budget"];
 
-  // Função para realizar a transição entre seções com efeito de slide (0.4s)
+  // Função para transição entre seções com efeito de slide (0.4s)
   function navigateTo(sectionId) {
     const current = document.querySelector(".page-section.active");
     const target = document.getElementById(sectionId);
     if (!target || current === target) return;
     
-    // Determina a direção da transição com base na ordem das páginas
     const currentIndex = pagesOrder.indexOf(current.id);
     const targetIndex = pagesOrder.indexOf(target.id);
     let outClass, inClass;
+    
+    current.classList.remove("slide-out", "slide-out-reverse");
+    target.classList.remove("slide-in", "slide-in-reverse");
+    
+    target.style.display = "block";
     
     if (targetIndex > currentIndex) {
       outClass = "slide-out";
@@ -45,31 +58,37 @@ document.addEventListener("DOMContentLoaded", () => {
       inClass = "slide-in-reverse";
     }
     
+    target.style.zIndex = "2";
+    current.style.zIndex = "1";
+    
     current.classList.add(outClass);
-    target.classList.add("active", inClass);
+    target.classList.add(inClass, "active");
     
     setTimeout(() => {
       current.classList.remove("active", outClass);
+      current.style.display = "none";
       target.classList.remove(inClass);
+      target.style.zIndex = "";
+      current.style.zIndex = "";
     }, 400);
-
-    // Atualiza o item ativo do menu
+    
     document.querySelectorAll("#menu-list a").forEach(link => {
       link.classList.remove("active");
       if (link.getAttribute("href") === "#" + sectionId) {
         link.classList.add("active");
       }
     });
-
-    // Atualiza o hash na URL sem recarregar a página
+    
     history.pushState(null, "", "#" + sectionId);
+    // Atualiza o título da aba de acordo com a seção atual
+    if(pageTitles[sectionId]){
+      document.title = pageTitles[sectionId];
+    }
     window.scrollTo(0, 0);
   }
-
-  // Torna a função navigateTo acessível globalmente para os atributos onclick
+  
   window.navigateTo = navigateTo;
-
-  // Vincula os cliques dos links do menu para navegação interna
+  
   document.querySelectorAll("#menu-list a").forEach(link => {
     link.addEventListener("click", function(e) {
       e.preventDefault();
@@ -80,8 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-
-  // Suporte à navegação com os botões "voltar/avançar" do navegador
+  
   window.addEventListener("popstate", () => {
     const hash = window.location.hash.substring(1);
     if (hash) {
@@ -90,17 +108,16 @@ document.addEventListener("DOMContentLoaded", () => {
       navigateTo("inicio");
     }
   });
-
-  // Ao carregar a página, navega para a seção indicada pelo hash ou para "inicio"
+  
   const initialHash = window.location.hash.substring(1);
   if (initialHash) {
     navigateTo(initialHash);
   } else {
     navigateTo("inicio");
   }
-
+  
   /* -----------------------------------------------------------------
-     Efeito interativo de reflexo para todos os containers do site.
+     Efeito interativo de reflexo para todos os containers
   ------------------------------------------------------------------ */
   const containers = document.querySelectorAll('.container');
   containers.forEach(container => {
@@ -118,10 +135,9 @@ document.addEventListener("DOMContentLoaded", () => {
       container.classList.remove('reflect-active');
     });
   });
-
+  
   /* -----------------------------------------------------------------
-     Renderização dos itens do portfólio com os caminhos, títulos e descrições.
-     Os nomes dos arquivos permanecem os originais, como "image1.jpg" etc.
+     Renderização dos itens do portfólio com a nova estrutura e visual.
   ------------------------------------------------------------------ */
   const portfolioData = [
     {
@@ -197,46 +213,128 @@ document.addEventListener("DOMContentLoaded", () => {
       description: 'Para o game Mahjong Monster Arena, desenvolvemos uma peça publicitária em vídeo que combina ação, mistério e interatividade. Com efeitos dinâmicos e cenários imersivos, a narrativa visual foi pensada para engajar jogadores e destacar a identidade única do universo digital do game.'
     }
   ];
-
+  
   function renderPortfolioItems() {
     const grid = document.getElementById('portfolio-grid');
     if (!grid) return;
-
-    portfolioData.forEach(item => {
+    portfolioData.forEach((item, index) => {
+      // Cria o item com a nova estrutura
       const portfolioItem = document.createElement('div');
       portfolioItem.classList.add('portfolio-item');
-
-      // Se for imagem, cria <img>; se for vídeo, cria <video>
+      
+      const contentWrapper = document.createElement('div');
+      contentWrapper.classList.add('portfolio-content');
+      
       if (item.type === 'image') {
         const img = document.createElement('img');
-        // Aqui definimos o caminho real do arquivo
         img.src = item.file;
-        // O alt é apenas o título
         img.alt = item.title;
-        portfolioItem.appendChild(img);
+        contentWrapper.appendChild(img);
       } else if (item.type === 'video') {
         const video = document.createElement('video');
-        // Aqui definimos o caminho real do arquivo
         video.src = item.file;
-        video.controls = true;
-        portfolioItem.appendChild(video);
+        video.loop = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.controls = false;
+        contentWrapper.appendChild(video);
+        portfolioItem.addEventListener('mouseenter', () => {
+          video.play();
+        });
+        portfolioItem.addEventListener('mouseleave', () => {
+          video.pause();
+          video.currentTime = 0;
+        });
       }
-
-      // Título (h3)
-      const itemTitle = document.createElement('h3');
-      itemTitle.textContent = item.title;
-      portfolioItem.appendChild(itemTitle);
-
-      // Descrição (p)
-      const itemDesc = document.createElement('p');
-      itemDesc.textContent = item.description;
-      portfolioItem.appendChild(itemDesc);
-
-      // Adiciona o item no grid
+      
+      portfolioItem.appendChild(contentWrapper);
+      
+      // Cria o overlay: por padrão, cobre totalmente com fundo preto 40%
+      const overlay = document.createElement('div');
+      overlay.classList.add('portfolio-overlay');
+      
+      // Cria o container para o título (apenas exibido em hover)
+      const textWrapper = document.createElement('div');
+      textWrapper.classList.add('portfolio-text');
+      
+      const titleEl = document.createElement('h3');
+      titleEl.textContent = item.title;
+      
+      textWrapper.appendChild(titleEl);
+      overlay.appendChild(textWrapper);
+      portfolioItem.appendChild(overlay);
+      
+      // Adiciona evento de clique para abrir a aba flutuante (modal)
+      portfolioItem.addEventListener('click', () => {
+        openModal(index);
+      });
+      
       grid.appendChild(portfolioItem);
     });
   }
-
-  // Chama a função de renderização ao carregar
+  
   renderPortfolioItems();
+  
+  /* Modal functionality */
+  let currentPortfolioIndex = 0;
+  
+  function openModal(index) {
+    currentPortfolioIndex = index;
+    updateModal();
+    document.getElementById('modal').style.display = 'block';
+  }
+  
+  function updateModal() {
+    const item = portfolioData[currentPortfolioIndex];
+    const modalMedia = document.getElementById('modal-media');
+    modalMedia.innerHTML = '';
+    if (item.type === 'image') {
+      const img = document.createElement('img');
+      img.src = item.file;
+      img.alt = item.title;
+      modalMedia.appendChild(img);
+    } else if (item.type === 'video') {
+      const video = document.createElement('video');
+      video.src = item.file;
+      video.controls = true;
+      video.autoplay = true;
+      video.loop = true;
+      modalMedia.appendChild(video);
+    }
+    document.getElementById('modal-title').textContent = item.title;
+    document.getElementById('modal-description').textContent = item.description;
+  }
+  
+  document.getElementById('modal-close').addEventListener('click', () => {
+    const modalMedia = document.getElementById('modal-media');
+    const video = modalMedia.querySelector('video');
+    if(video) {
+      video.pause();
+      video.currentTime = 0;
+    }
+    document.getElementById('modal').style.display = 'none';
+  });
+  
+  document.getElementById('modal-prev').addEventListener('click', () => {
+    currentPortfolioIndex = (currentPortfolioIndex - 1 + portfolioData.length) % portfolioData.length;
+    updateModal();
+  });
+  
+  document.getElementById('modal-next').addEventListener('click', () => {
+    currentPortfolioIndex = (currentPortfolioIndex + 1) % portfolioData.length;
+    updateModal();
+  });
+  
+  window.addEventListener('click', (event) => {
+    const modal = document.getElementById('modal');
+    if (event.target === modal) {
+      const modalMedia = document.getElementById('modal-media');
+      const video = modalMedia.querySelector('video');
+      if(video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+      modal.style.display = 'none';
+    }
+  });
 });
