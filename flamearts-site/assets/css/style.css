@@ -429,10 +429,6 @@ section {
 }
 
 /* Itens do Portfólio */
-/* Cada item tem dimensão fixa e dois estados para o overlay:
-   - Estado normal (sem cursor): overlay preto cobrindo totalmente (height: 100%) com opacidade 40%.
-   - Estado hover: overlay transita para branco, reduzido para 15% de altura, com o título aparecendo com animação.
-*/
 .portfolio-item {
   position: relative;
   width: 282.17px;
@@ -460,8 +456,6 @@ section {
 .portfolio-item:hover .portfolio-content img {
   transform: scale(1.1);
 }
-
-/* Overlay – Estado sem cursor: cobre todo o item */
 .portfolio-overlay {
   position: absolute;
   bottom: 0;
@@ -475,7 +469,6 @@ section {
   padding: 0 10px;
   transition: background 0.3s ease, height 0.3s ease;
 }
-/* O título é exibido somente em hover */
 .portfolio-overlay h3 {
   opacity: 0;
   transform: translateY(20px);
@@ -662,7 +655,6 @@ section {
   max-width: 90%;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
-/* Layout do modal: garante gap de 30px entre o conteúdo (mídia) e o container de texto */
 .modal-body {
   display: flex;
   flex-direction: row;
@@ -694,7 +686,6 @@ section {
   flex-direction: column;
   justify-content: center;
 }
-/* Títulos e descrições no modal: texto justificado com última linha alinhada à esquerda */
 .modal-text-container h2,
 .modal-text-container p {
   text-align: justify;
@@ -736,7 +727,12 @@ section {
   font-size: 2rem;
   cursor: pointer;
 }
+
+/* -------------------------------------------------------------------
+   Estilos para dispositivos móveis
+------------------------------------------------------------------- */
 @media (max-width: 768px) {
+  /* Modal ajustes já existentes */
   .modal-body {
     flex-direction: column;
     align-items: center;
@@ -744,5 +740,65 @@ section {
   .modal-text {
     padding: 1rem 0;
     text-align: center;
+  }
+  
+  /* Hamburger menu e layout do menu mobile */
+  .menu-toggle {
+    display: block;
+  }
+  #menu-list {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background-color: rgba(0,0,0,0.9);
+    padding: 0;
+    margin: 0;
+  }
+  #menu-list.active {
+    display: flex;
+  }
+  #menu-list li {
+    width: 100%;
+  }
+  #menu-list li a {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    border: none;
+    border-bottom: 1px solid #f56b3e;
+    border-radius: 0;
+  }
+  
+  /* Redução da altura das seções com capa */
+  #inicio .section-hero,
+  #about .section-hero {
+    height: 40vh;
+  }
+  
+  /* Ajuste da grid do Portfólio */
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+  .portfolio-item {
+    width: 100%;
+    height: auto;
+  }
+  .portfolio-item img,
+  .portfolio-item video {
+    height: auto;
+  }
+  
+  /* Diminuição do espaçamento das seções */
+  section {
+    padding: 1.5rem 0;
+  }
+  
+  /* Ajuste do container principal */
+  #main-content {
+    height: auto;
   }
 }
