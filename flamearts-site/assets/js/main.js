@@ -31,6 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
       menuList.classList.toggle("active");
     });
   }
+  
+  // Otimização: remover o menu mobile aberto ao redimensionar para telas maiores
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768 && menuList.classList.contains("active")) {
+      menuList.classList.remove("active");
+    }
+  });
 
   // Ordem das páginas conforme o menu
   const pagesOrder = ["inicio", "services", "portfolio", "about", "budget"];
@@ -138,49 +145,20 @@ document.addEventListener("DOMContentLoaded", () => {
   
   /* -----------------------------------------------------------------
      Renderização dos itens do portfólio com a nova estrutura e visual.
+     Atualização: os itens são agora organizados alternando entre vídeos e imagens.
   ------------------------------------------------------------------ */
   const portfolioData = [
-    {
-      type: 'image',
-      file: 'assets/gallery/image1.jpg',
-      title: 'Cartaz de Natal – Céu Professional',
-      description: 'Criamos um cartaz natalino que equilibra elementos clássicos e contemporâneos, destacando a identidade da Céu Professional. Com um design limpo e uma tipografia refinada.'
-    },
-    {
-      type: 'image',
-      file: 'assets/gallery/image2.jpg',
-      title: 'Cartaz Professional Creme Clareador',
-      description: 'Desenvolvemos um cartaz para o Creme Clareador, ressaltando sua eficácia e sofisticação. A peça alia uma estética clean a uma mensagem objetiva, transmitindo confiança e modernidade para um público exigente.'
-    },
-    {
-      type: 'image',
-      file: 'assets/gallery/image3.jpg',
-      title: 'Cartaz Flamearts',
-      description: 'No cartaz de autopromoção da Flamearts, evidenciamos nossa expertise e trajetória de sucesso em campanhas publicitárias. Com uma identidade visual marcante e design contemporâneo, a peça reforça nosso posicionamento como referência em inovação e criatividade.'
-    },
-    {
-      type: 'image',
-      file: 'assets/gallery/image4.jpg',
-      title: 'Cartaz Comemorativo 68 anos Porto do Namibe',
-      description: 'Para celebrar os 68 anos do Porto do Namibe, criamos um cartaz que une tradição e modernidade. A peça destaca a importância histórica e cultural do porto, transmitindo orgulho e reconhecimento por meio de uma estética elegante e simbólica.'
-    },
-    {
-      type: 'image',
-      file: 'assets/gallery/image5.jpg',
-      title: 'Cartaz Ambientador Desinfectante Coral – Limão',
-      description: 'Desenvolvemos um cartaz para o Ambientador Desinfectante Coral com aroma de limão, que ressalta a pureza e a eficácia do produto. A comunicação visual impactante enfatiza o frescor e a renovação, alinhando-se à proposta inovadora da marca.'
-    },
-    {
-      type: 'image',
-      file: 'assets/gallery/image6.jpg',
-      title: 'Cartaz Pasta de Dentes Dental-C – Céu',
-      description: 'Elaboramos um cartaz para a linha Dental-C que enfatiza a saúde bucal e a inovação. A composição utiliza cores vibrantes e uma abordagem minimalista para destacar os atributos do produto, reforçando o compromisso com a qualidade e o bem-estar.'
-    },
     {
       type: 'video',
       file: 'assets/gallery/video1.mp4',
       title: 'Postal de Natal – Céu Professional',
       description: 'Desenvolvemos um postal de Natal em vídeo que une a magia das festas com uma narrativa envolvente. A produção reflete a sofisticação e o espírito festivo da marca, transmitindo mensagens de união, renovação e tradição com recursos visuais modernos e impactantes.'
+    },
+    {
+      type: 'image',
+      file: 'assets/gallery/image1.jpg',
+      title: 'Cartaz de Natal – Céu Professional',
+      description: 'Criamos um cartaz natalino que equilibra elementos clássicos e contemporâneos, destacando a identidade da Céu Professional. Com um design limpo e uma tipografia refinada.'
     },
     {
       type: 'video',
@@ -189,10 +167,22 @@ document.addEventListener("DOMContentLoaded", () => {
       description: 'Produzimos um vídeo promocional que destaca os diferenciais do Creme Clareador, por meio de uma narrativa dinâmica e recursos de motion graphics. A peça comunica de maneira envolvente os benefícios do produto, elevando sua presença no mercado.'
     },
     {
+      type: 'image',
+      file: 'assets/gallery/image2.jpg',
+      title: 'Cartaz Professional Creme Clareador',
+      description: 'Desenvolvemos um cartaz para o Creme Clareador, ressaltando sua eficácia e sofisticação. A peça alia uma estética clean a uma mensagem objetiva, transmitindo confiança e modernidade para um público exigente.'
+    },
+    {
       type: 'video',
       file: 'assets/gallery/video3.mp4',
       title: 'Reel 2023',
       description: 'O Reel 2023 é uma compilação dinâmica dos nossos melhores projetos ao longo do ano. Com uma curadoria cuidadosa das peças, o vídeo reflete nossa versatilidade e excelência, celebrando conquistas e inspirando novos desafios para a Flamearts.'
+    },
+    {
+      type: 'image',
+      file: 'assets/gallery/image3.jpg',
+      title: 'Cartaz Flamearts',
+      description: 'No cartaz de autopromoção da Flamearts, evidenciamos nossa expertise e trajetória de sucesso em campanhas publicitárias. Com uma identidade visual marcante e design contemporâneo, a peça reforça nosso posicionamento como referência em inovação e criatividade.'
     },
     {
       type: 'video',
@@ -201,16 +191,34 @@ document.addEventListener("DOMContentLoaded", () => {
       description: 'Criamos um vídeo publicitário para o Gel Estilizante Preto, enfatizando sua capacidade de modelar e definir estilos com precisão. A peça utiliza recursos audiovisuais modernos para reforçar a identidade inovadora do produto e atrair um público contemporâneo.'
     },
     {
+      type: 'image',
+      file: 'assets/gallery/image4.jpg',
+      title: 'Cartaz Comemorativo 68 anos Porto do Namibe',
+      description: 'Para celebrar os 68 anos do Porto do Namibe, criamos um cartaz que une tradição e modernidade. A peça destaca a importância histórica e cultural do porto, transmitindo orgulho e reconhecimento por meio de uma estética elegante e simbólica.'
+    },
+    {
       type: 'video',
       file: 'assets/gallery/video5.mp4',
       title: 'Céu Professional Spray Fixador',
       description: 'Produzimos um vídeo que destaca o Spray Fixador com uma narrativa fluida e produção de alta qualidade. A peça evidencia a performance e a versatilidade do produto, comunicando seus benefícios de forma clara e envolvente para o público.'
     },
     {
+      type: 'image',
+      file: 'assets/gallery/image5.jpg',
+      title: 'Cartaz Ambientador Desinfectante Coral – Limão',
+      description: 'Desenvolvemos um cartaz para o Ambientador Desinfectante Coral com aroma de limão, que ressalta a pureza e a eficácia do produto. A comunicação visual impactante enfatiza o frescor e a renovação, alinhando-se à proposta inovadora da marca.'
+    },
+    {
       type: 'video',
       file: 'assets/gallery/video6.mp4',
       title: 'Mahjong Monster Arena',
       description: 'Para o game Mahjong Monster Arena, desenvolvemos uma peça publicitária em vídeo que combina ação, mistério e interatividade. Com efeitos dinâmicos e cenários imersivos, a narrativa visual foi pensada para engajar jogadores e destacar a identidade única do universo digital do game.'
+    },
+    {
+      type: 'image',
+      file: 'assets/gallery/image6.jpg',
+      title: 'Cartaz Pasta de Dentes Dental-C – Céu',
+      description: 'Elaboramos um cartaz para a linha Dental-C que enfatiza a saúde bucal e a inovação. A composição utiliza cores vibrantes e uma abordagem minimalista para destacar os atributos do produto, reforçando o compromisso com a qualidade e o bem-estar.'
     }
   ];
   
