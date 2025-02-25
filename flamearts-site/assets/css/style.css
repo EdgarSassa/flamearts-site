@@ -453,9 +453,8 @@ section {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 9px;
-  width: 100%;
+  width: 110%; /* Aumento de 10% no tamanho horizontal */
   margin: 0 auto;
-  padding: 0 40px;
 }
 
 /* Itens do Portfólio */
@@ -804,7 +803,6 @@ section {
     grid-template-columns: repeat(2, 1fr);
     gap: 5px;
     width: 100%; /* Ajuste para mobile */
-    padding: 0 40px;
   }
   .portfolio-item {
     width: 100%;
@@ -824,8 +822,6 @@ section {
   #main-content {
     height: auto;
   }
-  
-  /* Ajuste da grade para dispositivos móveis, se necessário */
 }
 
 /* -------------------------------------------------------------------
@@ -867,5 +863,16 @@ section {
   .thank-you-container {
     margin: 70px auto;
     padding: 1.5rem;
+  }
+}
+
+/* -------------------------------------------------------------------
+   NOVA REGRA – Ajuste na galeria da página Portfolio para desktop
+   (apenas na versão PC: telas com min-width: 1025px)
+------------------------------------------------------------------- */
+@media (min-width: 1025px) {
+  .portfolio-grid {
+    width: calc(100% - 80px); /* 40px de margem em cada lado */
+    margin: 0 auto;
   }
 }
