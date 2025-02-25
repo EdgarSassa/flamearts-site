@@ -8,20 +8,21 @@ document.addEventListener("DOMContentLoaded", () => {
     "budget": "Flamearts - Orçamento"
   };
 
-  // Loader: remove o loader assim que a página for carregada
-  window.addEventListener("load", () => {
-    const loader = document.getElementById("page-loader");
-    if (loader) {
-      loader.style.opacity = "0"; // inicia o fade out
+  // Loader: remove o loader após 3,5 segundos
+  const loader = document.getElementById("page-loader");
+  if (loader) {
+    setTimeout(() => {
+      loader.style.opacity = "0";
       setTimeout(() => {
-        loader.style.display = "none"; // remove após 0.5s
+        loader.style.display = "none";
       }, 500);
-    }
-    const mainContent = document.getElementById("main-content");
-    if (mainContent) {
-      mainContent.classList.remove("pre-animate");
-    }
-  });
+    }, 3500);
+  }
+
+  const mainContent = document.getElementById("main-content");
+  if (mainContent) {
+    mainContent.classList.remove("pre-animate");
+  }
 
   // Toggle do menu mobile
   const menuToggle = document.getElementById("menu-toggle");
@@ -43,10 +44,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const pagesOrder = ["inicio", "services", "portfolio", "about", "budget"];
 
   // Função para transição entre seções com efeito de slide (0.4s)
+  let isTransitioning = false;
+
   function navigateTo(sectionId) {
+    if (isTransitioning) return;
+    isTransitioning = true;
+
     const current = document.querySelector(".page-section.active");
     const target = document.getElementById(sectionId);
-    if (!target || current === target) return;
+    if (!target || current === target) {
+      isTransitioning = false;
+      return;
+    }
     
     const currentIndex = pagesOrder.indexOf(current.id);
     const targetIndex = pagesOrder.indexOf(target.id);
@@ -77,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
       target.classList.remove(inClass);
       target.style.zIndex = "";
       current.style.zIndex = "";
+      isTransitioning = false;
     }, 400);
     
     document.querySelectorAll("#menu-list a").forEach(link => {
@@ -143,9 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   
   /* -----------------------------------------------------------------
-     Renderização dos itens do portfólio com a nova estrutura e visual.
-     – Em tablets, renderiza apenas os 6 primeiros itens (2 linhas de 3 itens);
-     – Nos demais, renderiza todos.
+     Renderização dos itens do portfólio
   ------------------------------------------------------------------ */
   const portfolioData = [
     {
@@ -246,17 +254,24 @@ document.addEventListener("DOMContentLoaded", () => {
         const video = document.createElement('video');
         video.src = item.file;
         video.loop = true;
-        video.muted = true; // reproduz sem som na galeria
+        video.muted = true;
         video.playsInline = true;
         video.controls = false;
         contentWrapper.appendChild(video);
-        portfolioItem.addEventListener('mouseenter', () => {
-          video.play();
-        });
-        portfolioItem.addEventListener('mouseleave', () => {
-          video.pause();
-          video.currentTime = 0;
-        });
+        // Reproduzir automaticamente em mobile
+        if (window.innerWidth <= 768) {
+          video.autoplay = true;
+          video.play().catch(err => console.log("Erro ao reproduzir vídeo automaticamente: ", err));
+        } else {
+          // Em desktops/tablets, reproduzir ao passar o mouse
+          portfolioItem.addEventListener('mouseenter', () => {
+            video.play();
+          });
+          portfolioItem.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0;
+          });
+        }
       }
       
       portfolioItem.appendChild(contentWrapper);
@@ -308,8 +323,8 @@ document.addEventListener("DOMContentLoaded", () => {
       video.controls = true;
       video.autoplay = true;
       video.loop = true;
-      video.muted = false; // vídeo no modal deve reproduzir com som
-      video.currentTime = 0;
+      video.muted = false; // Vídeo no modal com som
+      video.currentTime = 0; // Reinicia o vídeo
       video.play();
       modalMedia.appendChild(video);
     }
