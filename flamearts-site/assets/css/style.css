@@ -51,36 +51,29 @@ body {
   height: 144.8971px;
 }
 .logo-svg {
-  width: 109px;
-  height: 144.8971px;
-  animation: logoScale 1s ease-in-out infinite;
+  width: 100%;
+  height: 100%;
 }
 .logo-svg path {
   stroke: #f56b3e;
   stroke-width: 4px;
-  fill: #f56b3e;
-  fill-opacity: 0;
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: logoDraw 1s ease-in-out infinite;
+  fill: none;
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: draw 2s ease-in-out infinite;
 }
-@keyframes logoScale {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.65); }
-  100% { transform: scale(1); }
-}
-@keyframes logoDraw {
+@keyframes draw {
   0% {
-    stroke-dashoffset: 1000;
-    fill-opacity: 0;
+    stroke-dashoffset: 2000;
+    transform: scale(1);
   }
   50% {
     stroke-dashoffset: 0;
-    fill-opacity: 1;
+    transform: scale(0.9);
   }
   100% {
-    stroke-dashoffset: 1000;
-    fill-opacity: 0;
+    stroke-dashoffset: 2000;
+    transform: scale(1);
   }
 }
 
@@ -176,13 +169,47 @@ header#main-header {
   color: #000;
 }
 
-/* -------------------------------------------------------------------
-   Botão de toggle do menu (mobile)
-------------------------------------------------------------------- */
+/* Ajuste para o toggle do menu mobile */
 .menu-toggle {
   position: absolute;
   right: 1rem;
   display: none;
+}
+
+/* Ajuste para o menu mobile */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+  #menu-list {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: auto;
+    right: 0;
+    width: 50%;
+    flex-direction: column;
+    background-color: rgba(0,0,0,0.45);
+    -webkit-backdrop-filter: blur(6.5px);
+    backdrop-filter: blur(6.5px);
+    padding: 0;
+    margin: 0;
+    z-index: 101;
+  }
+  #menu-list.active {
+    display: flex;
+  }
+  #menu-list li {
+    width: 100%;
+  }
+  #menu-list li a {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    border: none;
+    border-bottom: 1px solid #f56b3e;
+    border-radius: 0;
+  }
 }
 
 /* -------------------------------------------------------------------
@@ -426,12 +453,15 @@ section {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 9px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
 }
 
 /* Itens do Portfólio */
 .portfolio-item {
   position: relative;
-  width: 282.17px;
+  width: 100%;
   height: 459.17px;
   overflow: hidden;
   border-radius: 8px;
@@ -483,6 +513,12 @@ section {
   opacity: 1;
   transform: translateY(0);
   color: #19191e;
+}
+
+/* Botão "Solicite um Orçamento" com margem superior */
+.portfolio-button {
+  margin-top: 40px; /* Margem superior de 40px */
+  text-align: center;
 }
 
 /* -------------------------------------------------------------------
@@ -737,6 +773,10 @@ section {
   #about .section-hero {
     height: 35vh;
   }
+  /* Galeria: grid com 3 colunas para exibir 6 itens (2 linhas de 3 itens) */
+  .portfolio-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 /* -------------------------------------------------------------------
@@ -753,42 +793,6 @@ section {
     text-align: center;
   }
   
-  /* Hamburger menu e layout do menu mobile */
-  .menu-toggle {
-    display: block;
-  }
-  /* Ajusta o menu mobile para ficar alinhado à direita e ocupar 50% da tela,
-     com o mesmo background, opacidade e desfoque da base do menu principal */
-  #menu-list {
-    display: none;
-    position: absolute;
-    top: 60px;
-    left: auto;
-    right: 0;
-    width: 50%;
-    flex-direction: column;
-    background-color: rgba(0,0,0,0.45);
-    -webkit-backdrop-filter: blur(6.5px);
-    backdrop-filter: blur(6.5px);
-    padding: 0;
-    margin: 0;
-    z-index: 101;
-  }
-  #menu-list.active {
-    display: flex;
-  }
-  #menu-list li {
-    width: 100%;
-  }
-  #menu-list li a {
-    width: 100%;
-    text-align: center;
-    padding: 1rem;
-    border: none;
-    border-bottom: 1px solid #f56b3e;
-    border-radius: 0;
-  }
-  
   /* Redução da altura das seções com capa */
   #inicio .section-hero,
   #about .section-hero {
@@ -799,6 +803,8 @@ section {
   .portfolio-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 5px;
+    width: 100%; /* Ajuste para mobile */
+    padding: 0 40px;
   }
   .portfolio-item {
     width: 100%;
@@ -818,77 +824,8 @@ section {
   #main-content {
     height: auto;
   }
-}
-/* -------------------------------------------------------------------
-   Estilos para dispositivos tablets
-------------------------------------------------------------------- */
-@media (min-width: 769px) and (max-width: 1024px) {
-  /* Nos tablets a capa (vídeo) deve ocupar 35% da altura */
-  #inicio .section-hero,
-  #about .section-hero {
-    height: 35vh;
-  }
-  /* Galeria: grid com 3 colunas para exibir 6 itens (2 linhas) */
-  .portfolio-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* -------------------------------------------------------------------
-   Estilos para dispositivos móveis
-------------------------------------------------------------------- */
-@media (max-width: 768px) {
-  .portfolio-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 5px;
-  }
-  .portfolio-item {
-    width: 100%;
-    height: auto;
-  }
-  .portfolio-item img,
-  .portfolio-item video {
-    height: auto;
-  }
-}
-
-/* -------------------------------------------------------------------
-   Estilos para o menu mobile (para mobile e tablets)
-------------------------------------------------------------------- */
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
-  /* Alinha o menu mobile à direita, ocupa 50% da tela e aplica desfoque/opacidade */
-  #menu-list {
-    display: none;
-    position: absolute;
-    top: 60px;
-    left: auto;
-    right: 0;
-    width: 50%;
-    flex-direction: column;
-    background-color: rgba(0,0,0,0.45);
-    -webkit-backdrop-filter: blur(6.5px);
-    backdrop-filter: blur(6.5px);
-    padding: 0;
-    margin: 0;
-    z-index: 101;
-  }
-  #menu-list.active {
-    display: flex;
-  }
-  #menu-list li {
-    width: 100%;
-  }
-  #menu-list li a {
-    width: 100%;
-    text-align: center;
-    padding: 1rem;
-    border: none;
-    border-bottom: 1px solid #f56b3e;
-    border-radius: 0;
-  }
+  
+  /* Ajuste da grade para dispositivos móveis, se necessário */
 }
 
 /* -------------------------------------------------------------------
@@ -932,4 +869,3 @@ section {
     padding: 1.5rem;
   }
 }
-
