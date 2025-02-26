@@ -13,6 +13,9 @@ body {
   overflow-x: hidden;
   scroll-behavior: smooth;
   transition: opacity 0.3s ease-out;
+  scrollbar-face-color: #ff6a45; /* IE e Edge antigo */
+  scrollbar-track-color: #0c0c0d; /* IE e Edge antigo */
+  scrollbar-arrow-color: #ff6a45; /* IE e Edge antigo */
 }
 
 /* -------------------------------------------------------------------
@@ -665,7 +668,7 @@ section {
   text-align: center;
   padding: 1rem 0;
 }
-  
+
 /* -------------------------------------------------------------------
    Estilos do Modal (aba flutuante)
 ------------------------------------------------------------------- */
@@ -875,4 +878,30 @@ section {
     width: calc(100% - 80px); /* 40px de margem em cada lado */
     margin: 0 auto;
   }
+}
+
+/* -------------------------------------------------------------------
+   Personalização da barra de rolamento
+------------------------------------------------------------------- */
+/* Para WebKit (Chrome, Edge, Opera) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0c0c0d;
+}
+::-webkit-scrollbar-thumb {
+  background: #ff6a45;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e05a2d;
+}
+::-webkit-scrollbar-button {
+  background: #ff6a45;
+}
+
+/* Para Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #ff6a45 #0c0c0d;
 }
