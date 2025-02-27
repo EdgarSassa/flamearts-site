@@ -905,3 +905,45 @@ html {
   scrollbar-width: thin;
   scrollbar-color: #ff6a45 #0c0c0d;
 }
+
+/* Personalização da barra de rolamento para desktop */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0c0c0d;
+}
+::-webkit-scrollbar-thumb {
+  background: #ff6a45;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e05a2d;
+}
+::-webkit-scrollbar-button {
+  background: #ff6a45;
+}
+
+/* Personalização da barra de rolamento para mobile */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0c0c0d;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #ff6a45;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #e05a2d;
+  }
+  ::-webkit-scrollbar-button {
+    background: #ff6a45;
+  }
+}
+
+/* Suporte para Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #ff6a45 #0c0c0d;
+}
