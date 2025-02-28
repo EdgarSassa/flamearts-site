@@ -107,9 +107,12 @@ document.addEventListener("DOMContentLoaded", () => {
   
   document.querySelectorAll("#menu-list a").forEach(link => {
     link.addEventListener("click", function(e) {
-      e.preventDefault();
-      const sectionId = this.getAttribute("href").substring(1);
-      navigateTo(sectionId);
+      const href = this.getAttribute("href");
+      if (href.startsWith("#")) {
+        e.preventDefault();
+        const sectionId = href.substring(1);
+        navigateTo(sectionId);
+      }
       if (menuList.classList.contains("active")) {
         menuList.classList.remove("active");
       }
