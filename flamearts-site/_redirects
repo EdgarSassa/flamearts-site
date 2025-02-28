@@ -1,5 +1,6 @@
 http://flamearts.ao/* https://www.flamearts.ao/:splat 301!
 https://flamearts.ao/* https://www.flamearts.ao/:splat 301!
+https://dulcet-cendol-197412.netlify.app/* https://www.flamearts.ao/:splat 301!
 /thank-you.html  /thank-you.html  200!
 
 /*    /index.html   200
